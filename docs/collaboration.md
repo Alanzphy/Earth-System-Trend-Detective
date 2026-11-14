@@ -91,6 +91,13 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 3. Actualizar `CORS_ORIGINS` en Render con la URL de Vercel.
 4. Comprobar: `GET https://<api>/health` → `{"status":"ok"}` y la UI muestra "API conectada".
 
+## Skills de agentes
+
+- Las skills se instalan localmente y **no se commitean** (`.agents/skills/` y `.claude/skills/` están en `.gitignore`).
+- `skills-lock.json` (versionado) registra fuente y hash de cada skill para que todos instalen la misma versión.
+- Instalada: `design-taste-frontend` (`Leonxlnx/taste-skill`). Instalar con `npx skills add Leonxlnx/taste-skill`.
+- Uso previsto: rediseño final de la UI. Su hook `Stop` corre un chequeo en navegador (hasta 10 min) al terminar cada turno del agente.
+
 ## Pendiente de configurar
 
 - [x] Protección de `main`: PR obligatorio, sin aprobaciones requeridas, sin force-push
