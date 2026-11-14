@@ -57,7 +57,8 @@ flowchart LR
 
 Decidido en [`decisions/2026-11-14-stack.md`](decisions/2026-11-14-stack.md):
 
-- **Backend**: Python 3.12 + FastAPI · xarray, earthaccess, pymannkendall · uv · ruff + pytest
-- **Frontend**: React + Vite + TypeScript · MapLibre GL · Plotly · pnpm · eslint + vitest
+- **Frontend**: React + Vite + TypeScript · MapLibre GL · Plotly · pnpm · eslint + vitest · Vercel
+- **Backend**: Python 3.12 + FastAPI en Docker · consulta series ya promediadas de NASA POWER / Giovanni Time Series · pymannkendall · uv · ruff + pytest · Render (gratis)
+- **Precalculado**: pipeline Python (xarray, earthaccess) en GitHub Actions → mapas de tendencia y demos como archivos estáticos
 - **Contratos**: Pydantic (`src/contracts/`) → OpenAPI → tipos TS (`openapi-typescript`)
-- **Despliegue**: backend en Render, frontend en Vercel, sin base de datos (caché en disco)
+- **Sin base de datos**: caché temporal en el backend
