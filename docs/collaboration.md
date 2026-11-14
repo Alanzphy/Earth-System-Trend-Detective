@@ -80,7 +80,10 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 ### Earthdata
 
 - Cada persona usa su propia cuenta de Earthdata y su token en su `.env` local.
-- Producción usa el token de Alan. **Los tokens expiran**: revisar la fecha en Earthdata y renovarlo en Render antes de que venza.
+- Producción usa el token de Alan. **Los tokens expiran a los 60 días** (máximo 2 activos por cuenta).
+- **Rotación** (Alan, macOS): `scripts/rotate-earthdata-token.sh`. Renueva el token con la API de Earthdata, lo comprueba contra GES DISC y actualiza el Llavero (`earthdata-token`), `.env` y Render (con redeploy) sin mostrarlo. Correrlo cada ~50 días; el issue de recordatorio indica la fecha.
+- **Primer token o token perdido**: generarlo en Earthdata y guardarlo con `security add-generic-password -a "$USER" -s earthdata-token -U -w "$(pbpaste)" && pbcopy < /dev/null`. El prompt interactivo de `security ... -w` corta a 128 caracteres; por eso se usa `pbpaste`.
+- Nunca pegues tokens en chats, issues ni commits; si pasa, revócalo en Earthdata.
 
 ### Alta inicial (una vez)
 
