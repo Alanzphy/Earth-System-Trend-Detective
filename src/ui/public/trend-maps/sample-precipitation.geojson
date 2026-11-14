@@ -1,0 +1,71 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-15, 12],
+            [30, 12],
+            [30, 18],
+            [-15, 18],
+            [-15, 12]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "sahel",
+        "label": "Sahel",
+        "slope": 0.06,
+        "significant": true,
+        "bbox": [-15, 12, 30, 18]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-5, 30],
+            [10, 30],
+            [10, 45],
+            [-5, 45],
+            [-5, 30]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "western-mediterranean",
+        "label": "Western Mediterranean",
+        "slope": -0.05,
+        "significant": true,
+        "bbox": [-5, 30, 10, 45]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-70, -10],
+            [-50, -10],
+            [-50, 2],
+            [-70, 2],
+            [-70, -10]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "amazon-basin",
+        "label": "Amazon basin",
+        "slope": 0.01,
+        "significant": false,
+        "bbox": [-70, -10, -50, 2]
+      }
+    }
+  ]
+}

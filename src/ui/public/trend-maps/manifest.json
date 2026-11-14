@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "isSample": true,
+  "maps": [
+    {
+      "id": "sample-precipitation",
+      "title": "Precipitation trends",
+      "variable": "precipitation",
+      "units": "mm/day",
+      "period": ["1981-01", "2024-12"],
+      "slopeUnits": "mm/day/decade",
+      "file": "sample-precipitation.geojson",
+      "legend": {
+        "min": -0.08,
+        "max": 0.08,
+        "breaks": [-0.08, -0.04, 0, 0.04, 0.08]
+      }
+    }
+  ]
+}
