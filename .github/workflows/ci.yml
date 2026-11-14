@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run pytest
+
+  ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/ui
+    steps:
+      - uses: actions/checkout@v4
+      - id: has-ui
+        working-directory: .
+        run: test -f src/ui/package.json && echo "present=true" >> "$GITHUB_OUTPUT" || echo "present=false" >> "$GITHUB_OUTPUT"
+      - if: steps.has-ui.outputs.present == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          package_json_file: src/ui/package.json
+      - if: steps.has-ui.outputs.present == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: src/ui/pnpm-lock.yaml
+      - if: steps.has-ui.outputs.present == 'true'
+        run: pnpm install --frozen-lockfile
+      - if: steps.has-ui.outputs.present == 'true'
+        run: pnpm lint
+      - if: steps.has-ui.outputs.present == 'true'
+        run: pnpm test
+      - if: steps.has-ui.outputs.present == 'true'
+        run: pnpm build

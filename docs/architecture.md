@@ -53,6 +53,16 @@ flowchart LR
 }
 ```
 
+## API
+
+Implementada en `src/api/` (issue #5). Endpoints disponibles:
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/health` | Estado del servicio para Render. |
+
+El catálogo, la tendencia y las demos se añaden en los issues #6 y #7.
+
 ## Stack
 
 Decidido en [`decisions/2026-11-14-stack.md`](decisions/2026-11-14-stack.md):
