@@ -1,0 +1,13 @@
+[project]
+name = "estd-analysis"
+version = "0.1.0"
+description = "Earth System Trend Detective: analysis area"
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["analysis"]

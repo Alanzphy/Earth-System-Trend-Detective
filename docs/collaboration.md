@@ -61,4 +61,4 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 - [x] `.github/CODEOWNERS`, plantilla de PR y de issue
 - [x] Un `AGENTS.md` por área
 - [ ] Tablero en GitHub Projects
-- [ ] CI requerido en `main` (tras el ADR de stack)
+- [x] CI requerido en `main` (checks `python` y `ui`)
