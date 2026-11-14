@@ -1,0 +1,36 @@
+# Render Blueprint for the API (see docs/collaboration.md#despliegue).
+# Change deploy config here via PR, not in the dashboard.
+services:
+  - type: web
+    name: estd-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./src/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    # Deploy only after CI (python, ui) passes on main.
+    autoDeployTrigger: checksPass
+    buildFilter:
+      paths:
+        - src/api/**
+        - src/data/**
+        - src/analysis/**
+        - src/contracts/**
+        - pyproject.toml
+        - uv.lock
+      ignoredPaths:
+        - src/**/tests/**
+    envVars:
+      - key: DATA_ADAPTER
+        value: fixture
+      - key: CACHE_TTL_SECONDS
+        value: "900"
+      - key: REQUEST_TIMEOUT_SECONDS
+        value: "30"
+      # Vercel production URL, as a JSON list. Set in the dashboard once Vercel exists.
+      - key: CORS_ORIGINS
+        sync: false
+      # Secret: set by hand in the dashboard, never in the repo or in agent chats.
+      - key: EARTHDATA_TOKEN
+        sync: false

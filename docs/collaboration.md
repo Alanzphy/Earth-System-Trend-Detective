@@ -54,6 +54,41 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 - Cada PR actualiza los docs de su área en el mismo cambio.
 - Los docs compartidos (`architecture.md`, `collaboration.md`) se cambian en PRs pequeños y separados para minimizar conflictos.
 
+## Despliegue
+
+| Parte | Servicio | Config en el repo | Dueño de la cuenta |
+|---|---|---|---|
+| API (`src/api`) | Render, plan free, Docker | `render.yaml` (Blueprint) | @Alanzphy |
+| UI (`src/ui`) | Vercel, plan Hobby | `src/ui/vercel.json` | @Alanzphy |
+
+- **Cómo se publica**: merge a `main` → Render despliega cuando pasan los checks de CI (`autoDeployTrigger: checksPass`); Vercel despliega al instante y crea una vista previa por PR.
+- **Cambios de configuración**: por PR en `render.yaml` o `vercel.json`. El panel solo se usa para secretos.
+- **Acceso**: los planes gratuitos no admiten miembros de equipo. Huerta ve vistas previas y el estado del despliegue en sus PRs; si necesita logs, se los pide a Alan.
+- **MCP** (solo en la máquina de Alan, nunca en el repo):
+  - Render: `https://mcp.render.com/mcp` (OAuth)
+  - Vercel: `https://mcp.vercel.com` (OAuth)
+
+### Variables
+
+| Variable | Dónde | Valor |
+|---|---|---|
+| `DATA_ADAPTER`, `CACHE_TTL_SECONDS`, `REQUEST_TIMEOUT_SECONDS` | `render.yaml` | versionado |
+| `CORS_ORIGINS` | Panel de Render | `["https://<proyecto>.vercel.app"]` |
+| `EARTHDATA_TOKEN` | Panel de Render (secreto) | Token de la cuenta Earthdata de Alan |
+| `VITE_API_BASE_URL` | Panel de Vercel | `https://estd-api.onrender.com` (o la URL asignada) |
+
+### Earthdata
+
+- Cada persona usa su propia cuenta de Earthdata y su token en su `.env` local.
+- Producción usa el token de Alan. **Los tokens expiran**: revisar la fecha en Earthdata y renovarlo en Render antes de que venza.
+
+### Alta inicial (una vez)
+
+1. Render: *New → Blueprint*, elegir este repo; Render lee `render.yaml`. Completar `EARTHDATA_TOKEN` (y `CORS_ORIGINS` tras el paso 2).
+2. Vercel: *Add New → Project*, este repo, *Root Directory* `src/ui`, variable `VITE_API_BASE_URL`.
+3. Actualizar `CORS_ORIGINS` en Render con la URL de Vercel.
+4. Comprobar: `GET https://<api>/health` → `{"status":"ok"}` y la UI muestra "API conectada".
+
 ## Pendiente de configurar
 
 - [x] Protección de `main`: PR obligatorio, sin aprobaciones requeridas, sin force-push
@@ -61,4 +96,5 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 - [x] `.github/CODEOWNERS`, plantilla de PR y de issue
 - [x] Un `AGENTS.md` por área
 - [ ] Tablero en GitHub Projects
+- [ ] Alta en Render y Vercel (ver [Despliegue](#despliegue))
 - [x] CI requerido en `main` (checks `python` y `ui`)
