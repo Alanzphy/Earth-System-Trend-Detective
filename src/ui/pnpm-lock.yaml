@@ -169,9 +169,9 @@ importers:
       maplibre-gl:
         specifier: ^5.0.0
         version: 5.24.1
-      plotly.js:
-        specifier: ^3.0.0
-        version: 3.7.0(mapbox-gl@1.13.3)(supports-color@10.2.2)
+      plotly.js-basic-dist-min:
+        specifier: ^3.7.0
+        version: 3.7.0
       react:
         specifier: ^19.0.0
         version: 19.3.1
@@ -2272,6 +2272,9 @@ packages:
   picomatch@4.0.7:
     resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
+
+  plotly.js-basic-dist-min@3.7.0:
+    resolution: {integrity: sha512-84KPQhLTrO5IHu6DCte2KwA4bzSoVIdIs3uDPWid3sgeTX8L5RjpDARjCG3spgOwQ8MYE8PL+MeQ0DQRWA1Emw==}
 
   plotly.js@3.7.0:
     resolution: {integrity: sha512-r17/w3Ob/E+A1vqN382PV/6Dz+IAxAsxNCpWcnGfGFLqE0M6vPUa+ve7HPhivrl9LMicZg2Fy0U5GbpauHo32A==}
@@ -4949,6 +4952,8 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@4.0.7: {}
+
+  plotly.js-basic-dist-min@3.7.0: {}
 
   plotly.js@3.7.0(mapbox-gl@1.13.3)(supports-color@10.2.2):
     dependencies:

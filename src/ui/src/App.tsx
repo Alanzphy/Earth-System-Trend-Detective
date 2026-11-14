@@ -1,6 +1,11 @@
+import { lazy, Suspense } from "react";
 import { ApiStatus } from "./components/ApiStatus";
 import { MapView } from "./components/MapView";
-import { TrendChart } from "./components/TrendChart";
+
+// Plotly is the heaviest dependency; load it after the first paint.
+const TrendChart = lazy(() =>
+  import("./components/TrendChart").then((module) => ({ default: module.TrendChart })),
+);
 
 function App() {
   return (
@@ -22,7 +27,9 @@ function App() {
 
       <section className="panel">
         <h2>Ejemplo de serie temporal</h2>
-        <TrendChart />
+        <Suspense fallback={<p>Cargando gráfico…</p>}>
+          <TrendChart />
+        </Suspense>
       </section>
     </main>
   );

@@ -1,24 +1,9 @@
 import { useEffect, useRef } from "react";
-import maplibregl, { type StyleSpecification } from "maplibre-gl";
+import maplibregl from "maplibre-gl";
 
-const OSM_STYLE: StyleSpecification = {
-  version: 8,
-  sources: {
-    osm: {
-      type: "raster",
-      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-      tileSize: 256,
-      attribution: "© OpenStreetMap contributors",
-    },
-  },
-  layers: [
-    {
-      id: "osm",
-      type: "raster",
-      source: "osm",
-    },
-  ],
-};
+// OpenFreeMap: free vector tiles without API key, meant for production use
+// (tile.openstreetmap.org discourages app traffic). Attribution comes with the style.
+const MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
 
 export function MapView() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +15,7 @@ export function MapView() {
 
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: OSM_STYLE,
+      style: MAP_STYLE_URL,
       center: [-60, -15],
       zoom: 2.5,
     });

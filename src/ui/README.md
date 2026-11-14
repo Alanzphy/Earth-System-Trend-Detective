@@ -1,6 +1,6 @@
 # UI
 
-Frontend React + Vite + TypeScript del proyecto. Incluye mapa MapLibre con teselas OSM y gráficos Plotly.
+Frontend React + Vite + TypeScript del proyecto. Incluye mapa MapLibre con teselas vectoriales de [OpenFreeMap](https://openfreemap.org) y gráficos Plotly (bundle `plotly.js-basic-dist-min`, cargado de forma diferida).
 
 ## Requisitos
 
@@ -9,11 +9,12 @@ Frontend React + Vite + TypeScript del proyecto. Incluye mapa MapLibre con tesel
 
 ## Desarrollo local
 
-```powershell
+Desde `src/ui/`:
+
+```sh
 corepack enable
-corepack prepare pnpm@latest --activate
 pnpm install
-Copy-Item .env.example .env
+cp .env.example .env
 pnpm dev
 ```
 
@@ -37,6 +38,9 @@ La UI queda en `http://localhost:5173` y espera la API en `VITE_API_BASE_URL`.
 
 Este issue (#8) solo crea el scaffold: layout, mapa, gráfico de ejemplo, cliente API y tooling. El flujo guiado, el veredicto y las demos se implementan en #9, #10 y #11.
 
-## Despliegue
+## Despliegue (Vercel)
 
-Vercel detecta Vite con `vercel.json`. Configurar `VITE_API_BASE_URL` con la URL pública de la API.
+- *Root Directory*: `src/ui` (el repo es un monorepo).
+- `vercel.json` define build y salida; Vercel detecta Vite.
+- Variable de entorno `VITE_API_BASE_URL` con la URL pública de la API en Render.
+- Mientras Render despierta (~1 min en plan gratuito), `ApiStatus` muestra "Despertando el servidor…".

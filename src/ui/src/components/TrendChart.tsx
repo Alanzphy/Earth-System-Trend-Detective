@@ -1,8 +1,8 @@
-import Plot from "react-plotly.js";
+import { Plot } from "./Plot";
 
 const TIME = Array.from(
   { length: 24 },
-  (_, index) => `2020-${String((index % 12) + 1).padStart(2, "0")}`,
+  (_, index) => `${2020 + Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, "0")}`,
 );
 
 const VALUES = TIME.map(
