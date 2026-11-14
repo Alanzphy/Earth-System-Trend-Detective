@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Estado: **borrador**. Stack pendiente de ADR en `decisions/`. Los contratos se migrarán a esquemas en `src/contracts/`.
+> Estado: **borrador**. Los contratos de abajo son la referencia hasta migrarlos a modelos Pydantic en `src/contracts/`.
 
 ## Componentes
 
@@ -55,4 +55,9 @@ flowchart LR
 
 ## Stack
 
-_Pendiente de decisión._ Ver `decisions/`.
+Decidido en [`decisions/2026-11-14-stack.md`](decisions/2026-11-14-stack.md):
+
+- **Backend**: Python 3.12 + FastAPI · xarray, earthaccess, pymannkendall · uv · ruff + pytest
+- **Frontend**: React + Vite + TypeScript · MapLibre GL · Plotly · pnpm · eslint + vitest
+- **Contratos**: Pydantic (`src/contracts/`) → OpenAPI → tipos TS (`openapi-typescript`)
+- **Despliegue**: backend en Render, frontend en Vercel, sin base de datos (caché en disco)
