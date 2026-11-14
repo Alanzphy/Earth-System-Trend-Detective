@@ -10,12 +10,24 @@ NASA Space Apps Challenge 2026. Herramienta para explorar variables del sistema 
 ## Estructura
 
 ```
+pyproject.toml workspace de uv (api, data, analysis) + config de ruff/pytest
+uv.lock        dependencias Python fijadas
 docs/          documentación viva (fuente de verdad)
 src/contracts/ esquemas compartidos entre áreas
-src/data/      ingesta y cache de datasets
-src/analysis/  tendencia y significancia
-src/api/       backend
-src/ui/        frontend
+src/data/      paquete Python `data`: ingesta y caché de datasets
+src/analysis/  paquete Python `analysis`: tendencia y significancia
+src/api/       paquete Python `app`: backend FastAPI
+src/ui/        frontend (pnpm)
 ```
 
-Setup: pendiente de ADR de stack.
+## Setup
+
+Python (desde la raíz):
+
+```sh
+cp .env.example .env
+uv sync
+uv run ruff check . && uv run pytest
+```
+
+Frontend: ver [`src/ui/README.md`](src/ui/README.md). API: ver [`src/api/README.md`](src/api/README.md).

@@ -35,12 +35,12 @@ def test_trend_shape() -> None:
 
     assert trend["method"] == "mann-kendall+sen"
     assert trend["deseasonalized"] is True
-    assert trend["slope"] == 0.02
+    assert trend["slope"] == 2.4
     assert trend["slope_units"] == "degC/decade"
     assert trend["p_value"] == 0.01
     assert trend["significant"] is True
     assert trend["alpha"] == 0.05
-    assert trend["ci"] == [0.01, 0.03]
+    assert trend["ci"] == [2.2, 2.6]
     assert trend["n"] == 24
     assert trend["period"] == ["2020-01", "2021-12"]
 

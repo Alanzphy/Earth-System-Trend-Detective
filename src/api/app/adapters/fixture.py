@@ -3,6 +3,10 @@ from datetime import date
 
 from app.adapters.base import Series, Trend
 
+# Deterministic linear increase added to the seasonal cycle, per month.
+MONTHLY_INCREMENT = 0.02
+MONTHS_PER_DECADE = 120
+
 
 class FixtureDataAdapter:
     def get_series(
@@ -19,7 +23,9 @@ class FixtureDataAdapter:
 
         time = _month_range(start, end)
         values = [
-            10.0 + 5.0 * math.sin(2 * math.pi * (index % 12) / 12) + 0.02 * index
+            10.0
+            + 5.0 * math.sin(2 * math.pi * (index % 12) / 12)
+            + MONTHLY_INCREMENT * index
             for index, _month in enumerate(time)
         ]
 
@@ -40,12 +46,12 @@ class FixtureAnalysisAdapter:
         return {
             "method": "mann-kendall+sen",
             "deseasonalized": True,
-            "slope": 0.02,
+            "slope": round(MONTHLY_INCREMENT * MONTHS_PER_DECADE, 6),
             "slope_units": f"{series['units']}/decade",
             "p_value": 0.01,
             "significant": True,
             "alpha": 0.05,
-            "ci": [0.01, 0.03],
+            "ci": [2.2, 2.6],
             "n": len(series["values"]),
             "period": [time[0], time[-1]],
         }

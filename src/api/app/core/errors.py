@@ -10,19 +10,17 @@ class ApiError(Exception):
         super().__init__(message)
 
 
-async def api_error_handler(_request: Request, exc: Exception) -> JSONResponse:
-    if not isinstance(exc, ApiError):
-        return JSONResponse(
-            status_code=500,
-            content={
-                "error": {
-                    "code": "internal_error",
-                    "message": "Unexpected error",
-                }
-            },
-        )
-
+def _error_response(status_code: int, code: str, message: str) -> JSONResponse:
     return JSONResponse(
-        status_code=exc.status_code,
-        content={"error": {"code": exc.code, "message": exc.message}},
+        status_code=status_code,
+        content={"error": {"code": code, "message": message}},
     )
+
+
+async def api_error_handler(_request: Request, exc: Exception) -> JSONResponse:
+    assert isinstance(exc, ApiError)
+    return _error_response(exc.status_code, exc.code, exc.message)
+
+
+async def unhandled_error_handler(_request: Request, _exc: Exception) -> JSONResponse:
+    return _error_response(500, "internal_error", "Unexpected error")
