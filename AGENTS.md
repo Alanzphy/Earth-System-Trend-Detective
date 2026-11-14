@@ -43,6 +43,13 @@ Reglas para agentes de IA en este repo. El proceso completo para personas está 
 - No afirmes "significativo" sin prueba estadística; reporta método, periodo, región, unidades, p-valor/IC.
 - Prioriza datos diarios/mensuales y cita cada dataset en `data-sources.md`.
 
+## Despliegue y MCP (Render, Vercel)
+
+- Usa el MCP para **consultar** (logs, estado, métricas, eventos de build) y para el alta inicial descrita en `docs/collaboration.md#despliegue`.
+- No cambies configuración ni variables desde el MCP: hazlo por PR en `render.yaml` o `src/ui/vercel.json`.
+- No redespliegues, borres ni suspendas servicios sin confirmación explícita del humano.
+- Nunca pidas, muestres ni escribas secretos (`EARTHDATA_TOKEN`); el humano los pone en el panel.
+
 ## Convenciones
 
 - Docs en español; código, identificadores y commits en inglés.
