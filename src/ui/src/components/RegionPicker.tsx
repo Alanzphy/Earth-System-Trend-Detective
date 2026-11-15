@@ -29,7 +29,6 @@ export function RegionPicker({ title, bbox, onChange }: Props) {
     <fieldset className="region-picker">
       <legend>{title}</legend>
 
-      <p className="region-picker__subtitle">Quick picks</p>
       <div className="chips">
         {EXAMPLE_REGIONS.map((region) => (
           <button
@@ -39,14 +38,15 @@ export function RegionPicker({ title, bbox, onChange }: Props) {
             aria-pressed={bbox ? sameBbox(bbox, region.bbox) : false}
             onClick={() => onChange(region.bbox)}
           >
-            {region.name} <span className="chip__kind">{region.kind}</span>
+            {region.name}
           </button>
         ))}
       </div>
 
-      <BboxPicker bbox={bbox} onChange={onChange} label={`${title}: map to draw a box`} />
-
-      <div className="coords">
+      <details className="region-picker__more">
+        <summary>Draw a box or type coordinates</summary>
+        <BboxPicker bbox={bbox} onChange={onChange} label={`${title}: map to draw a box`} />
+        <div className="coords">
         {FIELDS.map((field) => (
           <label key={field.key}>
             {field.label}
@@ -65,7 +65,8 @@ export function RegionPicker({ title, bbox, onChange }: Props) {
             />
           </label>
         ))}
-      </div>
+        </div>
+      </details>
 
       {error && (
         <p className="error" role="alert">

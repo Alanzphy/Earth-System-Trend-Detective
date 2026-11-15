@@ -3,9 +3,7 @@ import {
   clampPeriod,
   DEFAULT_END,
   DEFAULT_START,
-  EXAMPLE_REGIONS,
   flowErrors,
-  sameBbox,
   TOPICS,
   type FlowState,
 } from "../lib/flow";
@@ -39,8 +37,8 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
   }
 
   function startCompare() {
-    const other = EXAMPLE_REGIONS.find((region) => !flow.bbox || !sameBbox(region.bbox, flow.bbox));
-    onChange({ ...flow, compare: other?.bbox ?? null });
+    // Start from region A so the second slot is never filled with a region nobody chose.
+    onChange({ ...flow, compare: flow.bbox ? { ...flow.bbox } : null });
   }
 
   function submit(event: FormEvent) {
@@ -80,6 +78,7 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
       <fieldset className="flow__step">
         <legend>
           <span className="flow__number">2</span> Choose a variable
+          {!variable && <span className="flow__needs">needed</span>}
         </legend>
         {catalog.status === "loading" && (
           <p role="status">{catalog.waking ? WAKING_MESSAGE : "Loading variables…"}</p>
@@ -91,6 +90,12 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
         )}
         {catalog.status === "ready" && shown.length === 0 && (
           <p>No variables for this topic yet. Try another topic.</p>
+        )}
+        {catalog.status === "ready" && shown.length > 0 && (
+          <p className="flow__sourceline">
+            {shown[0].source} · {shown[0].available_from} to {shown[0].available_to} for every
+            variable here.
+          </p>
         )}
         <div className="variables">
           {shown.map((item) => (
@@ -105,9 +110,6 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
               <span>
                 <strong>{item.name}</strong> <span className="variable__units">({item.units})</span>
                 <span className="variable__description">{item.description}</span>
-                <span className="variable__meta">
-                  {item.source} · {item.available_from} to {item.available_to}
-                </span>
               </span>
             </label>
           ))}
@@ -117,6 +119,7 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
       <div className="flow__step">
         <h3 className="flow__heading">
           <span className="flow__number">3</span> Where?
+          {!flow.bbox && <span className="flow__needs">needed</span>}
         </h3>
         <div className={flow.compare ? "compare-grid" : undefined}>
           <RegionPicker
