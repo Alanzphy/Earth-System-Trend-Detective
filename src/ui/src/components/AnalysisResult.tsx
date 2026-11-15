@@ -24,9 +24,9 @@ export function AnalysisResult({ label, analysis }: Props) {
           <AnalysisChart analysis={analysis} />
         </Suspense>
         <figcaption>
-          Monthly <GlossaryTerm term="anomaly">anomalies</GlossaryTerm>, with the{" "}
-          <GlossaryTerm term="seasonalCycle">seasonal cycle</GlossaryTerm> removed.
-          The solid line shows the <GlossaryTerm term="trend">trend</GlossaryTerm>, not a forecast.
+          Key words: <GlossaryTerm term="anomaly">anomaly</GlossaryTerm> ·{" "}
+          <GlossaryTerm term="seasonalCycle">seasonal cycle</GlossaryTerm> ·{" "}
+          <GlossaryTerm term="trend">trend</GlossaryTerm>. The trend describes the past; it is not a forecast.
         </figcaption>
       </figure>
     </section>

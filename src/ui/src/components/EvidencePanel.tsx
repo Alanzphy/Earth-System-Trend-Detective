@@ -32,10 +32,9 @@ export function EvidencePanel({ place, variable, state }: Props) {
               <AnalysisChart analysis={state.analysis} />
             </Suspense>
             <figcaption>
-              Monthly <GlossaryTerm term="anomaly">anomalies</GlossaryTerm>: the{" "}
-              <GlossaryTerm term="seasonalCycle">seasonal cycle</GlossaryTerm> is removed so a hot summer
-              does not look like a trend. The thick line is the <GlossaryTerm term="trend">trend</GlossaryTerm>,
-              not a forecast.
+              Key words: <GlossaryTerm term="anomaly">anomaly</GlossaryTerm> ·{" "}
+              <GlossaryTerm term="seasonalCycle">seasonal cycle</GlossaryTerm> ·{" "}
+              <GlossaryTerm term="trend">trend</GlossaryTerm>. The trend describes the past; it is not a forecast.
             </figcaption>
           </figure>
           <dl className="evidence__facts">

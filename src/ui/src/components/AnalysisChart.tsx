@@ -8,15 +8,21 @@ type Props = {
   analysis: AnalysisResponse;
 };
 
+type View = "anomalies" | "raw";
+
+const INK = "#39436a";
+const SERIES = "#8b95b8";
+const TREND = "#ff6a1a";
+
 /**
- * The anomalies (seasonal cycle removed) with the fitted trend are the answer;
- * the raw monthly values are evidence, so they start collapsed behind a toggle.
- * The trend line is solid and stops at the last month: solid means measured,
- * dashed would mean projected — the opposite of what this tool claims.
+ * Two views of the same months in one fixed-height frame, so switching never moves the
+ * page: the anomalies with their trend (the answer) and the raw values (why the seasons
+ * have to be removed first). The trend line is solid and stops at the last month: solid
+ * means measured, dashed would mean projected.
  */
 export function AnalysisChart({ analysis }: Props) {
   const { series, anomalies, trend_line: trendLine, trend } = analysis;
-  const [showRaw, setShowRaw] = useState(false);
+  const [view, setView] = useState<View>("anomalies");
   const units = series.units;
   const localDomain = useMemo(() => symmetricDomain(anomalies), [anomalies]);
   const sharedScale = useContext(ChartScaleContext);
@@ -27,73 +33,102 @@ export function AnalysisChart({ analysis }: Props) {
     return () => register?.(id, null);
   }, [id, localDomain, register]);
   const anomalyDomain = sharedScale?.domain ?? localDomain;
+  const raw = view === "raw";
 
   return (
     <div className="chart">
-      <Plot
-        data={[
-          ...(showRaw
-            ? [
-                {
-                  x: series.time,
-                  y: series.values,
-                  type: "scatter" as const,
-                  mode: "lines" as const,
-                  name: "Monthly values",
-                  line: { color: "#9aa7b4", width: 1 },
-                  yaxis: "y2",
-                  hovertemplate: `%{x}: %{y:.2f} ${units}<extra></extra>`,
-                },
-              ]
-            : []),
-          {
-            x: series.time,
-            y: anomalies,
-            type: "scatter",
-            mode: "lines",
-            name: "Anomalies",
-            line: { color: "#8b95b8", width: 1.1 },
-            hovertemplate: `%{x}: %{y:+.2f} ${units}<extra></extra>`,
-          },
-          {
-            x: series.time,
-            y: trendLine,
-            type: "scatter",
-            mode: "lines",
-            name: `Trend · ${trend.slope_units}`,
-            connectgaps: true,
-            line: { color: "#ff6a1a", width: 3.5 },
-            hovertemplate: `%{x}: %{y:+.2f} ${units}<extra></extra>`,
-          },
-        ]}
-        layout={{
-          autosize: true,
-          margin: { l: 56, r: 16, t: 12, b: 36 },
-          legend: { orientation: "h", y: -0.16, x: 0 },
-          xaxis: { type: "date", showgrid: false },
-          yaxis: {
-            title: { text: `Anomaly (${units})` },
-            zeroline: true,
-            zerolinecolor: "#b3bdd6",
-            range: anomalyDomain,
-            domain: showRaw ? [0, 0.45] : [0, 1],
-          },
-          ...(showRaw ? { yaxis2: {
-            title: { text: `Monthly value (${units})` },
-            domain: [0.65, 1], anchor: "x",
-            zeroline: false,
-          } } : {}),
-          paper_bgcolor: "rgba(0,0,0,0)",
-          plot_bgcolor: "rgba(0,0,0,0)",
-          font: { family: "Archivo Variable, system-ui, sans-serif", size: 12, color: "#39436a" },
-        }}
-        config={{ responsive: true, displayModeBar: false }}
-        style={{ width: "100%", height: showRaw ? "480px" : "300px" }}
-      />
+      <div className="chart__views" role="group" aria-label="Chart view">
+        <button type="button" aria-pressed={!raw} onClick={() => setView("anomalies")}>
+          Without seasons
+        </button>
+        <button type="button" aria-pressed={raw} onClick={() => setView("raw")}>
+          Raw monthly values
+        </button>
+      </div>
 
-      <button type="button" className="chart__toggle" onClick={() => setShowRaw((open) => !open)}>
-        {showRaw ? "Hide the raw monthly values" : "Show the raw monthly values"}
-      </button>
+      <ul className="chart__legend" aria-hidden="true">
+        {raw ? (
+          <li>
+            <i style={{ background: SERIES }} /> Monthly value ({units})
+          </li>
+        ) : (
+          <>
+            <li>
+              <i style={{ background: SERIES }} /> Monthly anomaly
+            </li>
+            <li>
+              <i className="is-thick" style={{ background: TREND }} /> Trend ({trend.slope_units})
+            </li>
+          </>
+        )}
+      </ul>
+
+      <div className="chart__plot">
+        <Plot
+          data={
+            raw
+              ? [
+                  {
+                    x: series.time,
+                    y: series.values,
+                    type: "scatter",
+                    mode: "lines",
+                    name: "Monthly values",
+                    line: { color: SERIES, width: 1.1 },
+                    hovertemplate: `%{x|%b %Y}: %{y:.2f} ${units}<extra></extra>`,
+                  },
+                ]
+              : [
+                  {
+                    x: series.time,
+                    y: anomalies,
+                    type: "scatter",
+                    mode: "lines",
+                    name: "Anomalies",
+                    line: { color: SERIES, width: 1.1 },
+                    hovertemplate: `%{x|%b %Y}: %{y:+.2f} ${units}<extra></extra>`,
+                  },
+                  {
+                    x: series.time,
+                    y: trendLine,
+                    type: "scatter",
+                    mode: "lines",
+                    name: "Trend",
+                    connectgaps: true,
+                    line: { color: TREND, width: 3.5 },
+                    hovertemplate: `%{x|%b %Y}: %{y:+.2f} ${units}<extra></extra>`,
+                  },
+                ]
+          }
+          layout={{
+            autosize: true,
+            showlegend: false,
+            margin: { l: 8, r: 8, t: 8, b: 8 },
+            xaxis: { type: "date", showgrid: false, automargin: true, fixedrange: true },
+            yaxis: {
+              title: { text: raw ? units : `Anomaly (${units})`, standoff: 8 },
+              automargin: true,
+              fixedrange: true,
+              zeroline: !raw,
+              zerolinecolor: "#b3bdd6",
+              gridcolor: "#e9edf7",
+              ...(raw ? {} : { range: anomalyDomain }),
+            },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            font: { family: "Archivo Variable, system-ui, sans-serif", size: 12, color: INK },
+          }}
+          config={{ responsive: true, displayModeBar: false }}
+          useResizeHandler
+          style={{ width: "100%", height: "100%" }}
+        />
+      </div>
+
+      <p className="chart__note">
+        {raw
+          ? "The big waves are summer and winter. They hide slow change, so we compare each month with its own normal."
+          : "Each month compared with its normal. Above zero: warmer, wetter or more than usual for that month."}
+      </p>
     </div>
   );
 }
