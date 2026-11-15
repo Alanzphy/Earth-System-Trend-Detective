@@ -1,12 +1,12 @@
-Closes #
+Issue relacionado (opcional): #
 
 ## Qué cambia
 
 ## Checklist
-- [ ] Rama `<area>/<n-issue>-<slug>` y solo toca el área del issue
+- [ ] Solo toca su área, o avisa a los dueños de las demás
 - [ ] Docs del área actualizados
 - [ ] ADR en `docs/decisions/` si se eligió librería, dataset, método o stack
-- [ ] No modifica `src/contracts/` (o el issue es de contrato y tiene ADR)
+- [ ] No modifica `src/contracts/` (o incluye su ADR)
 - [ ] Tests/verificación ejecutados (describir abajo)
 
 ## Verificación

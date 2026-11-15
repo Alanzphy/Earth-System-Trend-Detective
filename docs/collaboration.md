@@ -4,8 +4,8 @@ Varias personas, cada una con sus propios agentes. Este doc define cómo trabaja
 
 ## Principios
 
-1. **El estado vive en GitHub, no en archivos.** Tareas = Issues; tablero = GitHub Projects.
-2. **Aislamiento**: una rama y un PR por issue. Nadie hace push directo a `main`.
+1. **El estado vive en GitHub, no en archivos.** Issues y PRs cuando ayudan a coordinar; no son obligatorios para empezar a trabajar.
+2. **Iteración rápida**: se puede trabajar directamente en `main` o en una rama, según convenga.
 3. **Áreas con dueño humano**: `CODEOWNERS` asigna al dueño como revisor sugerido; la revisión es opcional y no bloquea el merge.
 4. **Contratos en código, verificados por CI**: no basta con documentarlos.
 
@@ -13,18 +13,17 @@ Varias personas, cada una con sus propios agentes. Este doc define cómo trabaja
 
 ```mermaid
 flowchart LR
-  I[Issue asignado] --> B[Rama area/issue-slug]
-  B --> A[Agente trabaja]
-  A --> PR[PR con checklist]
-  PR --> CI[CI: lint + tests + contratos]
-  CI --> R[Revisión opcional del dueño]
-  R --> M[main]
+  W[Cambio] --> Q{¿Admin del repo?}
+  Q -->|sí| M[push a main]
+  Q -->|no| PR[Rama + PR]
+  PR --> CI[CI: python + ui]
+  CI --> M
 ```
 
-1. Toma o crea un issue con etiqueta de área (`area:data`, `area:analysis`, `area:api`, `area:ui`, `area:docs`) y asígnatelo.
-2. Rama: `<area>/<n-issue>-<slug>` (ej. `data/12-nasa-power-client`).
-3. El PR enlaza el issue (`Closes #12`) y cumple el checklist de la plantilla.
-4. Merge: el autor puede hacer merge sin aprobación. Pide revisión si el cambio afecta a otra área.
+1. No hace falta issue ni rama previa. Crea un issue solo si sirve para coordinar o dejar constancia.
+2. GitHub mantiene la protección de `main`: PR obligatorio (sin aprobaciones) y checks `python` y `ui` en verde. Los administradores pueden saltársela y hacer push directo; el resto trabaja con rama y PR.
+3. Si haces push directo, corre antes los checks del área que tocaste (`pnpm lint && pnpm test && pnpm build` en `src/ui`; `uv run pytest` y `uv run ruff check` en Python).
+4. Pide revisión si el cambio afecta a otra área o a un contrato.
 
 ## Áreas y dueños
 
@@ -40,7 +39,7 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 
 ## Contratos
 
-- Definidos como esquemas en `src/contracts/` (formato pendiente del ADR de stack); `architecture.md` los describe y enlaza.
+- Definidos como modelos Pydantic en `src/contracts/`; `architecture.md` describe el flujo modelos → OpenAPI → tipos TS.
 - Cambiar un contrato requiere un PR propio con su ADR; avisa a los dueños de las áreas afectadas antes de hacer merge.
 - CI valida que productores y consumidores cumplen el esquema.
 
@@ -102,7 +101,7 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 
 ## Pendiente de configurar
 
-- [x] Protección de `main`: PR obligatorio, sin aprobaciones requeridas, sin force-push
+- [x] Protección de `main`: PR obligatorio sin aprobaciones, checks `python` y `ui`, sin force-push; los administradores pueden saltársela
 - [x] Etiquetas `area:*` y `adr`
 - [x] `.github/CODEOWNERS`, plantilla de PR y de issue
 - [x] Un `AGENTS.md` por área

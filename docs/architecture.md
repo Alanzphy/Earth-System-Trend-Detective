@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Estado: **borrador**. Los contratos de abajo son la referencia hasta migrarlos a modelos Pydantic en `src/contracts/`.
+> Fuente de verdad de los contratos: modelos Pydantic en `src/contracts/`, exportados a OpenAPI y a tipos TS (ver [Contratos](#contratos)).
 
 ## Componentes
 
