@@ -50,6 +50,9 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
     null,
   );
   const [selected, setSelected] = useState<TrendRegionSelection | null>(null);
+  const [hover, setHover] = useState<{ x: number; y: number; region: TrendRegionSelection } | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
   const entry = maps.find((map) => map.id === entryId) ?? null;
   // Only hand data to the map once it belongs to the selected entry.
@@ -94,7 +97,17 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
       map.addControl(new maplibregl.NavigationControl(), "top-right");
     }
 
-    const handleLoad = () => setMapLoaded(true);
+    const handleLoad = () => {
+      setMapLoaded(true);
+      // Frame the data, not a guess: 180°W–180°E by 60°S–70°N, no padding.
+      map.fitBounds(
+        [
+          [-180, -60],
+          [180, 70],
+        ],
+        { padding: 0, animate: false },
+      );
+    };
     map.on("load", handleLoad);
 
     return () => {
@@ -168,6 +181,8 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
         source: SOURCE_ID,
         filter: ["==", ["get", "significant"], true] as FilterSpecification,
         paint: {
+          // Sub-pixel cells turn into a blurred wash; square edges keep the grid legible.
+          "fill-antialias": false,
           "fill-color": fillColorExpression(
             entry.palette,
             entry.legend,
@@ -185,6 +200,7 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
         source: SOURCE_ID,
         filter: ["==", ["get", "significant"], false] as FilterSpecification,
         paint: {
+          "fill-antialias": false,
           // Opaque enough that the blue ocean does not read as a "decrease" color.
           "fill-color": "#cfd6de",
           "fill-opacity": 0.75,
@@ -216,7 +232,7 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
         map.removeSource(SOURCE_ID);
       }
     };
-  }, [data, entry, mapLoaded]);
+  }, [data, entry, mapLoaded, isArtifact]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -244,9 +260,26 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
     };
     const handleLeave = () => {
       map.getCanvas().style.cursor = "";
+      setHover(null);
+    };
+
+    const handleMove = (event: MapMouseEvent) => {
+      const feature = map.queryRenderedFeatures(event.point, {
+        layers: [SIGNIFICANT_LAYER, NOT_SIGNIFICANT_LAYER],
+      })[0];
+      if (!feature || !feature.properties) {
+        setHover(null);
+        return;
+      }
+      setHover({
+        x: event.point.x,
+        y: event.point.y,
+        region: toRegionSelection(cellPropertiesFromRendered(feature.properties), entry),
+      });
     };
 
     map.on("click", handleClick);
+    map.on("mousemove", handleMove);
     map.on("mouseenter", SIGNIFICANT_LAYER, handleEnter);
     map.on("mouseenter", NOT_SIGNIFICANT_LAYER, handleEnter);
     map.on("mouseleave", SIGNIFICANT_LAYER, handleLeave);
@@ -258,6 +291,7 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
       map.off("mouseenter", NOT_SIGNIFICANT_LAYER, handleEnter);
       map.off("mouseleave", SIGNIFICANT_LAYER, handleLeave);
       map.off("mouseleave", NOT_SIGNIFICANT_LAYER, handleLeave);
+      map.off("mousemove", handleMove);
     };
   }, [entry, mapLoaded, onSelectRegion]);
 
@@ -292,6 +326,13 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
       {!isArtifact && error && (
         <p className="trend-map__error" role="alert">
           Could not load the trend map: {error}
+        </p>
+      )}
+
+      {hover && !loading && (
+        <p className="trend-map__hover num" style={{ left: hover.x + 14, top: hover.y + 14 }}>
+          {formatSlope(hover.region.slope, hover.region.slope_units)}
+          {hover.region.significant ? "" : " · not significant"}
         </p>
       )}
 
