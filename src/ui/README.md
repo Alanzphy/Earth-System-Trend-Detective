@@ -65,4 +65,4 @@ Para capturas locales de WebGL, `TrendMap` conserva el buffer solo cuando `impor
 - *Root Directory*: `src/ui` (the repository is a monorepo).
 - `vercel.json` defines the build and output; Vercel detects Vite.
 - Set `VITE_API_BASE_URL` to the public Render API URL.
-- While Render wakes up (~1 min on the free plan), `ApiStatus` shows "Waking up the server…".
+- Render's free plan stops the API after ~15 min idle and needs ~1 min to start. Live requests go through `ensureAwake` (`src/lib/api.ts`): one shared `/health` poll every 3 s for up to 90 s, then the requests; a network error or 502–504 counts as "still waking", anything else is a real error. `ApiStatus` and the case card show "Waking up the server…" meanwhile. The `Keep the API awake` workflow pings `/health` every 10 min so this rarely happens.

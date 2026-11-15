@@ -61,6 +61,7 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 | UI (`src/ui`) | Vercel, plan Hobby | `src/ui/vercel.json` | @Alanzphy |
 
 - **Cómo se publica**: merge a `main` → Render despliega cuando pasan los checks de CI (`autoDeployTrigger: checksPass`); Vercel despliega al instante y crea una vista previa por PR.
+- **API despierta**: el plan gratuito de Render apaga la API tras ~15 min sin tráfico (arranque ~1 min). El workflow `keep-api-awake.yml` hace `GET /health` cada 10 min (GitHub puede retrasarlo unos minutos) y la UI espera hasta 90 s a que arranque antes de mostrar un error.
 - **Cambios de configuración**: por PR en `render.yaml` o `vercel.json`. El panel solo se usa para secretos.
 - **Acceso**: los planes gratuitos no admiten miembros de equipo. Las vistas previas de Vercel son públicas (sin Deployment Protection) y el estado del despliegue aparece en cada PR.
 - **MCP** (solo en la máquina de Alan, nunca en el repo):
