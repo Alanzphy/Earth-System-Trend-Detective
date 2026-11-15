@@ -19,7 +19,7 @@ import {
   type TrendCellCollection,
   type TrendRegionSelection,
 } from "../lib/trendMaps";
-import { MAP_STYLE_URL } from "../lib/mapStyle";
+import { MAP_STYLE_DARK_URL, MAP_STYLE_URL } from "../lib/mapStyle";
 import type { TrendMapEntry } from "../types/contracts";
 import { TrendMapLegend } from "./TrendMapLegend";
 
@@ -30,10 +30,16 @@ const OUTLINE_LAYER = "trend-map-outline";
 
 type Props = {
   onSelectRegion?: (region: TrendRegionSelection) => void;
-  onAnalyzeRegion: (region: TrendRegionSelection) => void;
+  onAnalyzeRegion?: (region: TrendRegionSelection) => void;
+  /**
+   * `explore`: full map with switcher, legend and selection panel.
+   * `artifact`: hero background — dark basemap, no chrome, no pointer input.
+   */
+  variant?: "explore" | "artifact";
 };
 
-export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
+export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" }: Props) {
+  const isArtifact = variant === "artifact";
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -77,13 +83,16 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
 
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: MAP_STYLE_URL,
-      center: [-20, 15],
-      zoom: 1.6,
+      style: isArtifact ? MAP_STYLE_DARK_URL : MAP_STYLE_URL,
+      center: isArtifact ? [0, 12] : [-20, 15],
+      zoom: isArtifact ? 0.9 : 1.6,
+      interactive: !isArtifact,
     });
 
     mapRef.current = map;
-    map.addControl(new maplibregl.NavigationControl(), "top-right");
+    if (!isArtifact) {
+      map.addControl(new maplibregl.NavigationControl(), "top-right");
+    }
 
     const handleLoad = () => setMapLoaded(true);
     map.on("load", handleLoad);
@@ -94,7 +103,7 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
       mapRef.current = null;
       setMapLoaded(false);
     };
-  }, []);
+  }, [isArtifact]);
 
   useEffect(() => {
     if (!visible) {
@@ -163,7 +172,8 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
             entry.palette,
             entry.legend,
           ) as ExpressionSpecification,
-          "fill-opacity": 0.78,
+          // The hero artifact sits under a scrim, so its cells need more presence.
+          "fill-opacity": isArtifact ? 1 : 0.78,
         },
       });
     }
@@ -252,8 +262,8 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
   }, [entry, mapLoaded, onSelectRegion]);
 
   return (
-    <div className="trend-map">
-      {maps.length > 1 && (
+    <div className={`trend-map${isArtifact ? " trend-map--artifact" : ""}`}>
+      {maps.length > 1 && !isArtifact && (
         <div className="trend-map__switcher" role="group" aria-label="Choose a trend map">
           {maps.map((map) => (
             <button
@@ -271,18 +281,23 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
         </div>
       )}
 
-      <div ref={containerRef} className="trend-map__canvas" aria-label="Trend map" />
+      <div
+        ref={containerRef}
+        className="trend-map__canvas"
+        aria-label={isArtifact ? undefined : "Trend map"}
+        aria-hidden={isArtifact ? true : undefined}
+      />
 
-      {loading && <p role="status">Loading trend map…</p>}
-      {error && (
+      {!isArtifact && loading && <p role="status">Loading trend map…</p>}
+      {!isArtifact && error && (
         <p className="trend-map__error" role="alert">
           Could not load the trend map: {error}
         </p>
       )}
 
-      {entry && <TrendMapLegend entry={entry} />}
+      {entry && !isArtifact && <TrendMapLegend entry={entry} />}
 
-      {selected && entry && (
+      {selected && entry && !isArtifact && (
         <div className="trend-map__selection" aria-live="polite">
           <strong>
             {selected.significant && (
@@ -302,7 +317,7 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
             {formatPValue(selected.p_value)})
           </p>
           <p>Region: [{formatBbox(selected.bbox)}]</p>
-          <button type="button" onClick={() => onAnalyzeRegion(selected)}>
+          <button type="button" onClick={() => onAnalyzeRegion?.(selected)}>
             Analyze this region
           </button>
         </div>
