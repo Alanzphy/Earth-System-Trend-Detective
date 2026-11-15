@@ -1,0 +1,783 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Earth System Trend Detective contracts",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "AnalysisResponse": {
+        "additionalProperties": false,
+        "description": "Everything the UI needs to plot raw, deseasonalized and trend lines.",
+        "properties": {
+          "series": {
+            "$ref": "#/components/schemas/TimeSeries"
+          },
+          "anomalies": {
+            "description": "Values minus the monthly climatology.",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Anomalies",
+            "type": "array"
+          },
+          "trend_line": {
+            "description": "Fitted trend over the anomalies.",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Trend Line",
+            "type": "array"
+          },
+          "trend": {
+            "$ref": "#/components/schemas/TrendResult"
+          },
+          "verdict": {
+            "description": "Plain-language summary for students.",
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "series",
+          "anomalies",
+          "trend_line",
+          "trend",
+          "verdict"
+        ],
+        "title": "AnalysisResponse",
+        "type": "object"
+      },
+      "BBox": {
+        "additionalProperties": false,
+        "description": "Geographic box in degrees, WGS84.",
+        "properties": {
+          "min_lon": {
+            "maximum": 180,
+            "minimum": -180,
+            "title": "Min Lon",
+            "type": "number"
+          },
+          "min_lat": {
+            "maximum": 90,
+            "minimum": -90,
+            "title": "Min Lat",
+            "type": "number"
+          },
+          "max_lon": {
+            "maximum": 180,
+            "minimum": -180,
+            "title": "Max Lon",
+            "type": "number"
+          },
+          "max_lat": {
+            "maximum": 90,
+            "minimum": -90,
+            "title": "Max Lat",
+            "type": "number"
+          }
+        },
+        "required": [
+          "min_lon",
+          "min_lat",
+          "max_lon",
+          "max_lat"
+        ],
+        "title": "BBox",
+        "type": "object"
+      },
+      "CatalogResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "variables": {
+            "items": {
+              "$ref": "#/components/schemas/Variable"
+            },
+            "title": "Variables",
+            "type": "array"
+          }
+        },
+        "required": [
+          "variables"
+        ],
+        "title": "CatalogResponse",
+        "type": "object"
+      },
+      "Demo": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "panels": {
+            "items": {
+              "$ref": "#/components/schemas/DemoPanel"
+            },
+            "maxItems": 2,
+            "minItems": 1,
+            "title": "Panels",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "panels"
+        ],
+        "title": "Demo",
+        "type": "object"
+      },
+      "DemoManifest": {
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "const": 1,
+            "default": 1,
+            "title": "Version",
+            "type": "integer"
+          },
+          "generated_at": {
+            "title": "Generated At",
+            "type": "string"
+          },
+          "demos": {
+            "items": {
+              "$ref": "#/components/schemas/DemoSummary"
+            },
+            "title": "Demos",
+            "type": "array"
+          }
+        },
+        "required": [
+          "generated_at",
+          "demos"
+        ],
+        "title": "DemoManifest",
+        "type": "object"
+      },
+      "DemoPanel": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "examples": [
+              "Western Sahel"
+            ],
+            "title": "Label",
+            "type": "string"
+          },
+          "analysis": {
+            "$ref": "#/components/schemas/AnalysisResponse"
+          }
+        },
+        "required": [
+          "label",
+          "analysis"
+        ],
+        "title": "DemoPanel",
+        "type": "object"
+      },
+      "DemoSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "file": {
+            "description": "Path relative to the demos folder.",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "file"
+        ],
+        "title": "DemoSummary",
+        "type": "object"
+      },
+      "ErrorDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "TimeSeries": {
+        "additionalProperties": false,
+        "description": "Area-averaged monthly series (cosine-of-latitude weighted).",
+        "properties": {
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          },
+          "units": {
+            "title": "Units",
+            "type": "string"
+          },
+          "bbox": {
+            "$ref": "#/components/schemas/BBox"
+          },
+          "resolution": {
+            "const": "monthly",
+            "default": "monthly",
+            "title": "Resolution",
+            "type": "string"
+          },
+          "time": {
+            "items": {
+              "examples": [
+                "1981-01"
+              ],
+              "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+              "type": "string"
+            },
+            "title": "Time",
+            "type": "array"
+          },
+          "values": {
+            "description": "null where the source has no data.",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Values",
+            "type": "array"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "grid_points": {
+            "description": "Source grid points averaged into the series.",
+            "minimum": 1,
+            "title": "Grid Points",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "variable",
+          "units",
+          "bbox",
+          "time",
+          "values",
+          "source",
+          "grid_points"
+        ],
+        "title": "TimeSeries",
+        "type": "object"
+      },
+      "TrendCellProperties": {
+        "additionalProperties": false,
+        "description": "Properties of each GeoJSON polygon feature in a trend-map file.",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "slope": {
+            "description": "Trend per decade in the entry's slope_units.",
+            "title": "Slope",
+            "type": "number"
+          },
+          "p_value": {
+            "maximum": 1,
+            "minimum": 0,
+            "title": "P Value",
+            "type": "number"
+          },
+          "significant": {
+            "description": "After FDR correction when the entry says so.",
+            "title": "Significant",
+            "type": "boolean"
+          },
+          "bbox": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Bbox",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "slope",
+          "p_value",
+          "significant",
+          "bbox"
+        ],
+        "title": "TrendCellProperties",
+        "type": "object"
+      },
+      "TrendMapEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          },
+          "units": {
+            "title": "Units",
+            "type": "string"
+          },
+          "slope_units": {
+            "title": "Slope Units",
+            "type": "string"
+          },
+          "period": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "examples": [
+                  "1981-01"
+                ],
+                "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+                "type": "string"
+              },
+              {
+                "examples": [
+                  "1981-01"
+                ],
+                "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+                "type": "string"
+              }
+            ],
+            "title": "Period",
+            "type": "array"
+          },
+          "palette": {
+            "enum": [
+              "RdBu",
+              "BrBG"
+            ],
+            "title": "Palette",
+            "type": "string"
+          },
+          "cell_size_deg": {
+            "exclusiveMinimum": 0,
+            "title": "Cell Size Deg",
+            "type": "number"
+          },
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "legend": {
+            "$ref": "#/components/schemas/TrendMapLegend"
+          },
+          "alpha": {
+            "exclusiveMaximum": 1,
+            "exclusiveMinimum": 0,
+            "title": "Alpha",
+            "type": "number"
+          },
+          "fdr": {
+            "description": "Benjamini–Hochberg correction applied across cells.",
+            "title": "Fdr",
+            "type": "boolean"
+          },
+          "is_sample": {
+            "default": false,
+            "title": "Is Sample",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "variable",
+          "units",
+          "slope_units",
+          "period",
+          "palette",
+          "cell_size_deg",
+          "file",
+          "legend",
+          "alpha",
+          "fdr"
+        ],
+        "title": "TrendMapEntry",
+        "type": "object"
+      },
+      "TrendMapLegend": {
+        "additionalProperties": false,
+        "properties": {
+          "min": {
+            "title": "Min",
+            "type": "number"
+          },
+          "max": {
+            "title": "Max",
+            "type": "number"
+          }
+        },
+        "required": [
+          "min",
+          "max"
+        ],
+        "title": "TrendMapLegend",
+        "type": "object"
+      },
+      "TrendMapManifest": {
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "const": 2,
+            "default": 2,
+            "title": "Version",
+            "type": "integer"
+          },
+          "generated_at": {
+            "title": "Generated At",
+            "type": "string"
+          },
+          "maps": {
+            "items": {
+              "$ref": "#/components/schemas/TrendMapEntry"
+            },
+            "minItems": 1,
+            "title": "Maps",
+            "type": "array"
+          }
+        },
+        "required": [
+          "generated_at",
+          "maps"
+        ],
+        "title": "TrendMapManifest",
+        "type": "object"
+      },
+      "TrendRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          },
+          "bbox": {
+            "$ref": "#/components/schemas/BBox"
+          },
+          "start": {
+            "examples": [
+              "1981-01"
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "title": "Start",
+            "type": "string"
+          },
+          "end": {
+            "examples": [
+              "1981-01"
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "title": "End",
+            "type": "string"
+          }
+        },
+        "required": [
+          "variable",
+          "bbox",
+          "start",
+          "end"
+        ],
+        "title": "TrendRequest",
+        "type": "object"
+      },
+      "TrendResult": {
+        "additionalProperties": false,
+        "properties": {
+          "method": {
+            "examples": [
+              "Theil–Sen slope + Mann–Kendall (Hamed–Rao)"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "deseasonalized": {
+            "title": "Deseasonalized",
+            "type": "boolean"
+          },
+          "slope_per_decade": {
+            "title": "Slope Per Decade",
+            "type": "number"
+          },
+          "slope_units": {
+            "examples": [
+              "°C/decade"
+            ],
+            "title": "Slope Units",
+            "type": "string"
+          },
+          "ci_low": {
+            "description": "Lower bound of the 95% CI of the slope, per decade.",
+            "title": "Ci Low",
+            "type": "number"
+          },
+          "ci_high": {
+            "description": "Upper bound of the 95% CI of the slope, per decade.",
+            "title": "Ci High",
+            "type": "number"
+          },
+          "p_value": {
+            "maximum": 1,
+            "minimum": 0,
+            "title": "P Value",
+            "type": "number"
+          },
+          "alpha": {
+            "exclusiveMaximum": 1,
+            "exclusiveMinimum": 0,
+            "title": "Alpha",
+            "type": "number"
+          },
+          "significant": {
+            "title": "Significant",
+            "type": "boolean"
+          },
+          "direction": {
+            "enum": [
+              "increasing",
+              "decreasing",
+              "no trend"
+            ],
+            "title": "Direction",
+            "type": "string"
+          },
+          "total_change": {
+            "description": "slope_per_decade × period length in decades.",
+            "title": "Total Change",
+            "type": "number"
+          },
+          "n": {
+            "description": "Months with data used in the test.",
+            "minimum": 0,
+            "title": "N",
+            "type": "integer"
+          },
+          "period_start": {
+            "examples": [
+              "1981-01"
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "title": "Period Start",
+            "type": "string"
+          },
+          "period_end": {
+            "examples": [
+              "1981-01"
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "title": "Period End",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "deseasonalized",
+          "slope_per_decade",
+          "slope_units",
+          "ci_low",
+          "ci_high",
+          "p_value",
+          "alpha",
+          "significant",
+          "direction",
+          "total_change",
+          "n",
+          "period_start",
+          "period_end"
+        ],
+        "title": "TrendResult",
+        "type": "object"
+      },
+      "Variable": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "examples": [
+              "temperature_2m"
+            ],
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "examples": [
+              "Air temperature at 2 m"
+            ],
+            "title": "Name",
+            "type": "string"
+          },
+          "units": {
+            "examples": [
+              "°C"
+            ],
+            "title": "Units",
+            "type": "string"
+          },
+          "description": {
+            "description": "Plain-language definition for students.",
+            "title": "Description",
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "temperature",
+              "water",
+              "air",
+              "energy",
+              "soil"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "palette": {
+            "description": "RdBu for temperature-like, BrBG for water-like.",
+            "enum": [
+              "RdBu",
+              "BrBG"
+            ],
+            "title": "Palette",
+            "type": "string"
+          },
+          "source": {
+            "examples": [
+              "NASA POWER"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "source_parameter": {
+            "examples": [
+              "T2M"
+            ],
+            "title": "Source Parameter",
+            "type": "string"
+          },
+          "available_from": {
+            "examples": [
+              "1981-01"
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "title": "Available From",
+            "type": "string"
+          },
+          "available_to": {
+            "examples": [
+              "1981-01"
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "title": "Available To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "units",
+          "description",
+          "category",
+          "palette",
+          "source",
+          "source_parameter",
+          "available_from",
+          "available_to"
+        ],
+        "title": "Variable",
+        "type": "object"
+      }
+    }
+  }
+}

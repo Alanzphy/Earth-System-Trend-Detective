@@ -22,53 +22,42 @@ flowchart LR
 
 ## Contratos
 
-### Serie temporal (data → analysis)
+Fuente de verdad: modelos Pydantic en [`src/contracts/contracts/models.py`](../src/contracts/contracts/models.py) (paquete `contracts`, miembro del workspace de uv).
 
-```json
-{
-  "variable": "string (id del catálogo)",
-  "units": "string",
-  "region": { "type": "bbox", "coords": [minLon, minLat, maxLon, maxLat] },
-  "resolution": "daily | monthly",
-  "time": ["ISO-8601"],
-  "values": [number | null],
-  "source": "id en data-sources.md"
-}
+```mermaid
+flowchart LR
+  M[contracts/models.py] -->|uv run python -m contracts.export| O[src/contracts/openapi.json]
+  O -->|pnpm generate:api-types| T[src/ui/src/types/contracts.gen.ts]
 ```
 
-### Resultado de tendencia (analysis → api/ui)
+CI falla si `openapi.json` o `contracts.gen.ts` no coinciden con los modelos.
 
-```json
-{
-  "method": "mann-kendall+sen | ols",
-  "deseasonalized": true,
-  "slope": number,
-  "slope_units": "units/decade",
-  "p_value": number,
-  "significant": boolean,
-  "alpha": 0.05,
-  "ci": [low, high],
-  "n": integer,
-  "period": ["ISO-8601", "ISO-8601"]
-}
-```
+| Modelo | Productor → consumidor | Contenido |
+|---|---|---|
+| `Variable`, `CatalogResponse` | data → api → ui | Catálogo: unidades, definición simple, paleta, fuente, periodo |
+| `BBox` | ui → api → data | `min_lon, min_lat, max_lon, max_lat` |
+| `TimeSeries` | data → analysis | Serie mensual promediada por área (`YYYY-MM`, `null` = sin dato) |
+| `TrendResult` | analysis → api → ui | Pendiente/década, IC 95 %, p-valor, α, dirección, cambio total, n, periodo |
+| `AnalysisResponse` | analysis → api → ui | Serie, anomalías, línea de tendencia, `TrendResult`, veredicto en texto |
+| `TrendRequest` | ui → api | Variable, bbox, periodo |
+| `ErrorResponse` | api → ui | `{error: {code, message}}` |
+| `DemoManifest`, `Demo`, `DemoPanel` | pipeline → ui (estático) | Demos precalculadas en `src/ui/public/demos/` |
+| `TrendMapManifest`, `TrendMapEntry`, `TrendCellProperties` | pipeline → ui (estático) | Mapas de tendencia en `src/ui/public/trend-maps/` |
 
 ## API
 
-Implementada en `src/api/` (issue #5). Endpoints disponibles:
-
-| Método | Ruta | Descripción |
+| Método | Ruta | Respuesta |
 |---|---|---|
-| GET | `/health` | Estado del servicio para Render. |
-
-El catálogo, la tendencia y las demos se añaden en los issues #6 y #7.
+| GET | `/health` | `{"status": "ok"}` |
+| GET | `/variables` | `CatalogResponse` |
+| POST | `/trend` | `TrendRequest` → `AnalysisResponse` (errores: `ErrorResponse`) |
 
 ## Stack
 
 Decidido en [`decisions/2026-11-14-stack.md`](decisions/2026-11-14-stack.md):
 
 - **Frontend**: React + Vite + TypeScript · MapLibre GL · Plotly · pnpm · eslint + vitest · Vercel
-- **Backend**: Python 3.12 + FastAPI en Docker · consulta series ya promediadas de NASA POWER / Giovanni Time Series · pymannkendall · uv · ruff + pytest · Render (gratis)
-- **Precalculado**: pipeline Python (xarray, earthaccess) en GitHub Actions → mapas de tendencia y demos como archivos estáticos
+- **Backend**: Python 3.12 + FastAPI en Docker · NASA POWER (endpoint `regional`, promedio por área en `data`) · pymannkendall + scipy · uv · ruff + pytest · Render (gratis)
+- **Precalculado**: pipeline Python en `src/pipeline/` → demos y mapas de tendencia como archivos estáticos en `src/ui/public/`
 - **Contratos**: Pydantic (`src/contracts/`) → OpenAPI → tipos TS (`openapi-typescript`)
 - **Sin base de datos**: caché temporal en el backend

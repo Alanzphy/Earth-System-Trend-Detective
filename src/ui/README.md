@@ -34,7 +34,7 @@ The UI runs at `http://localhost:5173` and expects the API at `VITE_API_BASE_URL
 
 ## API types
 
-`src/types/api.ts` contains provisional types for the scaffold. When issue #4 is closed, the types will be generated with `pnpm generate:api-types` and replaced by `src/types/api.d.ts`.
+`src/types/contracts.gen.ts` is generated from `src/contracts/openapi.json` with `pnpm generate:api-types`. Do not edit it by hand; CI fails if it is stale.
 
 ## Current scope
 
