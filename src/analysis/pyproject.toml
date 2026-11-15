@@ -3,7 +3,10 @@ name = "estd-analysis"
 version = "0.1.0"
 description = "Earth System Trend Detective: analysis area"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = ["estd-contracts", "numpy>=2,<3", "pymannkendall>=1.4,<2", "scipy>=1.13,<2"]
+
+[tool.uv.sources]
+estd-contracts = { workspace = true }
 
 [build-system]
 requires = ["hatchling>=1.26"]

@@ -1,7 +1,7 @@
 # Área: contracts
 
-Dueños: @Alanzphy y @Francisco-Huerta-Trujillo (ambos aprueban).
+Dueño: @Alanzphy.
 
-- Esquemas compartidos entre áreas. El formato se decide en el ADR de stack.
-- Solo se modifica en issues etiquetados `area:contracts`, con ADR y en un PR que no contenga otros cambios.
-- Todo cambio actualiza `docs/architecture.md` y los productores/consumidores afectados.
+- Modelos Pydantic en `contracts/models.py`: fuente de verdad entre data, analysis, api y ui.
+- Tras cambiar un modelo: `uv run python -m contracts.export` (raíz) y `pnpm generate:api-types` (`src/ui`). Commitea `openapi.json` y `src/ui/src/types/contracts.gen.ts`; CI falla si están desactualizados.
+- Todo cambio actualiza `docs/architecture.md` y los productores/consumidores afectados en el mismo PR.

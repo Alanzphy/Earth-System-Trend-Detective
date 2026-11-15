@@ -5,6 +5,7 @@ description = "FastAPI backend for Earth System Trend Detective"
 requires-python = ">=3.12"
 dependencies = [
     "estd-analysis",
+    "estd-contracts",
     "estd-data",
     "fastapi>=0.115,<1",
     "pydantic>=2.9,<3",
@@ -13,8 +14,9 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-estd-data = { workspace = true }
 estd-analysis = { workspace = true }
+estd-contracts = { workspace = true }
+estd-data = { workspace = true }
 
 [build-system]
 requires = ["hatchling>=1.26"]

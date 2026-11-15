@@ -1,12 +1,13 @@
 [project]
 name = "earth-system-trend-detective"
 version = "0.1.0"
-description = "uv workspace root for the Python areas (api, data, analysis)"
+description = "uv workspace root for the Python areas (api, data, analysis, contracts)"
 requires-python = ">=3.12"
 dependencies = [
     "earth-system-trend-detective-api",
-    "estd-data",
     "estd-analysis",
+    "estd-contracts",
+    "estd-data",
 ]
 
 [dependency-groups]
@@ -21,12 +22,13 @@ dev = [
 package = false
 
 [tool.uv.workspace]
-members = ["src/api", "src/data", "src/analysis"]
+members = ["src/api", "src/data", "src/analysis", "src/contracts"]
 
 [tool.uv.sources]
 earth-system-trend-detective-api = { workspace = true }
-estd-data = { workspace = true }
 estd-analysis = { workspace = true }
+estd-contracts = { workspace = true }
+estd-data = { workspace = true }
 
 [tool.ruff]
 line-length = 100
@@ -38,8 +40,8 @@ select = ["B", "E", "F", "I", "SIM", "UP"]
 [tool.pytest.ini_options]
 testpaths = ["src"]
 norecursedirs = ["node_modules", ".venv", "dist"]
-addopts = "-q"
+addopts = "-q --import-mode=importlib"
 filterwarnings = ["error"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["app", "data", "analysis"]
+known-first-party = ["app", "data", "analysis", "contracts"]
