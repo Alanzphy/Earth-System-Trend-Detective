@@ -90,27 +90,36 @@ Copy this text into the Space Apps project page and keep it in the README:
 
 ## Demo
 
-Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The following storyboard uses 6 slides and a 30-second script.
+Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The same silent screen recording is used twice: as the submission video (with English captions) and inside a slide of the 4-minute pitch, narrated live in Spanish.
 
-### Storyboard
+### 30-second video (screen recording, English captions)
 
-1. **Title** — Earth System Trend Detective. One sentence: "Find out what is changing, where, and whether it is significant."
-2. **The problem** — The same variable can trend in opposite directions in two regions. Show the trend map with blue and red areas.
-3. **Choose** — Pick a variable, a region and a period. Show the catalog and the map.
-4. **Look** — Show the raw series, the deseasonalized series and the trend line.
-5. **Verdict** — Show direction, magnitude in units per decade, p-value and "statistically significant".
-6. **Compare and act** — Compare two regions with opposite trends and invite the viewer to try the demo.
+Every number below is real and comes from the app (NASA POWER 1981–2025, precomputed places).
 
-### 30-second script
-
-| Time | Voice-over | Visual |
+| Time | On screen (what to do in the app) | Caption |
 |---|---|---|
-| 0–4 s | "Earth is always changing. But where, and how much?" | Title and a rotating globe or map. |
-| 4–9 s | "The same variable can rise in one region and fall in another." | Trend map with blue and red regions. |
-| 9–15 s | "Pick a variable, a region and a period." | Variable catalog and region selection. |
-| 15–21 s | "We remove the seasonal cycle and estimate the trend." | Raw series, deseasonalized series and trend line. |
-| 21–26 s | "The verdict shows the change per decade and whether it is significant." | Verdict card with p-value. |
-| 26–30 s | "Become an Earth System Trend Detective." | Logo-free end card with the project URL. |
+| 0–5 s | Open the app. The night band shows "Is your town changing?" and the Delicias case card loads. | NASA Earth data. Your town. 45 years. |
+| 5–11 s | Stay on the card: stripes turning red, **+2.4 °C** "warmer since 1981", verdict "Statistically significant · p < 0.001". | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. |
+| 11–16 s | Tap **Rain** in "What changed here" (−118 mm per year), then **Soil moisture**. | Less rain. Drier soil. All 8 variables at once. |
+| 16–21 s | In "How we know it's real", tap **Raw monthly values**, then **Without seasons**. | We remove the seasons, then test the trend. |
+| 21–26 s | Scroll to the world map; Chihuahua in red. | Chihuahua warms 2.5× the map's average. |
+| 26–30 s | Back to the card: **Save my case card** → type an alias → the image appears. URL on screen. | Students become climate detectives. earth-system-trend-detective-xi.vercel.app |
+
+**How to record** (macOS): `Cmd + Shift + 5`, record a selected area of a 1440 × 900 browser window; hide bookmarks and extensions; browser zoom 100 %; open `/?place=delicias&var=temperature_2m` so the case is ready. Move the cursor slowly, pause about 1 s on each number. Record 40–50 s and trim to 30 s. Add captions in iMovie/CapCut (white text, dark band at the bottom). No music needed; if any, royalty-free. No AI-generated images or voices (they would require a visible watermark).
+
+**Video inside the pitch slide**: the same file without captions or with captions, muted, embedded in the presentation file (not streamed from the internet). Narrate it live.
+
+### 4-minute pitch (Spanish, 7 slides)
+
+| # | Time | Slide | Message |
+|---|---|---|---|
+| 1 | 0:00–0:25 | "Chihuahua se calienta 2.5 veces más rápido que el promedio del planeta" (map) | The hook: a real, local number. |
+| 2 | 0:25–0:55 | The problem: the data exists (NASA, 45 years) but does not reach young people in farming regions; phones are used to consume, not to create | Why it matters. |
+| 3 | 0:55–1:40 | **Demo video** (30 s), narrated live | The tool working. |
+| 4 | 1:40–2:15 | How we know it's real: seasons removed, robust trend, significance test, "not a forecast" | Validity. |
+| 5 | 2:15–2:55 | From consuming to investigating: the student's case card, alias + school, shareable; weekly challenges for clubs | Impact mechanism. |
+| 6 | 2:55–3:30 | Who makes it happen: our workshop experience in public schools, experts (UACH, Zootecnia), a format like Las Niñas Sí Pueden as the way to implement it | Feasibility and honesty about limits. |
+| 7 | 3:30–4:00 | Next steps: pilot in our schools, Spanish version, collective atlas, field sensors + satellite. Closing line. | Vision. |
 
 ## Links
 
