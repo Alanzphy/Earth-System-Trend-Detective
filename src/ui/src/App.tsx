@@ -154,26 +154,24 @@ function App() {
           />
         </section>
 
-        <section className="panel" id="analysis" aria-labelledby="analysis-heading">
-          <h2 id="analysis-heading" ref={resultsHeadingRef} tabIndex={-1}>
-            {panels.length > 1 ? "Comparing two regions" : "Results"}
-          </h2>
-          {panels.length === 0 && (
-            <p>Choose a variable, a region and a period above, then press “Analyze”.</p>
-          )}
-          {panels.length > 0 && (
-            <p>
+        {/* No empty results card: the section exists only once there is an answer. */}
+        {panels.length > 0 && (
+          <section className="panel" id="analysis" aria-labelledby="analysis-heading">
+            <h2 id="analysis-heading" ref={resultsHeadingRef} tabIndex={-1}>
+              {panels.length > 1 ? "Comparing two regions" : "Results"}
+            </h2>
+            <p className="results__meta num">
               {variableName ?? submitted?.flow.variable} · {submitted?.flow.start} to{" "}
               {submitted?.flow.end}
               {panels.length > 1 && " · same variable and period for both regions"}
             </p>
-          )}
-          <div className={panels.length > 1 ? "compare-grid" : undefined}>
-            {panels.map((panel) => (
-              <LiveAnalysis key={panel.key} label={panel.label} request={panel.request} />
-            ))}
-          </div>
-        </section>
+            <div className={panels.length > 1 ? "compare-grid" : undefined}>
+              {panels.map((panel) => (
+                <LiveAnalysis key={panel.key} label={panel.label} request={panel.request} />
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
       <footer className="site-footer">

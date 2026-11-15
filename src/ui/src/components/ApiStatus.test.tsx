@@ -18,7 +18,7 @@ describe("ApiStatus", () => {
 
     render(<ApiStatus />);
 
-    expect(await screen.findByText("API connected")).toBeInTheDocument();
+    expect(await screen.findByText("Live analysis available")).toBeInTheDocument();
   });
 
   it("shows the API as unavailable", async () => {
@@ -26,7 +26,8 @@ describe("ApiStatus", () => {
 
     render(<ApiStatus />);
 
-    expect(await screen.findByText("API unavailable")).toBeInTheDocument();
+    expect(await screen.findByText(/Live analysis is asleep/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
   });
 
   it("warns that the server is waking up when /health is slow", () => {
@@ -34,7 +35,7 @@ describe("ApiStatus", () => {
     vi.mocked(getHealth).mockReturnValue(new Promise(() => {}));
 
     render(<ApiStatus />);
-    expect(screen.getByText("Checking API…")).toBeInTheDocument();
+    expect(screen.getByText("Checking the live service…")).toBeInTheDocument();
 
     act(() => {
       vi.advanceTimersByTime(WAKING_AFTER_MS);
