@@ -6,8 +6,8 @@
 
 Eres diseñador de motion graphics y desarrollador de **Remotion** (v4, TypeScript). Vas a crear dos cosas para el proyecto **Earth System Trend Detective** de NASA Space Apps Challenge 2026 (Chihuahua, México):
 
-1. **Una demo de 30 s** de la app, armada solo con capturas, en dos idiomas: en español se proyecta en el pitch y en inglés se sube como video oficial.
-2. **7 clips de fondo** que se proyectan detrás del equipo durante su pitch en vivo de 4 minutos en español, uno por diapositiva.
+1. **Una demo de 30 s** de la app, armada solo con capturas, en dos variantes: con títulos cortos en español, incrustada en la diapositiva 3 del pitch mientras el equipo la narra, y con subtítulos en inglés, como el video oficial que se sube a Space Apps.
+2. **7 clips animados**, uno incrustado en cada diapositiva del pitch en vivo de 4 minutos en español; el clip 3 es la demo.
 
 El proyecto es una app web en la que estudiantes de 12 a 18 años eligen su lugar, predicen qué cambió y descubren, con 45 años de datos de NASA, qué cambió, cuánto y si es real. Idea central: **"de consumir a investigar"**, el teléfono como instrumento científico.
 
