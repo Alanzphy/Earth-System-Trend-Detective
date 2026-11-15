@@ -99,6 +99,9 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
 
     const handleLoad = () => {
       setMapLoaded(true);
+      if (isArtifact) {
+        return; // the hero keeps its own framing behind the copy
+      }
       // Frame the data, not a guess: 180°W–180°E by 60°S–70°N, no padding.
       map.fitBounds(
         [

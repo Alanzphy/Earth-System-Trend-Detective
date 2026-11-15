@@ -15,14 +15,13 @@ describe("VerdictCard", () => {
     render(<VerdictCard analysis={makeAnalysis()} />);
 
     expect(screen.getByRole("heading", { name: /Increasing/ })).toBeInTheDocument();
-    expect(screen.getByText("Statistically significant (p < 0.05)")).toBeInTheDocument();
-    expect(screen.getByText("+0.260 °C/decade")).toBeInTheDocument();
-    expect(screen.getByText("+0.200 to +0.320 °C/decade")).toBeInTheDocument();
-    expect(screen.getByText("+1.17 °C in about 45 years")).toBeInTheDocument();
-    expect(screen.getByText("p < 0.001")).toBeInTheDocument();
-    expect(screen.getByText("1981-01 to 2025-12 (monthly)")).toBeInTheDocument();
+    expect(screen.getByText(/Statistically significant · p < 0\.001/)).toBeInTheDocument();
+    expect(screen.getByText("+0.260")).toBeInTheDocument();
+    expect(screen.getByText(/95% CI 0\.20 → 0\.32/)).toBeInTheDocument();
+    expect(screen.getByText(/\+1\.17 °C in 45 years/)).toBeInTheDocument();
+    expect(screen.getByText(/1981-01 → 2025-12/)).toBeInTheDocument();
     expect(screen.getByText("10°W to 3°E, 36°N to 44°N")).toBeInTheDocument();
-    expect(screen.getByText(/n = 540 months/)).toBeInTheDocument();
+    expect(screen.getByText(/540 months/)).toBeInTheDocument();
     expect(screen.getByText(/Theil–Sen slope \+ Mann–Kendall/)).toBeInTheDocument();
   });
 
@@ -37,7 +36,7 @@ describe("VerdictCard", () => {
     );
 
     expect(screen.getByRole("heading", { name: /No clear trend/ })).toBeInTheDocument();
-    expect(screen.getByText("Not statistically significant (p ≥ 0.05)")).toBeInTheDocument();
+    expect(screen.getByText(/Not statistically significant · p/)).toBeInTheDocument();
     expect(cardText()).not.toMatch(CLAIMS_SIGNIFICANCE);
     expect(cardText()).not.toMatch(/Increasing|Decreasing/);
   });
@@ -46,7 +45,7 @@ describe("VerdictCard", () => {
     render(<VerdictCard analysis={makeAnalysis({ significant: true, p_value: 0.05 })} />);
 
     expect(screen.getByRole("heading", { name: /No clear trend/ })).toBeInTheDocument();
-    expect(screen.getByText("Not statistically significant (p ≥ 0.05)")).toBeInTheDocument();
+    expect(screen.getByText(/Not statistically significant · p/)).toBeInTheDocument();
   });
 
   it("explains technical terms with accessible glossary toggletips", () => {
@@ -63,7 +62,7 @@ describe("VerdictCard", () => {
     fireEvent.keyDown(pValue, { key: "Escape" });
     expect(pValue).toHaveAttribute("aria-expanded", "false");
 
-    for (const name of [/confidence interval/, /anomalies/, /Significance/, /Trend/]) {
+    for (const name of [/confidence interval/i, /anomalies/i, /significance/i, /theil–sen/i]) {
       expect(screen.getAllByRole("button", { name }).length).toBeGreaterThan(0);
     }
   });
