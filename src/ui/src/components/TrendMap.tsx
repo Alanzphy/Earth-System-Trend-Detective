@@ -6,18 +6,20 @@ import maplibregl, {
   type Map as MapLibreMap,
   type MapMouseEvent,
 } from "maplibre-gl";
+import { colorForValue, fillColorExpression } from "../lib/palette";
 import {
+  cellPropertiesFromRendered,
   formatBbox,
+  formatPValue,
   formatSlope,
   loadTrendMapData,
   loadTrendMapManifest,
   significanceLabel,
   toRegionSelection,
-  type TrendFeatureCollection,
-  type TrendMapManifestEntry,
-  type TrendRegionProperties,
+  type TrendCellCollection,
   type TrendRegionSelection,
 } from "../lib/trendMaps";
+import type { TrendMapEntry } from "../types/contracts";
 import { TrendMapLegend } from "./TrendMapLegend";
 
 const MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
@@ -28,14 +30,15 @@ const OUTLINE_LAYER = "trend-map-outline";
 
 type Props = {
   onSelectRegion?: (region: TrendRegionSelection) => void;
+  onAnalyzeRegion?: (region: TrendRegionSelection) => void;
 };
 
-export function TrendMap({ onSelectRegion }: Props) {
+export function TrendMap({ onSelectRegion, onAnalyzeRegion = analyzeRegionInUrl }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [entry, setEntry] = useState<TrendMapManifestEntry | null>(null);
-  const [data, setData] = useState<TrendFeatureCollection | null>(null);
+  const [entry, setEntry] = useState<TrendMapEntry | null>(null);
+  const [data, setData] = useState<TrendCellCollection | null>(null);
   const [selected, setSelected] = useState<TrendRegionSelection | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -73,11 +76,6 @@ export function TrendMap({ onSelectRegion }: Props) {
       try {
         const manifest = await loadTrendMapManifest();
         const firstMap = manifest.maps[0];
-
-        if (!firstMap) {
-          throw new Error("No trend maps available");
-        }
-
         const collection = await loadTrendMapData(firstMap);
 
         if (active) {
@@ -113,19 +111,6 @@ export function TrendMap({ onSelectRegion }: Props) {
       });
     }
 
-    const midpoint = (entry.legend.min + entry.legend.max) / 2;
-    const fillColor = [
-      "interpolate",
-      ["linear"],
-      ["get", "slope"],
-      entry.legend.min,
-      "#2166ac",
-      midpoint,
-      "#f7f7f7",
-      entry.legend.max,
-      "#b2182b",
-    ] as unknown as ExpressionSpecification;
-
     if (!map.getLayer(SIGNIFICANT_LAYER)) {
       map.addLayer({
         id: SIGNIFICANT_LAYER,
@@ -133,7 +118,10 @@ export function TrendMap({ onSelectRegion }: Props) {
         source: SOURCE_ID,
         filter: ["==", ["get", "significant"], true] as FilterSpecification,
         paint: {
-          "fill-color": fillColor,
+          "fill-color": fillColorExpression(
+            entry.palette,
+            entry.legend,
+          ) as ExpressionSpecification,
           "fill-opacity": 0.78,
         },
       });
@@ -193,10 +181,7 @@ export function TrendMap({ onSelectRegion }: Props) {
         return;
       }
 
-      const region = toRegionSelection(
-        feature.properties as unknown as TrendRegionProperties,
-        entry,
-      );
+      const region = toRegionSelection(cellPropertiesFromRendered(feature.properties), entry);
       setSelected(region);
       onSelectRegion?.(region);
     };
@@ -234,15 +219,29 @@ export function TrendMap({ onSelectRegion }: Props) {
         </p>
       )}
 
-      {entry && <TrendMapLegend entry={entry} isSample={entry.isSample} />}
+      {entry && <TrendMapLegend entry={entry} />}
 
-      {selected && (
-        <div className="trend-map__selection">
-          <strong>{selected.label}</strong>
-          <p>Trend: {formatSlope(selected.slope, selected.slopeUnits)}</p>
-          <p>Significance: {significanceLabel(selected.significant)}</p>
+      {selected && entry && (
+        <div className="trend-map__selection" aria-live="polite">
+          <strong>
+            {selected.significant && (
+              <span
+                className="trend-map__swatch"
+                aria-hidden="true"
+                style={{
+                  background: colorForValue(selected.slope, selected.palette, entry.legend),
+                }}
+              />
+            )}
+            {selected.label}
+          </strong>
+          <p>Trend: {formatSlope(selected.slope, selected.slope_units)}</p>
+          <p>
+            Significance: {significanceLabel(selected.significant)} (
+            {formatPValue(selected.p_value)})
+          </p>
           <p>Region: [{formatBbox(selected.bbox)}]</p>
-          <button type="button" onClick={() => analyzeRegion(selected)}>
+          <button type="button" onClick={() => onAnalyzeRegion(selected)}>
             Analyze this region
           </button>
         </div>
@@ -251,11 +250,12 @@ export function TrendMap({ onSelectRegion }: Props) {
   );
 }
 
-function analyzeRegion(region: TrendRegionSelection) {
+function analyzeRegionInUrl(region: TrendRegionSelection) {
   const params = new URLSearchParams(window.location.search);
   params.set("variable", region.variable);
   params.set("bbox", region.bbox.join(","));
-  params.set("period", region.period.join("/"));
+  params.set("start", region.period[0]);
+  params.set("end", region.period[1]);
   window.history.replaceState(null, "", `${window.location.pathname}?${params.toString()}`);
   document.getElementById("analysis")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }

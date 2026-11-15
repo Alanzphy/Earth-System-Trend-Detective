@@ -1,6 +1,8 @@
 # Trend map files
 
-Static files consumed by the trend map view (#23). The pipeline in #22 should write these files here. Until then, `manifest.json` and `sample-precipitation.geojson` contain clearly marked sample data.
+Static files consumed by the trend map view (#23). The pipeline in #22 writes these files here. Until then, `manifest.json` and `sample-precipitation.geojson` are **sample data** (`"is_sample": true`): four region polygons using the precipitation values validated in `docs/product.md` (the Western Mediterranean and full-Sahel slopes are illustrative; only their p-values were validated). The UI shows a "Sample data" badge for sample entries.
+
+The format is the shared contract `TrendMapManifest` / `TrendCellProperties` (version 2) in `src/contracts/contracts/models.py`; TypeScript types come from `src/types/contracts.gen.ts`.
 
 ## Manifest
 
@@ -8,53 +10,55 @@ Static files consumed by the trend map view (#23). The pipeline in #22 should wr
 
 ```json
 {
-  "version": 1,
-  "isSample": false,
+  "version": 2,
+  "generated_at": "2026-11-14T00:00:00Z",
   "maps": [
     {
-      "id": "precipitation-1981-2024",
+      "id": "precipitation-1981-2025",
       "title": "Precipitation trends",
       "variable": "precipitation",
       "units": "mm/day",
-      "period": ["1981-01", "2024-12"],
-      "slopeUnits": "mm/day/decade",
-      "file": "precipitation-1981-2024.geojson",
-      "legend": {
-        "min": -0.08,
-        "max": 0.08,
-        "breaks": [-0.08, -0.04, 0, 0.04, 0.08]
-      }
+      "slope_units": "mm/day/decade",
+      "period": ["1981-01", "2025-12"],
+      "palette": "BrBG",
+      "cell_size_deg": 2.0,
+      "file": "precipitation-1981-2025.geojson",
+      "legend": { "min": -0.12, "max": 0.12 },
+      "alpha": 0.05,
+      "fdr": true,
+      "is_sample": false
     }
   ]
 }
 ```
 
-Fields:
-
-| Field | Required | Meaning |
-|---|---|---|
-| `version` | yes | Manifest format version. |
-| `isSample` | no | `true` for demo fixtures. |
-| `maps` | yes | One or more map entries. |
-| `id` | yes | Stable identifier. |
-| `title` | yes | Human-readable title. |
-| `variable` | yes | Catalog variable id. |
-| `units` | yes | Units of the variable. |
-| `period` | yes | Start and end month. |
-| `slopeUnits` | yes | Units of the trend slope, normally per decade. |
-| `file` | yes | GeoJSON file relative to this folder. |
-| `legend` | yes | Minimum and maximum slope for the diverging scale. |
+| Field | Meaning |
+|---|---|
+| `version` | Always `2`. |
+| `generated_at` | ISO timestamp of the pipeline run. |
+| `maps[].id`, `title` | Stable identifier and human-readable title. |
+| `variable`, `units` | Catalog variable id and its units. |
+| `slope_units` | Units of the slope, per decade. |
+| `period` | Start and end month (`YYYY-MM`). |
+| `palette` | `RdBu` (temperature-like: blue = decrease, red = increase) or `BrBG` (water-like: brown = drier, blue-green = wetter). |
+| `cell_size_deg` | Cell size in degrees. |
+| `file` | GeoJSON file relative to this folder. |
+| `legend` | `min < 0 < max`; the neutral color is always at 0. |
+| `alpha` | Significance level. |
+| `fdr` | `true` if Benjamini–Hochberg correction was applied across cells. |
+| `is_sample` | `true` for sample fixtures (shows the "Sample data" badge). |
 
 ## GeoJSON
 
-Each feature represents a pixel or a simplified region. Properties:
+A `FeatureCollection` of `Polygon` features. Properties:
 
 | Property | Type | Meaning |
 |---|---|---|
 | `id` | string | Stable identifier. |
-| `label` | string | Region name shown to the user. |
-| `slope` | number | Trend slope in `slopeUnits`. |
-| `significant` | boolean | Result after the significance test and FDR correction. |
+| `label` | string | Cell or region name shown to the user. |
+| `slope` | number | Trend per decade in `slope_units`. |
+| `p_value` | number | Mann–Kendall p-value (0–1). |
+| `significant` | boolean | Result after the test (and FDR correction when `fdr` is `true`). |
 | `bbox` | number[4] | `[minLon, minLat, maxLon, maxLat]` used by "Analyze this region". |
 
-Geometry must be `Polygon` or `MultiPolygon`. Keep files small enough for the web: simplify polygons and prefer one or two decimals.
+Keep files small enough for the web: one or two decimals in coordinates.

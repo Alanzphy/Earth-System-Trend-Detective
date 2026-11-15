@@ -119,15 +119,42 @@ header h1 {
 
 .trend-map__gradient {
   height: 0.75rem;
+  margin: 0 1rem;
+  border: 1px solid #bcccdc;
   border-radius: 999px;
-  background: linear-gradient(90deg, #2166ac 0%, #f7f7f7 50%, #b2182b 100%);
 }
 
 .trend-map__ticks {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  height: 1.2rem;
+  margin: 0 1rem;
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
+  color: #334e68;
+}
+
+.trend-map__tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.trend-map__scale-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #334e68;
+}
+
+.trend-map__swatch {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-right: 0.4rem;
+  border: 1px solid #829ab1;
+  border-radius: 0.2rem;
+  vertical-align: middle;
 }
 
 .trend-map__units,

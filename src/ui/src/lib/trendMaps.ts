@@ -1,58 +1,34 @@
-export type TrendMapLegend = {
-  min: number;
-  max: number;
-  breaks?: number[];
-};
+import type {
+  Palette,
+  TrendCellProperties,
+  TrendMapEntry,
+  TrendMapManifest,
+} from "../types/contracts";
+import { isRecord } from "./guards";
 
-export type TrendMapManifestEntry = {
-  id: string;
-  title: string;
-  variable: string;
-  units: string;
-  period: [string, string];
-  slopeUnits: string;
-  file: string;
-  legend: TrendMapLegend;
-  isSample?: boolean;
-};
-
-export type TrendMapManifest = {
-  version: number;
-  isSample?: boolean;
-  maps: TrendMapManifestEntry[];
-};
-
-export type TrendRegionProperties = {
-  id: string;
-  label: string;
-  slope: number;
-  significant: boolean;
-  bbox: [number, number, number, number];
-};
-
-export type TrendPolygonGeometry =
-  | { type: "Polygon"; coordinates: number[][][] }
-  | { type: "MultiPolygon"; coordinates: number[][][][] };
-
-export type TrendFeature = {
+export type TrendCellFeature = {
   type: "Feature";
-  geometry: TrendPolygonGeometry;
-  properties: TrendRegionProperties;
+  geometry: { type: "Polygon"; coordinates: number[][][] };
+  properties: TrendCellProperties;
 };
 
-export type TrendFeatureCollection = {
+export type TrendCellCollection = {
   type: "FeatureCollection";
-  features: TrendFeature[];
+  features: TrendCellFeature[];
 };
 
-export type TrendRegionSelection = TrendRegionProperties & {
+export type TrendRegionSelection = TrendCellProperties & {
   variable: string;
   units: string;
-  slopeUnits: string;
+  slope_units: string;
   period: [string, string];
+  palette: Palette;
 };
 
 const TREND_MAPS_DIR = "trend-maps";
+const MANIFEST_VERSION = 2;
+const PALETTE_IDS: Palette[] = ["RdBu", "BrBG"];
+const YEAR_MONTH = /^\d{4}-(0[1-9]|1[0-2])$/;
 
 export function assetUrl(path: string, baseUrl = import.meta.env.BASE_URL): string {
   const base = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
@@ -72,16 +48,16 @@ export async function loadTrendMapManifest(
 }
 
 export async function loadTrendMapData(
-  entry: TrendMapManifestEntry,
+  entry: TrendMapEntry,
   baseUrl = import.meta.env.BASE_URL,
-): Promise<TrendFeatureCollection> {
+): Promise<TrendCellCollection> {
   const response = await fetch(assetUrl(`${TREND_MAPS_DIR}/${entry.file}`, baseUrl));
 
   if (!response.ok) {
     throw new Error(`Could not load trend map data (${response.status})`);
   }
 
-  return parseTrendFeatureCollection(await response.json());
+  return parseTrendCellCollection(await response.json());
 }
 
 export function parseTrendMapManifest(value: unknown): TrendMapManifest {
@@ -89,9 +65,8 @@ export function parseTrendMapManifest(value: unknown): TrendMapManifest {
     throw new Error("Invalid trend map manifest: expected an object");
   }
 
-  const version = value.version;
-  if (typeof version !== "number") {
-    throw new Error("Invalid trend map manifest: missing version");
+  if (value.version !== MANIFEST_VERSION) {
+    throw new Error(`Invalid trend map manifest: expected version ${MANIFEST_VERSION}`);
   }
 
   if (!Array.isArray(value.maps) || value.maps.length === 0) {
@@ -99,13 +74,13 @@ export function parseTrendMapManifest(value: unknown): TrendMapManifest {
   }
 
   return {
-    version,
-    isSample: typeof value.isSample === "boolean" ? value.isSample : undefined,
+    version: MANIFEST_VERSION,
+    generated_at: requiredString(value, "generated_at"),
     maps: value.maps.map((entry) => parseTrendMapEntry(entry)),
   };
 }
 
-export function parseTrendFeatureCollection(value: unknown): TrendFeatureCollection {
+export function parseTrendCellCollection(value: unknown): TrendCellCollection {
   if (!isRecord(value) || value.type !== "FeatureCollection") {
     throw new Error("Invalid trend map data: expected a FeatureCollection");
   }
@@ -116,53 +91,54 @@ export function parseTrendFeatureCollection(value: unknown): TrendFeatureCollect
 
   return {
     type: "FeatureCollection",
-    features: value.features.map((feature) => parseTrendFeature(feature)),
+    features: value.features.map((feature) => parseTrendCellFeature(feature)),
   };
 }
 
 export function formatSlope(slope: number, slopeUnits: string): string {
   const sign = slope > 0 ? "+" : "";
-  return `${sign}${slope.toFixed(2)} ${slopeUnits}`;
+  return `${sign}${slope.toFixed(3)} ${slopeUnits}`;
+}
+
+export function formatPValue(pValue: number): string {
+  return pValue < 0.001 ? "p < 0.001" : `p = ${pValue.toFixed(3)}`;
 }
 
 export function significanceLabel(significant: boolean): string {
   return significant ? "Statistically significant" : "Not significant";
 }
 
-export function formatBbox(bbox: [number, number, number, number]): string {
+export function formatBbox(bbox: readonly number[]): string {
   return bbox.map((value) => value.toFixed(1)).join(", ");
 }
 
 export function toRegionSelection(
-  properties: TrendRegionProperties,
-  entry: TrendMapManifestEntry,
+  properties: TrendCellProperties,
+  entry: TrendMapEntry,
 ): TrendRegionSelection {
   return {
     ...properties,
     variable: entry.variable,
     units: entry.units,
-    slopeUnits: entry.slopeUnits,
+    slope_units: entry.slope_units,
     period: entry.period,
+    palette: entry.palette,
   };
 }
 
-export function colorForSlope(slope: number, legend: TrendMapLegend): string {
-  const min = Math.min(legend.min, 0);
-  const max = Math.max(legend.max, 0);
-
-  if (slope <= min) {
-    return "#2166ac";
-  }
-  if (slope >= max) {
-    return "#b2182b";
-  }
-  if (slope < 0) {
-    return interpolateColor("#2166ac", "#f7f7f7", (slope - min) / (0 - min));
-  }
-  return interpolateColor("#f7f7f7", "#b2182b", slope / max);
+/**
+ * MapLibre serializes nested feature properties (such as `bbox`) to JSON strings
+ * in `queryRenderedFeatures`, so parse them back before use.
+ */
+export function cellPropertiesFromRendered(
+  properties: Record<string, unknown>,
+): TrendCellProperties {
+  const bbox =
+    typeof properties.bbox === "string" ? (JSON.parse(properties.bbox) as unknown) : properties.bbox;
+  return parseCellProperties({ ...properties, bbox });
 }
 
-function parseTrendMapEntry(value: unknown): TrendMapManifestEntry {
+function parseTrendMapEntry(value: unknown): TrendMapEntry {
   if (!isRecord(value)) {
     throw new Error("Invalid trend map manifest: map entry must be an object");
   }
@@ -171,20 +147,34 @@ function parseTrendMapEntry(value: unknown): TrendMapManifestEntry {
   if (
     !Array.isArray(period) ||
     period.length !== 2 ||
-    typeof period[0] !== "string" ||
-    typeof period[1] !== "string"
+    !period.every((month) => typeof month === "string" && YEAR_MONTH.test(month))
   ) {
-    throw new Error("Invalid trend map manifest: period must have two ISO dates");
+    throw new Error("Invalid trend map manifest: period must be two YYYY-MM months");
+  }
+
+  const palette = value.palette;
+  if (!PALETTE_IDS.includes(palette as Palette)) {
+    throw new Error("Invalid trend map manifest: palette must be RdBu or BrBG");
   }
 
   if (!isRecord(value.legend)) {
     throw new Error("Invalid trend map manifest: missing legend");
   }
 
-  const min = value.legend.min;
-  const max = value.legend.max;
-  if (typeof min !== "number" || typeof max !== "number" || min >= max) {
-    throw new Error("Invalid trend map manifest: legend min must be lower than max");
+  const min = requiredNumber(value.legend, "min");
+  const max = requiredNumber(value.legend, "max");
+  if (!(min < 0 && 0 < max)) {
+    throw new Error("Invalid trend map manifest: legend must span zero (min < 0 < max)");
+  }
+
+  const cellSize = requiredNumber(value, "cell_size_deg");
+  if (cellSize <= 0) {
+    throw new Error("Invalid trend map manifest: cell_size_deg must be positive");
+  }
+
+  const alpha = requiredNumber(value, "alpha");
+  if (alpha <= 0 || alpha >= 1) {
+    throw new Error("Invalid trend map manifest: alpha must be between 0 and 1");
   }
 
   return {
@@ -192,57 +182,66 @@ function parseTrendMapEntry(value: unknown): TrendMapManifestEntry {
     title: requiredString(value, "title"),
     variable: requiredString(value, "variable"),
     units: requiredString(value, "units"),
-    period: [period[0], period[1]],
-    slopeUnits: requiredString(value, "slopeUnits"),
+    slope_units: requiredString(value, "slope_units"),
+    period: [period[0] as string, period[1] as string],
+    palette: palette as Palette,
+    cell_size_deg: cellSize,
     file: requiredString(value, "file"),
-    legend: {
-      min,
-      max,
-      breaks: Array.isArray(value.legend.breaks)
-        ? value.legend.breaks.filter((tick): tick is number => typeof tick === "number")
-        : undefined,
-    },
-    isSample: typeof value.isSample === "boolean" ? value.isSample : undefined,
+    legend: { min, max },
+    alpha,
+    fdr: requiredBoolean(value, "fdr"),
+    is_sample: value.is_sample === undefined ? false : requiredBoolean(value, "is_sample"),
   };
 }
 
-function parseTrendFeature(value: unknown): TrendFeature {
+function parseTrendCellFeature(value: unknown): TrendCellFeature {
   if (!isRecord(value) || value.type !== "Feature") {
     throw new Error("Invalid trend map data: feature must be a Feature");
   }
 
-  if (!isRecord(value.geometry)) {
-    throw new Error("Invalid trend map data: missing geometry");
+  if (!isRecord(value.geometry) || value.geometry.type !== "Polygon") {
+    throw new Error("Invalid trend map data: geometry must be a Polygon");
   }
 
-  const geometryType = value.geometry.type;
-  if (geometryType !== "Polygon" && geometryType !== "MultiPolygon") {
-    throw new Error("Invalid trend map data: geometry must be Polygon or MultiPolygon");
+  if (!Array.isArray(value.geometry.coordinates)) {
+    throw new Error("Invalid trend map data: missing coordinates");
   }
 
   if (!isRecord(value.properties)) {
     throw new Error("Invalid trend map data: missing properties");
   }
 
-  const bbox = value.properties.bbox;
+  return {
+    type: "Feature",
+    geometry: { type: "Polygon", coordinates: value.geometry.coordinates as number[][][] },
+    properties: parseCellProperties(value.properties),
+  };
+}
+
+function parseCellProperties(properties: Record<string, unknown>): TrendCellProperties {
+  const bbox = properties.bbox;
   if (
     !Array.isArray(bbox) ||
     bbox.length !== 4 ||
-    bbox.some((coordinate) => typeof coordinate !== "number")
+    bbox.some((coordinate) => typeof coordinate !== "number") ||
+    bbox[0] >= bbox[2] ||
+    bbox[1] >= bbox[3]
   ) {
-    throw new Error("Invalid trend map data: bbox must have four numbers");
+    throw new Error("Invalid trend map data: bbox must be [minLon, minLat, maxLon, maxLat]");
+  }
+
+  const pValue = requiredNumber(properties, "p_value");
+  if (pValue < 0 || pValue > 1) {
+    throw new Error("Invalid trend map data: p_value must be between 0 and 1");
   }
 
   return {
-    type: "Feature",
-    geometry: value.geometry as TrendPolygonGeometry,
-    properties: {
-      id: requiredString(value.properties, "id"),
-      label: requiredString(value.properties, "label"),
-      slope: requiredNumber(value.properties, "slope"),
-      significant: requiredBoolean(value.properties, "significant"),
-      bbox: [bbox[0], bbox[1], bbox[2], bbox[3]],
-    },
+    id: requiredString(properties, "id"),
+    label: requiredString(properties, "label"),
+    slope: requiredNumber(properties, "slope"),
+    p_value: pValue,
+    significant: requiredBoolean(properties, "significant"),
+    bbox: [bbox[0], bbox[1], bbox[2], bbox[3]],
   };
 }
 
@@ -268,26 +267,4 @@ function requiredBoolean(record: Record<string, unknown>, key: string): boolean 
     throw new Error(`Invalid trend map data: ${key} must be a boolean`);
   }
   return value;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
-}
-
-function interpolateColor(start: string, end: string, amount: number): string {
-  const clamped = Math.max(0, Math.min(1, amount));
-  const from = hexToRgb(start);
-  const to = hexToRgb(end);
-  const channels = from.map((channel, index) =>
-    Math.round(channel + (to[index] - channel) * clamped),
-  );
-  return `#${channels.map((channel) => channel.toString(16).padStart(2, "0")).join("")}`;
-}
-
-function hexToRgb(hex: string): [number, number, number] {
-  return [
-    Number.parseInt(hex.slice(1, 3), 16),
-    Number.parseInt(hex.slice(3, 5), 16),
-    Number.parseInt(hex.slice(5, 7), 16),
-  ];
 }

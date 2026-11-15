@@ -1,20 +1,27 @@
 {
-  "version": 1,
-  "isSample": true,
+  "version": 2,
+  "generated_at": "2026-11-14T00:00:00Z",
   "maps": [
     {
       "id": "sample-precipitation",
-      "title": "Precipitation trends",
+      "title": "Sample: precipitation trends",
       "variable": "precipitation",
       "units": "mm/day",
-      "period": ["1981-01", "2024-12"],
-      "slopeUnits": "mm/day/decade",
+      "slope_units": "mm/day/decade",
+      "period": [
+        "1981-01",
+        "2025-12"
+      ],
+      "palette": "BrBG",
+      "cell_size_deg": 2.0,
       "file": "sample-precipitation.geojson",
       "legend": {
-        "min": -0.08,
-        "max": 0.08,
-        "breaks": [-0.08, -0.04, 0, 0.04, 0.08]
-      }
+        "min": -0.12,
+        "max": 0.12
+      },
+      "alpha": 0.05,
+      "fdr": false,
+      "is_sample": true
     }
   ]
 }

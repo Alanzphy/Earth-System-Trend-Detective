@@ -42,7 +42,7 @@ The scaffold (#8) provides the layout, map, sample chart, API client and tooling
 
 ## Trend maps
 
-Static trend-map files are served from `public/trend-maps/`. The provisional manifest format is documented in [`public/trend-maps/README.md`](public/trend-maps/README.md). The sample file is clearly marked as sample data until the pipeline in #22 generates the real maps.
+Static trend-map files are served from `public/trend-maps/` and follow the `TrendMapManifest` v2 contract (see [`public/trend-maps/README.md`](public/trend-maps/README.md)). The sample entry has `"is_sample": true` and shows a "Sample data" badge until the pipeline in #22 generates the real maps. Map fill and legend share the same diverging palette (`src/lib/palette.ts`): `RdBu` for temperature-like variables, `BrBG` for water-like ones, always centered at 0.
 
 ## Deployment (Vercel)
 
