@@ -5,8 +5,8 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 
 # Cómo usar este guion
 
-- **Ritmo**: unas 140–150 palabras por minuto. Hablado son unas 480 palabras (≈ 3:18) más los **30 s de la demo**: **≈ 3:48 en total**, sin las frases **[recortable]**. Con ellas se llega a ≈ 4:00, sin margen.
-- **Ensayo**: ensáyenlo **sin** las frases recortables, con cronómetro y con la demo corriendo, al menos dos veces. Agréguenlas solo si les sobran más de 15 segundos.
+- **Ritmo**: unas 140–150 palabras por minuto. Sin las frases **[recortable]** son unas 525 palabras (≈ 3:36); con ellas, unas 550 (≈ 3:47). La demo de la diapositiva 3 corre **mientras hablan**, así que no suma tiempo.
+- **Ensayo**: ensáyenlo **sin** las frases recortables, con cronómetro y con las diapositivas y la demo corriendo, al menos dos veces. Agréguenlas solo si les sobran más de 15 segundos.
 - **Reparto sugerido** (3 personas): A, diapositivas 1–2; B, diapositivas 3–4; C, diapositivas 5–7. Cada cambio de voz cae en un cambio de tema.
 - **Lo que está en pantalla**: el video dinámico de `video-plan.md`, un clip por diapositiva.
 - **Cifras**: todas salen de la app (NASA POWER 1981–2025) y están contrastadas en `validation.md`. No redondeen distinto a como está escrito aquí.
@@ -33,17 +33,23 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 >
 > Y muchos son **hijos y nietos de familias que siembran y crían ganado**: van a heredar la tierra y el agua de Chihuahua. Queremos que decidan **con datos, no solo con percepción**.
 
-# 3. La herramienta · 0:55–1:40 (≈ 40 palabras + demo de 30 s)
+# 3. La herramienta · 0:55–1:40 (≈ 85 palabras)
 
-**En pantalla:** 15 s con el título "Elige tu lugar · Apuesta · Revela"; después, **la demo de 30 s** (Remotion, subtítulos en español).
+**En pantalla:** la **demo de 30 s** incrustada en la diapositiva (versión pitch: solo títulos cortos). Arranca al empezar esta parte y **ustedes la narran encima**. Entre corchetes va el título del video con el que coincide cada frase.
 
-> Esto es **Earth System Trend Detective**.
+> **[Elige tu lugar]** Esto es **Earth System Trend Detective**. El estudiante elige su lugar; por ejemplo, Delicias, **una de las principales zonas agrícolas del estado**.
 >
-> El estudiante elige su lugar (por ejemplo, Delicias, **una de las principales zonas agrícolas del estado**) y, antes de ver los datos, **apuesta qué cambió**. Porque cuando apuestas, **quieres saber la respuesta**.
+> **[Apuesta]** Antes de ver los datos, **apuesta qué cambió**: ¿más calor?, ¿menos lluvia?, ¿el suelo, donde viven las raíces, más seco? Porque cuando apuestas, **quieres saber la respuesta**.
 >
-> Mírenlo.
+> **[Revela]** Revela: **más 2.4 grados** desde 1981, y no es azar.
+>
+> **[¿Es real?]** La app le muestra cómo lo sabemos.
+>
+> **[Todo Chihuahua]** Y no es solo Delicias: son las ocho zonas del estado.
+>
+> **[Tu caso]** Al final, **se lleva su caso**.
 
-*(Corre la demo de 30 s. **No hablen encima**: los subtítulos cuentan la historia. Retomen la palabra cuando termine.)*
+*(La demo dura 30 s y esta parte 45 s: si van más lentos que el video, no pasa nada, porque se queda quieta en el último cuadro.)*
 
 # 4. Por qué es confiable · 1:40–2:15 (≈ 90 palabras: la más justa; si van largos, quiten aquí la frase [recortable])
 

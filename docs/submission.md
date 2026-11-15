@@ -86,7 +86,7 @@ Copy this text into the Space Apps project page and keep it in the README:
 
 ## Demo
 
-Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The 30-second demo is built in **Remotion from app screenshots** (no screen recording), in English for the submission and in Spanish for slide 3 of the live pitch. It and the dynamic background clips are specified in **[`video-plan.md`](video-plan.md)**; the ready-to-paste prompt for Claude is **[`video-prompt.md`](video-prompt.md)**. Prepared answers for the jury's questions: **[`pitch-qa.md`](pitch-qa.md)**.
+Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The 30-second demo is built in **Remotion from app screenshots** (no screen recording): with English captions for the submission, and with short Spanish titles embedded in slide 3 of the live pitch, where the team narrates over it. It and the clips for the other slides are specified in **[`video-plan.md`](video-plan.md)**; the ready-to-paste prompt for Claude is **[`video-prompt.md`](video-prompt.md)**. Prepared answers for the jury's questions: **[`pitch-qa.md`](pitch-qa.md)**.
 
 ### 4-minute pitch (Spanish, 7 slides)
 
@@ -94,7 +94,7 @@ Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The 
 |---|---|---|---|
 | 1 | 0:00–0:25 | "Chihuahua está en el 4 % de los lugares del mapa que más rápido se calientan: +2.1 °C desde 1981" (stripes + map) | The hook: a real, local number. Never "faster than the planet" (see `pitch-qa.md`). |
 | 2 | 0:25–0:55 | The problem: the data exists (NASA, 45 years) but does not reach young people; phones are used to consume, not to create. Impact line: "Muchos de estos jóvenes van a heredar la tierra y el agua de Chihuahua: que decidan con datos, no solo con percepción." | Why it matters. The farming link is the stakes, not the audience (see `pitch-qa.md`). |
-| 3 | 0:55–1:40 | 15 s spoken intro, then the **30-second demo** (Remotion, Spanish captions) plays without narration | The tool working. |
+| 3 | 0:55–1:40 | The **30-second demo** (Remotion, short Spanish titles) embedded in the slide; the team narrates over it | The tool working. |
 | 4 | 1:40–2:15 | How we know it's real: seasons removed, robust trend, significance test, "not a forecast" | Validity. |
 | 5 | 2:15–2:55 | From consuming to investigating: curiosity first (predict, then reveal), the student's case card with alias + school; the card goes home: the workshop ends with a take-home task (show it to a family member who farms and ask if it matches what they lived), so NASA data reaches farming families through their children (`workshop-guide.md`) | Impact mechanism: direct on students, indirect on families. Spoken script: `pitch-script.md`. |
 | 6 | 2:55–3:30 | Who makes it happen: our workshop experience in public schools, experts (UACH, Zootecnia), a format like Las Niñas Sí Pueden as the way to implement it | Feasibility and honesty about limits. |

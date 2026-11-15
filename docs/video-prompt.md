@@ -25,7 +25,7 @@ src/Root.tsx            todas las composiciones
 src/theme.ts            colores, tipografías, tamaños
 src/taps.ts             coordenadas de los "toques" (las ajusta el equipo)
 src/components/         Watermark, Stripes, CountUp, Caption, Tap, KenBurns
-src/Demo30s.tsx         la demo, con prop lang: "es" | "en"
+src/Demo30s.tsx         la demo, con prop variant: "pitch" | "en"
 src/clips/Clip1Gancho.tsx … Clip7Cierre.tsx
 public/                 aquí van las capturas y el JSON (los pone el equipo)
 ```
@@ -34,11 +34,11 @@ public/                 aquí van las capturas y el JSON (los pone el equipo)
 
 | id | Duración | Uso |
 |---|---|---|
-| `DemoEs` | 30 s = 900 cuadros | `Demo30s` con `lang="es"`: dentro del clip 3 |
-| `DemoEn` | 30 s = 900 | `Demo30s` con `lang="en"`: **el video que se sube a Space Apps** |
+| `DemoPitch` | 30 s = 900 cuadros | `Demo30s` con `variant="pitch"`: solo títulos cortos en español; el equipo la narra en la diapositiva 3 |
+| `DemoEn` | 30 s = 900 | `Demo30s` con `variant="en"`: subtítulos completos en inglés; **el video que se sube a Space Apps** |
 | `Clip1Gancho` | 25 s = 750 | Diapositiva 1 |
 | `Clip2Problema` | 30 s = 900 | Diapositiva 2 |
-| `Clip3Herramienta` | 45 s = 1350 | Diapositiva 3: 15 s de título + `DemoEs` dentro de un `<Sequence from={450}>` |
+| `Clip3Herramienta` | 45 s = 1350 | Diapositiva 3: `DemoPitch` (30 s) y después 15 s quieto en su último cuadro |
 | `Clip4Confiable` | 35 s = 1050 | Diapositiva 4 |
 | `Clip5Investigar` | 40 s = 1200 | Diapositiva 5 |
 | `Clip6Quien` | 35 s = 1050 | Diapositiva 6 |
@@ -53,7 +53,7 @@ public/                 aquí van las capturas y el JSON (los pone el equipo)
 - **`<KenBurns>`**: muestra una captura con acercamiento o desplazamiento lento hacia un punto de interés, de escala 1.0 a 1.15 como máximo.
 - **`<Tap>`**: un círculo blanco semitransparente (unos 56 px) que aparece, se encoge un poco y se desvanece, como un toque en pantalla. **Sus coordenadas viven en `src/taps.ts`**, en píxeles relativos a cada captura y con un comentario por toque, porque tú no puedes ver dónde está cada botón. Pon valores iniciales razonables; el equipo los ajusta en Remotion Studio.
 - **Bucles perfectos** en los clips 1–7: en los últimos 20 cuadros, vuelve al estado visual exacto del cuadro 0. La demo **no** hace bucle.
-- Componente `<Watermark>` en **todas** las composiciones, visible todo el tiempo: esquina inferior derecha, 18 px, opacidad 0.7, color `#f4f6ff`. En español: **"Animación hecha con asistencia de IA (Claude)"**; en `DemoEn`: **"Motion graphics made with AI assistance (Claude)"**.
+- Componente `<Watermark>` en **todas** las composiciones, visible todo el tiempo: esquina inferior derecha, 18 px, opacidad 0.7, color `#f4f6ff`. En las de español: **"Animación hecha con asistencia de IA (Claude)"**; en `DemoEn`: **"Motion graphics made with AI assistance (Claude)"**.
 - Sin audio.
 - Antes de escribir código, lista qué archivos de `public/` usa cada composición. **Nunca dibujes ni inventes pantallas de la app**: si falta una captura, dilo.
 
@@ -83,16 +83,19 @@ public/                 aquí van las capturas y el JSON (los pone el equipo)
 
 ## La demo de 30 s (`Demo30s`)
 
-Capturas a pantalla completa, sobre fondo `#0f1a3a` si no llenan el cuadro, con `<KenBurns>`, fundidos de 12 cuadros entre escenas y subtítulos (`<Caption>`) en una franja oscura semitransparente abajo:
+Capturas a pantalla completa, sobre fondo `#0f1a3a` si no llenan el cuadro, con `<KenBurns>` y fundidos de 12 cuadros entre escenas. El texto depende de la variante:
 
-| Tiempo | Captura y movimiento | `lang="en"` | `lang="es"` |
+- **`variant="pitch"`**: el equipo habla encima, así que solo lleva un **título corto en español** por escena, en la esquina superior izquierda (Archivo 800, 56 px), que entra y sale con la escena. Nada de subtítulos largos.
+- **`variant="en"`**: subtítulos completos en inglés (`<Caption>`), en una franja oscura semitransparente abajo (44 px).
+
+| Tiempo | Captura y movimiento | `variant="en"` | `variant="pitch"` |
 |---|---|---|---|
-| 0–4 s | `C1.png`, acercamiento lento | NASA Earth data. Your town. 45 years. | Datos de NASA. Tu lugar. 45 años. |
-| 4–10 s | `C12.png`; tres `<Tap>` sobre las respuestas (Warmer, More rain, Drier), una cada 1.5 s | First, guess what changed. | Primero, apuesta qué cambió. |
-| 10–15 s | `C13.png`; acercamiento al "2 of 3" y después a la cifra +2.4 °C | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. | Delicias, Chihuahua: +2.4 °C desde 1981. No es azar. |
-| 15–20 s | `C5.png` se funde en `C4.png` | Remove the seasons. Then test the trend. | Quitamos las estaciones. Luego probamos la tendencia. |
-| 20–25 s | `C7.png`, revelada fila por fila (máscara de arriba abajo) | Not one town: every zone of Chihuahua. | No es un pueblo: es todo Chihuahua. |
-| 25–30 s | `D1.png` al centro; debajo, `earth-system-trend-detective-xi.vercel.app` | Students become climate detectives. | Cada estudiante se lleva su caso. |
+| 0–4 s | `C1.png`, acercamiento lento | NASA Earth data. Your town. 45 years. | Elige tu lugar |
+| 4–10 s | `C12.png`; tres `<Tap>` sobre las respuestas (Warmer, More rain, Drier), una cada 1.5 s | First, guess what changed. | Apuesta |
+| 10–15 s | `C13.png`; acercamiento al "2 of 3" y después a la cifra +2.4 °C | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. | Revela |
+| 15–20 s | `C5.png` se funde en `C4.png` | Remove the seasons. Then test the trend. | ¿Es real? |
+| 20–25 s | `C7.png`, revelada fila por fila (máscara de arriba abajo) | Not one town: every zone of Chihuahua. | Todo Chihuahua |
+| 25–30 s | `D1.png` al centro; debajo, `earth-system-trend-detective-xi.vercel.app` | Students become climate detectives. | Tu caso |
 
 ## Los 7 clips del pitch
 
@@ -100,7 +103,7 @@ Capturas a pantalla completa, sobre fondo `#0f1a3a` si no llenan el cuadro, con 
 
 **Clip 2 · El problema (30 s).** Las franjas de fondo al 25 % de opacidad. Frases una por una, unos 6 s cada una: **"Los datos existen: 45 años de NASA."** → **"No llegan a quienes viven de esta tierra."** → **"Los teléfonos se hicieron para consumir."** → **"Ellos van a heredar la tierra y el agua de Chihuahua."** Al final, `C11.png` entra desde abajo.
 
-**Clip 3 · La herramienta (45 s).** De 0 a 15 s: `C12.png` al 30 % de opacidad de fondo, y un título que entra en tres tiempos, **"Elige tu lugar"** · **"Apuesta"** · **"Revela"**, mientras el equipo habla. De 15 a 45 s: **`DemoEs` completa**. Este clip no necesita bucle perfecto, pero termina en un cuadro quieto.
+**Clip 3 · La herramienta (45 s).** `DemoPitch` completa (30 s) y después 15 s quieta en su último cuadro. **No hace bucle**: en la diapositiva se reproduce una vez mientras el equipo la narra.
 
 **Clip 4 · Por qué es confiable (35 s).** `C5.png` se funde en `C4.png`. Aparecen tres pasos numerados, uno por uno: **"1. Quitamos las estaciones"** · **"2. Medimos el cambio"** · **"3. ¿Pudo ser azar? p < 0.001"**. Al final: **"Confirmado con ERA5 (Europa) y estaciones del SMN"** y, más pequeño, *"Descriptivo, no es un pronóstico"*.
 
@@ -131,14 +134,14 @@ Requisitos: Node.js 18 o superior.
 
 1. Crea una carpeta con los archivos que entregó Claude y copia a `public/` las capturas (`C1.png`, `C2.png`, …, `D3.png`) y `video-stripes-chihuahua.json`.
 2. `npm install`
-3. Vista previa: `npx remotion studio`. Abran `DemoEs`, ajusten en `src/taps.ts` las coordenadas de los toques hasta que caigan sobre los botones, y revisen cada clip.
+3. Vista previa: `npx remotion studio`. Abran `DemoPitch`, ajusten en `src/taps.ts` las coordenadas de los toques hasta que caigan sobre los botones, y revisen cada clip.
 4. Exportar:
 
 ```bash
-for c in DemoEn DemoEs Clip1Gancho Clip2Problema Clip3Herramienta Clip4Confiable Clip5Investigar Clip6Quien Clip7Cierre PitchCompleto; do
+for c in DemoEn DemoPitch Clip1Gancho Clip2Problema Clip3Herramienta Clip4Confiable Clip5Investigar Clip6Quien Clip7Cierre PitchCompleto; do
   npx remotion render "$c" "out/$c.mp4" --codec=h264
 done
 ```
 
 5. Revisen en cada MP4 que la marca de agua se vea y que las cifras cumplan la regla 1.
-6. **`DemoEn.mp4` es el video que se sube a Space Apps.** `Clip1`–`Clip7` van en sus diapositivas: reproducción automática, en bucle, sin sonido, como archivo local. `PitchCompleto` es el respaldo si prefieren un solo video.
+6. **`DemoEn.mp4` es el video que se sube a Space Apps.** `Clip1`–`Clip7` van en sus diapositivas: reproducción automática, sin sonido, como archivo local; en bucle todos **menos `Clip3`** (la demo se reproduce una vez mientras la narran). `PitchCompleto` es un respaldo por si fallan los videos incrustados.

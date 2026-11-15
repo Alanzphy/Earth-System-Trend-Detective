@@ -20,8 +20,8 @@
 
 | # | Entregable | Para qué | Formato |
 |---|---|---|---|
-| A | **Demo de 30 s** (Remotion, armada con capturas; no se graba la pantalla) | En **español**, diapositiva 3 del pitch; en **inglés**, se sube a Space Apps | MP4 H.264, 1920 × 1080, **30 s**, subtítulos incrustados, sin voz. Misma composición `Demo30s` con `lang="es"` o `lang="en"` |
-| B | **Video dinámico del pitch** | Se proyecta mientras el equipo expone 4 min en español | 7 clips MP4 1920 × 1080 (uno por diapositiva, en bucle; el clip 3 contiene la demo en español) + una versión continua de 4:00 |
+| A | **Demo de 30 s** (Remotion, armada con capturas; no se graba la pantalla) | **Versión pitch**: incrustada en la diapositiva 3, el equipo la narra mientras corre. **Versión en inglés**: se sube a Space Apps | MP4 H.264, 1920 × 1080, **30 s**, sin voz. Misma composición `Demo30s`: `variant="pitch"` lleva solo títulos cortos en español; `variant="en"` lleva subtítulos completos en inglés |
+| B | **Clips de las diapositivas** | Uno incrustado en cada diapositiva del pitch de 4 min | 7 clips MP4 1920 × 1080; el de la diapositiva 3 es la demo (versión pitch). Además, una versión continua de respaldo |
 | C | **Capturas** | Material base de A y B | PNG 1920 × 1080 a escala 2× (3840 × 2160 si es posible) y de teléfono (390 × 844 a 3×) |
 | D | **Tarjetas de caso** | Momento "se lleva su caso" | PNG que genera la app (botón *Save my case card*) |
 
@@ -78,18 +78,18 @@ Navegador a **1600 × 900** (o 1920 × 1080), zoom 100 %, sin barra de marcadore
 
 ## 6. Entregable A: demo de 30 s (Remotion, desde capturas)
 
-Un solo video en dos idiomas: `lang="es"` para la diapositiva 3 del pitch y `lang="en"` para subirlo a Space Apps. Se arma con capturas: acercamientos suaves (*Ken Burns*), fundidos y un círculo de "toque" sobre los botones, cuyas coordenadas se ajustan en Remotion Studio.
+Un solo video con dos variantes. **`variant="pitch"`**: va incrustado en la diapositiva 3 y el equipo habla encima, así que lleva **solo un título corto en español** por escena (para no competir con la voz). **`variant="en"`**: se sube a Space Apps, con subtítulos completos en inglés. Se arma con capturas: acercamientos suaves (*Ken Burns*), fundidos y un círculo de "toque" sobre los botones, cuyas coordenadas se ajustan en Remotion Studio.
 
-| # | Tiempo | Captura y movimiento | Subtítulo (en) | Subtítulo (es) |
+| # | Tiempo | Captura y movimiento | Subtítulo (`en`) | Título corto (`pitch`) |
 |---|---|---|---|---|
-| 1 | 0–4 s | C1, acercamiento lento | NASA Earth data. Your town. 45 years. | Datos de NASA. Tu lugar. 45 años. |
-| 2 | 4–10 s | C12; toques sobre **Warmer**, **More rain** y **Drier** | First, guess what changed. | Primero, apuesta qué cambió. |
-| 3 | 10–15 s | C13; acercamiento a "2 of 3" y luego a **+2.4 °C** | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. | Delicias, Chihuahua: +2.4 °C desde 1981. No es azar. |
-| 4 | 15–20 s | C5 se funde en C4 | Remove the seasons. Then test the trend. | Quitamos las estaciones. Luego probamos la tendencia. |
-| 5 | 20–25 s | C7, la tabla baja fila por fila | Not one town: every zone of Chihuahua. | No es un pueblo: es todo Chihuahua. |
-| 6 | 25–30 s | D1 al centro + URL | Students become climate detectives. | Cada estudiante se lleva su caso. |
+| 1 | 0–4 s | C1, acercamiento lento | NASA Earth data. Your town. 45 years. | Elige tu lugar |
+| 2 | 4–10 s | C12; toques sobre **Warmer**, **More rain** y **Drier** | First, guess what changed. | Apuesta |
+| 3 | 10–15 s | C13; acercamiento a "2 of 3" y luego a **+2.4 °C** | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. | Revela |
+| 4 | 15–20 s | C5 se funde en C4 | Remove the seasons. Then test the trend. | ¿Es real? |
+| 5 | 20–25 s | C7, la tabla baja fila por fila | Not one town: every zone of Chihuahua. | Todo Chihuahua |
+| 6 | 25–30 s | D1 al centro + URL | Students become climate detectives. | Tu caso |
 
-Subtítulos: blanco sobre una franja oscura semitransparente abajo, Archivo 44 px, de 4 a 6 s cada uno. Sin cifras de lluvia. Marca de agua de la regla 3.
+Subtítulos (`en`): blanco sobre una franja oscura semitransparente abajo, Archivo 44 px. Títulos cortos (`pitch`): esquina superior izquierda, Archivo 800, 56 px. Sin cifras de lluvia. Marca de agua de la regla 3.
 
 ## 7. Entregable B: video dinámico del pitch (4 min, español)
 
@@ -99,7 +99,7 @@ Se proyecta **detrás del equipo** mientras habla. Se entrega **por clips, uno p
 |---|---|---|---|---|---|
 | 1 | 0:00–0:25 | **Gancho** (25 s, bucle) | Fondo nocturno. Las franjas del **estado de Chihuahua** aparecen año por año (contador 1981 → 2025, azules → rojos). Al llegar a 2025 cuenta **+2.1 °C**. Después, el mapa mundial (C10) con Chihuahua resaltado. | **Chihuahua está en el 4 % de los lugares del mapa que más rápido se calientan.** (Nunca "más rápido que el planeta": el mapa incluye océano.) | El dato real, local, con NASA |
 | 2 | 0:25–0:55 | **El problema** (30 s) | Tipografía cinética sobre las franjas atenuadas, una frase a la vez. Al final, C11 (teléfono) entra desde abajo. | **Los datos existen: 45 años de NASA.** → **No llegan a quienes viven de esta tierra.** → **Los teléfonos se hicieron para consumir.** → **Ellos van a heredar la tierra y el agua de Chihuahua.** | Talleres en escuelas públicas; que decidan con datos, no solo con percepción |
-| 3 | 0:55–1:40 | **La herramienta** (45 s) | 0–15 s: C12 atenuado de fondo con el título que entra en tres tiempos: **"Elige tu lugar · Apuesta · Revela"** (el equipo habla). 15–45 s: la **demo de 30 s en español** (sección 6). | Los de la demo | 15 s de introducción; durante la demo, **silencio** |
+| 3 | 0:55–1:40 | **La herramienta** (45 s) | La **demo de 30 s, versión pitch** (sección 6), incrustada en la diapositiva; al terminar se queda quieta en el último cuadro (sin bucle). | Títulos cortos de la demo | El equipo **narra encima** mientras corre |
 | 4 | 1:40–2:15 | **Por qué es confiable** (35 s) | C5 (ondas de estaciones) se transforma en C4 (sin estaciones); la línea de tendencia se dibuja; aparecen 3 pasos numerados uno por uno. | **1. Quitamos las estaciones · 2. Medimos el cambio · 3. ¿Pudo ser azar? p < 0.001** · *Descriptivo, no es un pronóstico* | Validez científica |
 | 5 | 2:15–2:55 | **De consumir a investigar** (40 s) | C13 (el "2 of 3") aparece primero; luego las tarjetas D1–D3 entran como cartas en abanico, cada una con su alias y su "Predicted N of 3"; al final, una tarjeta se desliza hacia una casa dibujada con líneas simples. | **Primero la curiosidad, después la evidencia.** → **Cada estudiante se lleva su caso.** → **Y llega a casa.** | Mecanismo de impacto: la tarea para llevar a casa; los datos llegan a quienes siembran a través de sus hijos |
 | 6 | 2:55–3:30 | **Quién lo hace posible** (35 s) | Diagrama de 4 nodos que se conectan con líneas: **Jóvenes** (investigan) → **Nosotros** (tecnología + talleres) → **Expertos** (agronomía UACH, estadística) → **Datos de NASA**. Sin logos. | Nombres de los nodos | Límites del equipo; apoyo de expertos; formato tipo Las Niñas Sí Pueden |
