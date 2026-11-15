@@ -25,12 +25,14 @@ Convertir a jóvenes de familias agricultoras en **detectives del clima de su pr
 La herramienta (mapa, tendencias, significancia) la puede hacer cualquiera. Lo que no se copia:
 
 - **Puente entre generaciones**: la experiencia de la familia agricultora + la evidencia satelital. El joven no aprende estadística en abstracto: verifica la historia de su casa.
+- **Origen en el campo**: el equipo trabajó con un rancho de la región en una plataforma de sensores IoT (nodos por predio → servidor central → gráficas). Aprendió qué variables importan en campo y por qué. Esos sensores responden "¿cómo está hoy mi parcela?", pero no "¿esto es normal o está cambiando?": para eso hacen falta décadas de datos, que es lo que aporta NASA. La experiencia es limitada; se presenta como origen, no como pericia.
 - **Lugar real con datos contundentes**: Chihuahua, región agrícola clave de México, golpeada por la sequía.
 - **Rigor visible**: cada afirmación lleva método, p-valor e intervalo; se distingue tendencia de azar y descripción de pronóstico.
 
 ## Operating Context
 
 - Entrega: NASA Space Apps 2026 (fin de semana 14–15 de noviembre), reto "Be An Earth System Trend Detective". Límite: **domingo 2026-11-15, 13:00 (hora de Chihuahua)**. Video ≤ 30 s o ≤ 7 diapositivas; página del proyecto en inglés.
+- Pitch en vivo del equipo: **4 minutos, 7 diapositivas**; una diapositiva puede contener el video de la demo.
 - Los jueces puntúan **Impact, Creativity, Validity (incluye usabilidad), Relevance, Presentation** ([guía oficial](https://assets.spaceappschallenge.org/media/documents/Final_Space_Apps_2025_Judging_Guidelines_for_web.pdf)). Premios afines: Local Impact, Most Inspirational, Best Storytelling, Best Use of Data.
 - Uso real: aula con proyector o teléfono; conexión variable; el backend gratuito puede estar dormido (demos y mapas son estáticos).
 - La idea de vincularlo al trabajo educativo del equipo vino del grupo de mentores.
@@ -79,5 +81,5 @@ Teléfonos de gama media y aulas con proyector; contraste AA, objetivos táctile
 
 ## Pending
 
-- Experiencia previa concreta del equipo en educación y su relación con Chihuahua (para la narrativa y la página del proyecto).
-- Contacto con escuela/docente y evidencia resultante.
+- Experiencia del equipo en educación y su relación con Chihuahua (para la narrativa y la página del proyecto). Nombre del rancho y si autoriza mencionarlo.
+- Contacto con escuela/docente (y con el rancho) y evidencia resultante.
