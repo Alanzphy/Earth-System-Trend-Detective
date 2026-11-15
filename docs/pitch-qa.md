@@ -25,7 +25,7 @@ Retoma la diapositiva 2 (el problema) y cierra el círculo. Alternativas si el e
 Todavía no, y no vamos a decir que sí. Es un hackathon de 48 horas. Lo que sí tenemos es el canal: ya damos talleres en secundarias y prepas públicas de Chihuahua. El siguiente paso es un piloto ahí, y la prueba de éxito es concreta: que un estudiante elija su zona y explique, con cifras y su significancia, qué cambió desde 1981.
 
 **¿Para qué sirven las preguntas antes de ver los datos?**
-Para despertar la curiosidad. Es una técnica de enseñanza de ciencias, "predecir, observar, explicar": cuando apuestas, quieres saber la respuesta, y cuando te equivocas, lo que descubres se te queda. Se califica la intuición del estudiante, nunca se modifican los datos. "Sin cambio claro" es la respuesta correcta cuando la tendencia no es significativa, así que también enseña a no ver tendencias donde no las hay.
+Para despertar la curiosidad. Es una técnica de enseñanza de ciencias, "predecir, observar, explicar": cuando predices algo, quieres saber si tenías razón, y cuando te equivocas, lo que descubres se te queda. Se califica la intuición del estudiante, nunca se modifican los datos. "Sin cambio claro" es la respuesta correcta cuando la tendencia no es significativa, así que también enseña a no ver tendencias donde no las hay.
 
 **¿Cómo impacta a los agricultores si la app es para estudiantes?**
 De forma indirecta, a través de sus hijos y nietos. El taller termina con una tarea: el estudiante enseña su tarjeta a alguien de su familia que trabaje la tierra o el ganado y le pregunta si coincide con lo que ha vivido. Así el dato de NASA llega a la casa y se junta con el saber de la familia. No es consejo agrícola: no le decimos a nadie qué sembrar. Es una conversación con evidencia. En el piloto lo podemos medir: cuántos estudiantes lo platicaron en casa y qué les respondieron.
@@ -40,7 +40,7 @@ Cuesta cero. Datos públicos de NASA POWER, frontend en Vercel y API en Render e
 No directamente. Es para estudiantes de escuelas públicas de Chihuahua, que es donde ya damos talleres. Pero muchos de ellos van a heredar la tierra y el agua del estado, o vienen de familias del campo. Por eso las variables son las que importan en el campo: calor, lluvia, humedad del suelo y evaporación. Llevarlo a escuelas agrícolas y a productores, con el apoyo de agronomía de la UACH, sería un paso natural después del piloto.
 
 **¿Por qué Chihuahua?**
-Es nuestra región: agrícola, golpeada por la sequía y con datos contundentes. Las 8 zonas se calentaron entre +2.0 y +2.4 °C y perdieron entre 28 y 39 % de su lluvia, todo estadísticamente significativo. Y la herramienta sirve para cualquier lugar del mundo.
+Es nuestra región: agrícola, golpeada por la sequía y con datos contundentes. Las 8 zonas se calentaron entre +2.0 y +2.4 °C desde 1981, todo estadísticamente significativo, y en todas llueve menos que a principios de los 80 (una caída que pesa mucho por la sequía reciente). Y la herramienta sirve para cualquier lugar del mundo.
 
 ### Sobre la ciencia
 

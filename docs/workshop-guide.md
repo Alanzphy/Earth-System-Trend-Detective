@@ -29,7 +29,7 @@ subtitle: "Guía de taller de 45 minutos con Earth System Trend Detective"
 | Tiempo | Momento | Qué pasa |
 |---|---|---|
 | 0–5 min | 1. La pregunta | Despertar la curiosidad |
-| 5–12 min | 2. La apuesta | Predecir antes de ver |
+| 5–12 min | 2. La predicción | Predecir antes de ver |
 | 12–22 min | 3. La revelación | Leer la tarjeta de su zona |
 | 22–30 min | 4. ¿Es real? | Estaciones, tendencia y azar |
 | 30–38 min | 5. Comparar | Otra zona, otro lugar del mundo |
@@ -44,7 +44,7 @@ Pregunta al grupo, sin teléfonos:
 
 Escucha 3 o 4 respuestas. Anota en el pizarrón las que sean percepción ("se siente más calor") y pregunta: *¿qué necesitaríamos para comprobarlo?* La respuesta a la que hay que llegar: **datos de muchos años**.
 
-## 2. La apuesta (7 min)
+## 2. La predicción (7 min)
 
 Cada pareja elige una zona de Chihuahua y llena la primera parte de la hoja del detective **antes de abrir la app**:
 
@@ -62,7 +62,7 @@ Las parejas abren la app, eligen su zona y leen la tarjeta. Guíalos con estas p
 - **Las franjas** (una por año, de 1981 a 2025): ¿de qué color son al principio y al final? Azul es un año más frío de lo normal en ese lugar; rojo, más caliente.
 - **La cifra grande**: ¿cuánto cambió? Por ejemplo, Delicias: **+2.4 °C** desde 1981.
 - **"What changed here"**: las 8 variables. ¿Cuál les sorprendió? ¿Cuál dice "No clear trend"?
-- Comparen con su apuesta: **¿cuántas acertaron?** ¿En cuál se equivocaron y por qué creen que pasó?
+- Comparen con su predicción: **¿cuántas acertaron?** ¿En cuál se equivocaron y por qué creen que pasó?
 
 Para que la lluvia sea tangible: 1 mm de lluvia es 1 litro de agua por cada metro cuadrado. Entonces −118 mm al año (Delicias) son **118 litros menos por metro cuadrado cada año: casi 6 garrafones de 20 litros**. Pregunta: *¿qué pasa con una parcela si año tras año le llega menos agua?*
 
@@ -140,7 +140,7 @@ Al final, cada pareja debería poder responder sin ayuda:
 |---|---|
 | Qué cambió y cuánto | Da una cifra con su unidad ("+2.4 °C", "−118 mm al año") |
 | ¿Es real? | Explica con sus palabras qué significa "significativo" o "No clear trend" |
-| Percepción vs. evidencia | Compara su apuesta con los datos y explica la diferencia |
+| Percepción vs. evidencia | Compara su predicción con los datos y explica la diferencia |
 
 # Privacidad
 
@@ -153,7 +153,7 @@ Al final, cada pareja debería poder responder sin ayuda:
 
 **Zona que investigamos:** ________________________
 
-## Parte 1. Nuestra apuesta (antes de abrir la app)
+## Parte 1. Nuestra predicción (antes de abrir la app)
 
 | Desde 1981… | Más | Menos | Sin cambio claro | ¿Por qué lo creemos? |
 |---|---|---|---|---|

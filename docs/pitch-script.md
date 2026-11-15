@@ -39,7 +39,7 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 
 > **[Elige tu lugar]** Esto es **Earth System Trend Detective**. El estudiante elige su lugar; por ejemplo, Delicias, **una de las principales zonas agrícolas del estado**.
 >
-> **[Apuesta]** Antes de ver los datos, **apuesta qué cambió**: ¿más calor?, ¿menos lluvia?, ¿el suelo, donde viven las raíces, más seco? Porque cuando apuestas, **quieres saber la respuesta**.
+> **[Predice]** Antes de ver los datos, **hace su predicción**: ¿más calor?, ¿menos lluvia?, ¿el suelo, donde viven las raíces, más seco? Porque cuando predices algo, **quieres saber si tenías razón**.
 >
 > **[Revela]** Revela: **más 2.4 grados** desde 1981, y no es azar.
 >
@@ -73,7 +73,7 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 
 > Pero lo importante no es la gráfica: es **lo que hace el estudiante**.
 >
-> **Primero la curiosidad, después la evidencia**: apuesta, descubre y se lleva su caso. Ya no reenvía algo que vio: **comparte algo que investigó**.
+> **Primero la curiosidad, después la evidencia**: predice, descubre y se lleva su caso. Ya no reenvía algo que vio: **comparte algo que investigó**.
 >
 > Y esa tarjeta **no se queda en el salón: llega a casa**. Nuestro taller termina con una tarea: enséñasela a alguien de tu familia que trabaje la tierra y pregúntale si coincide con lo que ha vivido.
 >

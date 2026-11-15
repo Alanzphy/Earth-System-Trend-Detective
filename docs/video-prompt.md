@@ -9,7 +9,7 @@ Eres diseñador de motion graphics y desarrollador de **Remotion** (v4, TypeScri
 1. **Una demo de 30 s** de la app, armada solo con capturas, en dos idiomas: en español se proyecta en el pitch y en inglés se sube como video oficial.
 2. **7 clips de fondo** que se proyectan detrás del equipo durante su pitch en vivo de 4 minutos en español, uno por diapositiva.
 
-El proyecto es una app web en la que estudiantes de 12 a 18 años eligen su lugar, apuestan qué cambió y descubren, con 45 años de datos de NASA, qué cambió, cuánto y si es real. Idea central: **"de consumir a investigar"**, el teléfono como instrumento científico.
+El proyecto es una app web en la que estudiantes de 12 a 18 años eligen su lugar, predicen qué cambió y descubren, con 45 años de datos de NASA, qué cambió, cuánto y si es real. Idea central: **"de consumir a investigar"**, el teléfono como instrumento científico.
 
 Adjunto `video-plan.md` (lee las secciones 4, 6 y 7), `video-stripes-chihuahua.json` (las franjas reales) y las capturas reales de la app. Poco texto, grande, una idea por momento.
 
@@ -91,7 +91,7 @@ Capturas a pantalla completa, sobre fondo `#0f1a3a` si no llenan el cuadro, con 
 | Tiempo | Captura y movimiento | `variant="en"` | `variant="pitch"` |
 |---|---|---|---|
 | 0–4 s | `C1.png`, acercamiento lento | NASA Earth data. Your town. 45 years. | Elige tu lugar |
-| 4–10 s | `C12.png`; tres `<Tap>` sobre las respuestas (Warmer, More rain, Drier), una cada 1.5 s | First, guess what changed. | Apuesta |
+| 4–10 s | `C12.png`; tres `<Tap>` sobre las respuestas (Warmer, More rain, Drier), una cada 1.5 s | First, predict what changed. | Predice |
 | 10–15 s | `C13.png`; acercamiento al "2 of 3" y después a la cifra +2.4 °C | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. | Revela |
 | 15–20 s | `C5.png` se funde en `C4.png` | Remove the seasons. Then test the trend. | ¿Es real? |
 | 20–25 s | `C7.png`, revelada fila por fila (máscara de arriba abajo) | Not one town: every zone of Chihuahua. | Todo Chihuahua |

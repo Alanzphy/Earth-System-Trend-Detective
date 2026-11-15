@@ -69,7 +69,7 @@ Navegador a **1600 × 900** (o 1920 × 1080), zoom 100 %, sin barra de marcadore
 | C10 | Mapa mundial | `/?place=chihuahua-state&var=temperature_2m` → *Where is it changing fastest?* | Mapa nocturno con celdas rojas; texto "2.5 times … top 4%" |
 | C11 | Teléfono | modo dispositivo (iPhone, 390 × 844) en `/?place=delicias&var=temperature_2m` | Tarjeta completa en vertical |
 | C12 | Predice antes de ver | Abrir `/` **sin parámetros** en una pestaña nueva (con `?place=` no aparece) y bajar a la tarjeta | Franjas ocultas, "Before you look: what do you think changed here since 1981?", 3 preguntas, botón "Answer all three to reveal" |
-| C13 | Resultado de la apuesta | En C12 elegir **Warmer**, **More rain**, **Drier** → **Reveal** | "You called **2 of 3** before looking", × en lluvia con "the data says less rain", y debajo **+2.4 °C** |
+| C13 | Resultado de la predicción | En C12 elegir **Warmer**, **More rain**, **Drier** → **Reveal** | "You called **2 of 3** before looking", × en lluvia con "the data says less rain", y debajo **+2.4 °C** |
 | D1–D3 | Tarjetas de caso | Abrir `/`, elegir la zona en el selector (Delicias, Cuauhtémoc, Ciudad Juárez), contestar las 3 preguntas y revelar; luego **Save my case card** → alias `Ana`, `Luis`, `Sofi`; escuela `Secundaria 12` → **Save image** | PNG 1080 × 1350 con "Predicted N of 3 before looking" arriba |
 
 **No hay grabaciones de pantalla**: la demo se arma en Remotion solo con estas capturas.
@@ -83,7 +83,7 @@ Un solo video con dos variantes. **`variant="pitch"`**: va incrustado en la diap
 | # | Tiempo | Captura y movimiento | Subtítulo (`en`) | Título corto (`pitch`) |
 |---|---|---|---|---|
 | 1 | 0–4 s | C1, acercamiento lento | NASA Earth data. Your town. 45 years. | Elige tu lugar |
-| 2 | 4–10 s | C12; toques sobre **Warmer**, **More rain** y **Drier** | First, guess what changed. | Apuesta |
+| 2 | 4–10 s | C12; toques sobre **Warmer**, **More rain** y **Drier** | First, predict what changed. | Predice |
 | 3 | 10–15 s | C13; acercamiento a "2 of 3" y luego a **+2.4 °C** | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. | Revela |
 | 4 | 15–20 s | C5 se funde en C4 | Remove the seasons. Then test the trend. | ¿Es real? |
 | 5 | 20–25 s | C7, la tabla baja fila por fila | Not one town: every zone of Chihuahua. | Todo Chihuahua |
