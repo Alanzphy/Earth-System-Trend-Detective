@@ -2,6 +2,8 @@
 
 <!-- impeccable:product-schema 1 -->
 
+
+> **Estado: BORRADOR — hipótesis en discusión, no decisiones.** El enfoque (herramienta vs. método, público, Chihuahua, narrativa) sigue abierto. Las cifras de "Evidence on Hand" sí están calculadas con la API del proyecto.
 > Fuente de verdad del **porqué** del proyecto. Léelo antes de cualquier trabajo de UI, demo o texto de entrega. El **qué** técnico vive en `docs/` (`product.md`, `science.md`, `architecture.md`).
 
 ## Platform
