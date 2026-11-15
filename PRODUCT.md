@@ -16,15 +16,44 @@ web
 
 ## Product Purpose
 
-Convertir a jóvenes de familias agricultoras en **detectives del clima de su propia tierra**: que comprueben con datos de NASA lo que sus familias perciben ("ya no llueve como antes"), midiendo qué cambia, dónde, cuánto y si es significativo.
+Una **herramienta** para que estudiantes de zonas agrícolas, empezando por Chihuahua, midan con datos de NASA qué está cambiando en su región (calor, lluvia, humedad del suelo, evaporación, sol), cuánto y si el cambio es significativo. La herramienta es el medio; el objetivo es la comprensión con evidencia.
 
-**Éxito**: un estudiante pasa de "mi abuelo dice" a "los datos muestran +2.3 °C y 36 % menos lluvia desde 1981, y no es azar", y lo puede explicar.
+**Éxito**: un estudiante elige su zona y puede explicar, con cifras y su significancia, qué cambió desde 1981 (p. ej. "+2.3 °C y 36 % menos lluvia, y no es azar").
+
+## Mission, Vision and Impact
+
+**Problema**: la información sobre cómo está cambiando el clima existe (décadas de datos satelitales y de modelos de NASA), pero no llega a quienes viven del campo ni a sus jóvenes de forma comprensible. Sin ella, las decisiones y la conversación sobre agua y calor se basan solo en la percepción.
+
+**Misión**: poner los datos de NASA al alcance de estudiantes de zonas agrícolas, con una herramienta que les permita medir por sí mismos qué está cambiando en su región, cuánto y si el cambio es real.
+
+**Visión**: que cada joven de una región agrícola pueda leer el clima de su tierra con evidencia, empezando por Chihuahua y extensible a cualquier lugar del planeta.
+
+**Objetivo general**: una herramienta web, gratuita y sin instalación, que convierta datos de NASA en respuestas claras sobre tendencias climáticas regionales.
+
+**Objetivos específicos**:
+1. Mostrar qué variables relevantes para el campo (calor, lluvia, humedad del suelo, evaporación, sol) cambian en una región.
+2. Expresar el cambio en unidades comprensibles y con su significancia estadística.
+3. Permitir comparar regiones y explorar el mapa mundial de tendencias.
+4. Servir de material para docentes de bachilleratos agropecuarios y carreras agrícolas.
+
+**Impacto esperado** (meta, no resultado logrado):
+- Corto plazo: estudiantes que interpretan una tendencia y distinguen un cambio significativo del azar.
+- Mediano plazo: uso en aulas de CBTA/UACH en Chihuahua; conversaciones informadas con datos en familias agricultoras.
+- Largo plazo: la misma herramienta aplicada a otras regiones agrícolas.
+
+**Qué no es**: no es un pronóstico, no da recomendaciones de siembra ni de riego, no sustituye la medición en campo ni resuelve la sequía. Es una herramienta para entender y discutir con evidencia.
+
+### English (for the project page)
+
+- **Mission**: Put NASA Earth data in the hands of students from farming regions, so they can measure for themselves what is changing in their land, how much, and whether the change is real.
+- **Vision**: Every young person in an agricultural region able to read the climate of their land with evidence — starting in Chihuahua, Mexico, and applicable anywhere on Earth.
+- **What it is not**: not a forecast, not farming advice, not a replacement for field measurements. A tool to understand and discuss change with evidence.
 
 ## Positioning
 
 La herramienta (mapa, tendencias, significancia) la puede hacer cualquiera. Lo que no se copia:
 
-- **Puente entre generaciones**: la experiencia de la familia agricultora + la evidencia satelital. El joven no aprende estadística en abstracto: verifica la historia de su casa.
+- **Enfoque local real**: zonas agrícolas de Chihuahua como punto de partida, con las variables que importan en campo y el cambio expresado en unidades comprensibles; el resto del mundo para comparar.
 - **Origen en el campo**: el equipo trabajó con un rancho de la región en una plataforma de sensores IoT (nodos por predio → servidor central → gráficas). Aprendió qué variables importan en campo y por qué. Esos sensores responden "¿cómo está hoy mi parcela?", pero no "¿esto es normal o está cambiando?": para eso hacen falta décadas de datos, que es lo que aporta NASA. La experiencia es limitada; se presenta como origen, no como pericia.
 - **Lugar real con datos contundentes**: Chihuahua, región agrícola clave de México, golpeada por la sequía.
 - **Rigor visible**: cada afirmación lleva método, p-valor e intervalo; se distingue tendencia de azar y descripción de pronóstico.
