@@ -10,6 +10,8 @@ type CaseImage = {
   focus: VariableId;
   alias: string;
   club: string;
+  /** The student's predictions before looking, when they made them. */
+  prediction?: { right: number; total: number };
 };
 
 const W = 1080;
@@ -30,7 +32,7 @@ function fit(context: CanvasRenderingContext2D, text: string, weight: number, st
 }
 
 /** Draws the case card as a 4:5 image and shares or downloads it. Nothing leaves the device. */
-export async function renderCaseImage({ name, analyses, focus, alias, club }: CaseImage): Promise<Blob> {
+export async function renderCaseImage({ name, analyses, focus, alias, club, prediction }: CaseImage): Promise<Blob> {
   await document.fonts?.ready;
   const canvas = document.createElement("canvas");
   canvas.width = W;
@@ -43,6 +45,12 @@ export async function renderCaseImage({ name, analyses, focus, alias, club }: Ca
   gradient.addColorStop(0.6, NIGHT);
   c.fillStyle = gradient;
   c.fillRect(0, 0, W, H);
+
+  if (prediction) {
+    c.fillStyle = SUN;
+    c.font = `600 26px ${MONO}`;
+    c.fillText(`Predicted ${prediction.right} of ${prediction.total} before looking`, 72, 84);
+  }
 
   c.fillStyle = "#fff";
   fit(c, name, 800, 72, W - 144);

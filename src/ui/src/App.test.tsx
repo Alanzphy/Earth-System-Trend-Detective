@@ -71,7 +71,8 @@ function trendCalls(fetchMock: FetchMock) {
 
 describe("App", () => {
   beforeEach(() => {
-    window.history.replaceState(null, "", "/");
+    // A shared link names its place and opens the case card directly; "/" asks for a prediction first.
+    window.history.replaceState(null, "", "/?place=delicias");
   });
 
   afterEach(() => {
@@ -151,5 +152,30 @@ describe("App", () => {
     const params = new URLSearchParams(window.location.search);
     expect([params.get("place"), params.get("compare"), params.get("var")]).toEqual(["chihuahua-state", "western-sahel", "precipitation"]);
     expect(trendCalls(fetchMock)).toHaveLength(0);
+  });
+
+  it("asks a fresh visitor to predict before showing the data, then scores the guesses", async () => {
+    vi.stubGlobal("fetch", mockNetwork());
+    window.history.replaceState(null, "", "/");
+
+    render(<App />);
+    const card = await screen.findByRole("article", { name: "Delicias area, Chihuahua" });
+
+    // Nothing gives the answer away while predicting: no figures, no evidence chart.
+    expect(within(card).queryByText("+2.4 °C")).not.toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: /Evidence:/ })).not.toBeInTheDocument();
+    const reveal = within(card).getByRole("button", { name: /Answer all three/ });
+    expect(reveal).toBeDisabled();
+
+    fireEvent.click(within(within(card).getByRole("group", { name: "Heat" })).getByLabelText("Warmer"));
+    fireEvent.click(within(within(card).getByRole("group", { name: "Rain" })).getByLabelText("More rain"));
+    fireEvent.click(within(within(card).getByRole("group", { name: "Soil moisture" })).getByLabelText("Drier"));
+    fireEvent.click(await within(card).findByRole("button", { name: /Reveal/ }));
+
+    // Real Delicias data: warmer, less rain and drier soil, all significant.
+    expect(await within(card).findByText("+2.4 °C", { selector: ".num-display" })).toBeInTheDocument();
+    expect(within(card).getByText(/You called/)).toHaveTextContent("You called 2 of 3 before looking");
+    expect(within(card).getByText(/the data says less rain/)).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: /Evidence:/ })).toBeInTheDocument();
   });
 });

@@ -9,6 +9,7 @@ import { TrendMap } from "./components/TrendMap";
 import { formatRegion } from "./lib/format";
 import { bboxToParam, box, parseBboxParam } from "./lib/flow";
 import { loadPlaceManifest, type PlaceSummary } from "./lib/places";
+import { PREDICTION_ASK, PREDICTION_OFF, type Prediction } from "./lib/prediction";
 import type { TrendRegionSelection } from "./lib/trendMaps";
 import { usePlaceAnalyses, type Place } from "./lib/usePlaceAnalyses";
 import { isVariableId, type VariableId } from "./lib/variables";
@@ -39,6 +40,12 @@ function writeUrl({ place, custom, compare, focus }: Selection) {
   window.history.replaceState(null, "", `${window.location.pathname}?${params}`);
 }
 
+/** A shared link, a case or a capture names its place; a fresh visit asks for a prediction first. */
+function linksToPlace(): boolean {
+  const params = new URLSearchParams(window.location.search);
+  return params.has("place") || params.has("bbox");
+}
+
 function toPlace(id: string, custom: BBox | null, places: PlaceSummary[] | null): Place | null {
   if (id === CUSTOM) {
     return custom ? { kind: "custom", name: `Area ${formatRegion(custom)}`, bbox: custom } : null;
@@ -53,6 +60,7 @@ function placeName(place: Place | null): string {
 
 function App() {
   const [selection, setSelection] = useState<Selection>(readUrl);
+  const [prediction, setPrediction] = useState<Prediction>(() => (linksToPlace() ? PREDICTION_OFF : PREDICTION_ASK));
   const [places, setPlaces] = useState<PlaceSummary[] | null>(null);
   const [placesError, setPlacesError] = useState<string | null>(null);
 
@@ -78,6 +86,7 @@ function App() {
   const openCase = useCallback(
     (target: CaseTarget) => {
       update({ ...target, custom: null });
+      setPrediction(PREDICTION_OFF);
       document.getElementById("investigate")?.scrollIntoView?.({ behavior: "smooth", block: "start" });
     },
     [update],
@@ -87,12 +96,14 @@ function App() {
     (region: TrendRegionSelection) => {
       const [west, south, east, north] = region.bbox;
       update({ place: CUSTOM, custom: box(west, south, east, north), compare: "", focus: isVariableId(region.variable) ? region.variable : "temperature_2m" });
+      setPrediction(PREDICTION_OFF);
       document.getElementById("investigate")?.scrollIntoView?.({ behavior: "smooth", block: "start" });
     },
     [update],
   );
 
   const comparing = Boolean(other);
+  const asking = prediction.stage === "asking" && !comparing;
 
   return (
     <div className="site">
@@ -125,8 +136,14 @@ function App() {
               places={places}
               value={selection.place}
               customBbox={selection.custom}
-              onSelect={(id) => update({ place: id, custom: id === CUSTOM ? selection.custom : null })}
-              onCustom={(custom) => update({ place: CUSTOM, custom })}
+              onSelect={(id) => {
+                update({ place: id, custom: id === CUSTOM ? selection.custom : null });
+                setPrediction(PREDICTION_ASK);
+              }}
+              onCustom={(custom) => {
+                update({ place: CUSTOM, custom });
+                setPrediction(PREDICTION_ASK);
+              }}
             />
           )}
         </div>
@@ -140,27 +157,45 @@ function App() {
           {place && (
             <ComparisonScale key={`${selection.place}-${selection.compare}`}>
               <div className="investigation__card">
-                <CaseCard name={placeName(place)} analyses={primary.analyses} focus={selection.focus} onFocus={(focus) => update({ focus })} waking={primary.waking} />
+                <CaseCard
+                  name={placeName(place)}
+                  analyses={primary.analyses}
+                  focus={selection.focus}
+                  onFocus={(focus) => update({ focus })}
+                  waking={primary.waking}
+                  prediction={comparing ? undefined : prediction}
+                  onPrediction={setPrediction}
+                />
                 {other && (
                   <CaseCard name={placeName(other)} analyses={second.analyses} focus={selection.focus} onFocus={(focus) => update({ focus })} waking={second.waking} />
                 )}
               </div>
               <div className="investigation__evidence">
-                <EvidencePanel place={placeName(place)} variable={selection.focus} state={primary.analyses[selection.focus]} />
-                {other && <EvidencePanel place={placeName(other)} variable={selection.focus} state={second.analyses[selection.focus]} />}
-                <label className="compare">
-                  Compare with
-                  <select value={selection.compare} disabled={!places} onChange={(event) => update({ compare: event.target.value })}>
-                    <option value="">No comparison</option>
-                    {places
-                      ?.filter((item) => item.id !== selection.place)
-                      .map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                  </select>
-                </label>
+                {asking ? (
+                  <aside className="predict-why">
+                    <h3>Why predict first?</h3>
+                    <p>Scientists write down what they expect before they look at the data. Then the data can surprise them.</p>
+                    <p>Make your three guesses on the card. The evidence appears here when you reveal.</p>
+                  </aside>
+                ) : (
+                  <>
+                    <EvidencePanel place={placeName(place)} variable={selection.focus} state={primary.analyses[selection.focus]} />
+                    {other && <EvidencePanel place={placeName(other)} variable={selection.focus} state={second.analyses[selection.focus]} />}
+                    <label className="compare">
+                      Compare with
+                      <select value={selection.compare} disabled={!places} onChange={(event) => update({ compare: event.target.value })}>
+                        <option value="">No comparison</option>
+                        {places
+                          ?.filter((item) => item.id !== selection.place)
+                          .map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </label>
+                  </>
+                )}
               </div>
             </ComparisonScale>
           )}
