@@ -23,7 +23,7 @@ services:
         - src/**/tests/**
     envVars:
       - key: DATA_ADAPTER
-        value: fixture
+        value: power
       - key: CACHE_TTL_SECONDS
         value: "900"
       - key: REQUEST_TIMEOUT_SECONDS
