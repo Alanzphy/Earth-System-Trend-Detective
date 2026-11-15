@@ -1,27 +1,48 @@
 {
-  "version": 2,
-  "generated_at": "2026-11-14T00:00:00Z",
-  "maps": [
-    {
-      "id": "sample-precipitation",
-      "title": "Sample: precipitation trends",
-      "variable": "precipitation",
-      "units": "mm/day",
-      "slope_units": "mm/day/decade",
-      "period": [
-        "1981-01",
-        "2025-12"
-      ],
-      "palette": "BrBG",
-      "cell_size_deg": 2.0,
-      "file": "sample-precipitation.geojson",
-      "legend": {
-        "min": -0.12,
-        "max": 0.12
-      },
-      "alpha": 0.05,
-      "fdr": false,
-      "is_sample": true
-    }
-  ]
+ "version": 2,
+ "generated_at": "2026-11-15T01:22:59+00:00",
+ "maps": [
+  {
+   "id": "temperature_2m-1981-2025",
+   "title": "Air temperature at 2 m: trend 1981–2025",
+   "variable": "temperature_2m",
+   "units": "°C",
+   "slope_units": "°C/decade",
+   "period": [
+    "1981-01",
+    "2025-12"
+   ],
+   "palette": "RdBu",
+   "cell_size_deg": 2.5,
+   "file": "temperature_2m-1981-2025.geojson",
+   "legend": {
+    "min": -0.51,
+    "max": 0.51
+   },
+   "alpha": 0.05,
+   "fdr": true,
+   "is_sample": false
+  },
+  {
+   "id": "precipitation-1981-2025",
+   "title": "Precipitation: trend 1981–2025",
+   "variable": "precipitation",
+   "units": "mm/day",
+   "slope_units": "mm/day/decade",
+   "period": [
+    "1981-01",
+    "2025-12"
+   ],
+   "palette": "BrBG",
+   "cell_size_deg": 2.5,
+   "file": "precipitation-1981-2025.geojson",
+   "legend": {
+    "min": -0.43,
+    "max": 0.43
+   },
+   "alpha": 0.05,
+   "fdr": true,
+   "is_sample": false
+  }
+ ]
 }

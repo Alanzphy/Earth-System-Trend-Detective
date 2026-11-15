@@ -27,7 +27,7 @@ TILE_DEG = 10
 CELL_DEG = 2.5
 LAT_RANGE = (-60, 70)
 ALPHA = 0.05
-WORKERS = 6
+WORKERS = 3  # NASA POWER answers HTTP 429 with more parallel requests
 
 
 @dataclass(frozen=True)
