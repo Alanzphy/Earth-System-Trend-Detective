@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { loadDemo, loadDemoManifest } from "../lib/demos";
 import { formatPValue, formatSigned } from "../lib/format";
-import { significanceText, verdictHeadline } from "../lib/verdict";
+import { verdictHeadline } from "../lib/verdict";
 import type { AnalysisResponse, DemoManifest } from "../types/contracts";
 
 type State =
@@ -90,7 +90,7 @@ export function FindingCard() {
 
       <p className={`finding__badge ${headline.significant ? "is-yes" : "is-no"}`}>
         <span aria-hidden="true">{headline.significant ? "✓" : "✗"}</span>
-        {significanceText(headline.significant, trend.alpha)}
+        {headline.significant ? "Statistically significant" : "Not statistically significant"}
       </p>
 
       <p className="finding__verdict">{state.analysis.verdict}</p>

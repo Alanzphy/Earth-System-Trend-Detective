@@ -952,82 +952,139 @@ button {
 }
 
 .verdict {
-  padding: 1rem;
-  border: 1px solid #d9e2ec;
-  border-left-width: 6px;
-  border-radius: 0.75rem;
-  background: #fff;
+  padding: var(--space-6);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
 }
 
-.verdict--significant {
-  border-left-color: #2f855a;
+.verdict__figure {
+  display: grid;
+  gap: var(--space-2);
 }
 
-.verdict--not-significant {
-  border-left-color: #829ab1;
-}
-
-.verdict__headline {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.verdict__number {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 2.75rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
 }
 
-.verdict__icon {
-  font-size: 1.6rem;
+.verdict__number span {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.verdict__band {
+  position: relative;
+  height: 6px;
+  margin: var(--space-2) 0 0;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+}
+
+.verdict__band i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: var(--r-pill);
+  background: color-mix(in oklab, var(--accent) 55%, var(--line-strong));
+}
+
+.verdict__band u {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--ink);
+}
+
+.verdict__ci {
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-xs);
+  color: var(--muted);
 }
 
 .verdict__badge {
-  display: inline-block;
-  margin: 0.5rem 0;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+  font-weight: 600;
 }
 
 .verdict__badge--yes {
-  background: #c6f6d5;
-  color: #22543d;
+  background: var(--accent-quiet);
+  color: var(--accent);
 }
 
 .verdict__badge--no {
-  background: #e2e8f0;
-  color: #334e68;
+  background: var(--surface-2);
+  color: var(--ink-2);
 }
 
 .verdict__summary {
-  margin: 0.25rem 0 0.75rem;
+  margin: var(--space-4) 0 0;
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  max-width: 62ch;
 }
 
 .verdict__facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.5rem 1rem;
-  margin: 0;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-6) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
 }
 
-.verdict__facts dt {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #486581;
+.verdict__facts dt,
+.verdict__details dt {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--muted);
 }
 
-.verdict__facts dd {
-  margin: 0;
+.verdict__facts dd,
+.verdict__details dd {
+  margin: 2px 0 0;
+}
+
+.verdict__details {
+  margin: var(--space-4) 0 0;
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-3);
+}
+
+.verdict__details summary {
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  color: var(--accent);
+}
+
+.verdict__details dl {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
 }
 
 .verdict__learn {
   display: block;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 
 .verdict__note {
-  margin: 0.75rem 0 0;
-  font-size: 0.85rem;
-  color: #486581;
+  margin: var(--space-4) 0 0;
+  font-size: var(--fs-xs);
+  color: var(--muted);
 }
 
 /* Glossary toggletip */
@@ -1079,4 +1136,36 @@ button {
 
 .glossary-term__popover[hidden] {
   display: none;
+}
+
+.chart {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.chart__toggle {
+  justify-self: start;
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  border-radius: var(--r-sm);
+  padding: 6px 10px;
+  font: 500 var(--fs-xs) var(--font-ui);
+  cursor: pointer;
+}
+
+.chart__toggle:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.verdict__direction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink-2);
 }
