@@ -18,7 +18,7 @@ flowchart LR
 | data | Descargar/subconjuntar variables por región y periodo; cache | `src/data/` |
 | analysis | Agregación, remoción estacional, tendencia, significancia | `src/analysis/` |
 | api | Exponer catálogo y resultados | `src/api/` |
-| ui | Flujo guiado, mapa, gráficos, demos | `src/ui/` |
+| ui | Selector de lugar, tarjeta de caso, evidencia, casos de Chihuahua, mapa | `src/ui/` |
 
 ## Contratos
 
@@ -41,7 +41,6 @@ CI falla si `openapi.json` o `contracts.gen.ts` no coinciden con los modelos.
 | `AnalysisResponse` | analysis → api → ui | Serie, anomalías, línea de tendencia, `TrendResult`, veredicto en texto |
 | `TrendRequest` | ui → api | Variable, bbox, periodo |
 | `ErrorResponse` | api → ui | `{error: {code, message}}` |
-| `DemoManifest`, `Demo`, `DemoPanel` | pipeline → ui (estático) | Demos precalculadas en `src/ui/public/demos/` |
 | `TrendMapManifest`, `TrendMapEntry`, `TrendCellProperties` | pipeline → ui (estático) | Mapas de tendencia en `src/ui/public/trend-maps/` |
 
 ## API
@@ -58,6 +57,6 @@ Decidido en [`decisions/2026-11-14-stack.md`](decisions/2026-11-14-stack.md):
 
 - **Frontend**: React + Vite + TypeScript · MapLibre GL · Plotly · pnpm · eslint + vitest · Vercel
 - **Backend**: Python 3.12 + FastAPI en Docker · NASA POWER (endpoint `regional`, promedio por área en `data`) · pymannkendall + scipy · uv · ruff + pytest · Render (gratis)
-- **Precalculado**: pipeline Python en `src/pipeline/` → demos y mapas de tendencia como archivos estáticos en `src/ui/public/`
+- **Precalculado**: pipeline Python en `src/pipeline/` → lugares precalculados (`regions/`, con `summary.json` para los casos) y mapas de tendencia como archivos estáticos en `src/ui/public/`
 - **Contratos**: Pydantic (`src/contracts/`) → OpenAPI → tipos TS (`openapi-typescript`)
 - **Sin base de datos**: caché temporal en el backend

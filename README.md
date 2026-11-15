@@ -10,7 +10,7 @@ Built for the **2026 NASA Space Apps Challenge**.
 |---|---|
 | Source code | https://github.com/Alanzphy/Earth-System-Trend-Detective |
 | Web app | https://earth-system-trend-detective-xi.vercel.app |
-| API health | https://estd-api-8l11.onrender.com/health (the free Render tier may take ~1 minute to wake up; demos and maps do not need it) |
+| API health | https://estd-api-8l11.onrender.com/health (the free Render tier may take ~1 minute to wake up; precomputed places, cases and maps do not need it) |
 | Space Apps project page | Add the public project page URL before submission |
 
 ## What it does
@@ -28,12 +28,12 @@ The UI is in English by default, following the Space Apps minimum requirements.
 
 ## How it works
 
-1. **Guided questions** help the user choose a topic and a region.
-2. **Variable catalog** provides simple definitions and units.
+1. **Pick a place**: eight zones of Chihuahua (Mexico), the whole state, four world regions, or any area drawn or typed.
+2. **Case card** shows what changed for all eight NASA POWER variables, in plain units, with a simple definition of each term.
 3. **Data layer** downloads monthly gridded data from NASA POWER (MERRA-2 based, 0.5° × 0.625°) for the region and averages it with cos(latitude) weights.
 4. **Analysis layer** removes the seasonal cycle (monthly anomalies), estimates the slope per decade with Theil–Sen and tests significance with the Mann–Kendall test using the Hamed–Rao correction for autocorrelation (α = 0.05).
 5. **Verdict** reports direction, change per decade with 95% confidence interval, total change, p-value, method, period, region and units in plain language. It describes past change; it is not a forecast.
-6. **Precomputed demos and trend maps** (2.5° cells worldwide, Benjamini–Hochberg FDR correction across cells) are served as static files, so they work even when the free backend is asleep.
+6. **Precomputed places, Chihuahua cases and trend maps** (2.5° cells worldwide, Benjamini–Hochberg FDR correction across cells) are served as static files, so they work even when the free backend is asleep.
 
 ## NASA data and credits
 
@@ -48,7 +48,7 @@ This is not an official NASA product and is not endorsed by NASA. No NASA logos,
 
 - **Frontend**: React, Vite, TypeScript, MapLibre GL, Plotly, pnpm, ESLint, Vitest, Vercel.
 - **Backend**: Python 3.12, FastAPI, Pydantic, pymannkendall, uv, ruff, pytest, Docker, Render.
-- **Precomputed data**: Python pipeline for demos and pixel trend maps, served as static files.
+- **Precomputed data**: Python pipeline for places (all eight variables per place) and pixel trend maps, served as static files.
 - **Contracts**: Pydantic models → OpenAPI → TypeScript types.
 
 ## Repository layout
@@ -59,7 +59,7 @@ src/contracts/ shared Pydantic schemas → OpenAPI → TypeScript types
 src/data/      NASA POWER client, tiling, area averages
 src/analysis/  anomalies, Theil–Sen, Mann–Kendall (Hamed–Rao), verdict
 src/api/       FastAPI backend (/variables, /trend)
-src/pipeline/  offline generation of demos and trend maps
+src/pipeline/  offline generation of precomputed places and trend maps
 src/ui/        React frontend
 ```
 
@@ -80,10 +80,10 @@ API:
 uv run uvicorn app.main:app --reload
 ```
 
-Regenerate demos and trend maps (writes `src/ui/public/`; trend maps download ~2 GB from NASA POWER):
+Regenerate precomputed places and trend maps (writes `src/ui/public/`; trend maps download ~2 GB from NASA POWER):
 
 ```sh
-uv run python -m pipeline demos
+uv run python -m pipeline regions
 uv run python -m pipeline trend-maps
 ```
 

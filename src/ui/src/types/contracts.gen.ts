@@ -49,53 +49,6 @@ export interface components {
             /** Variables */
             variables: components["schemas"]["Variable"][];
         };
-        /** Demo */
-        Demo: {
-            /** Id */
-            id: string;
-            /** Title */
-            title: string;
-            /** Summary */
-            summary: string;
-            /** Panels */
-            panels: components["schemas"]["DemoPanel"][];
-        };
-        /** DemoManifest */
-        DemoManifest: {
-            /**
-             * Version
-             * @default 1
-             * @constant
-             */
-            version: 1;
-            /** Generated At */
-            generated_at: string;
-            /** Demos */
-            demos: components["schemas"]["DemoSummary"][];
-        };
-        /** DemoPanel */
-        DemoPanel: {
-            /**
-             * Label
-             * @example Western Sahel
-             */
-            label: string;
-            analysis: components["schemas"]["AnalysisResponse"];
-        };
-        /** DemoSummary */
-        DemoSummary: {
-            /** Id */
-            id: string;
-            /** Title */
-            title: string;
-            /** Summary */
-            summary: string;
-            /**
-             * File
-             * @description Path relative to the demos folder.
-             */
-            file: string;
-        };
         /** ErrorDetail */
         ErrorDetail: {
             /** Code */

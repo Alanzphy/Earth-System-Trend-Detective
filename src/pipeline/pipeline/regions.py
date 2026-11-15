@@ -91,6 +91,45 @@ def build_manifest(specs: tuple[RegionSpec, ...] = REGIONS) -> dict:
     }
 
 
+def build_summary(built: list[dict]) -> dict:
+    """Small file for the cases section: headline numbers and yearly temperature per region,
+    so a phone does not download every full region file to draw a comparison strip."""
+    regions = {}
+    for region in built:
+        variables = {}
+        for var_id, analysis in region["variables"].items():
+            values = [v for v in analysis["series"]["values"] if v is not None]
+            trend = analysis["trend"]
+            variables[var_id] = {
+                "mean": sum(values) / len(values),
+                "total_change": trend["total_change"],
+                "slope_per_decade": trend["slope_per_decade"],
+                "slope_units": trend["slope_units"],
+                "p_value": trend["p_value"],
+                "alpha": trend["alpha"],
+                "significant": trend["significant"],
+                "direction": trend["direction"],
+                "period_start": trend["period_start"],
+                "period_end": trend["period_end"],
+            }
+        heat = region["variables"]["temperature_2m"]
+        years: dict[str, list[float]] = {}
+        for month, value in zip(heat["series"]["time"], heat["anomalies"], strict=True):
+            if value is not None:
+                years.setdefault(month[:4], []).append(value)
+        regions[region["id"]] = {
+            "name": region["name"],
+            "temperature_annual": [
+                {"year": year, "value": sum(vals) / 12}
+                for year, vals in years.items()
+                if len(vals) == 12
+            ],
+            "variables": variables,
+        }
+    generated_at = datetime.now(UTC).isoformat(timespec="seconds")
+    return {"version": 1, "generated_at": generated_at, "regions": regions}
+
+
 def write_regions(out_dir: Path, specs: tuple[RegionSpec, ...] = REGIONS) -> dict:
     # Build everything first so a failure never leaves a partial set on disk.
     built = [build_region(spec) for spec in specs]
@@ -105,6 +144,8 @@ def write_regions(out_dir: Path, specs: tuple[RegionSpec, ...] = REGIONS) -> dic
                 for k, v in t.items()
             )
         )
+    summary = json.dumps(build_summary(built), ensure_ascii=False, separators=(",", ":"))
+    (out_dir / "summary.json").write_text(summary + "\n")
     manifest = build_manifest(specs)
     text = json.dumps(manifest, ensure_ascii=False, indent=1)
     (out_dir / "manifest.json").write_text(text + "\n")

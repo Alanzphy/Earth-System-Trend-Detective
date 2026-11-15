@@ -19,28 +19,16 @@ Una sola vista en inglés, organizada alrededor de la pregunta **"Is your town c
 
 El estado vive en la URL: `?place=<id>` o `?bbox=minLon,minLat,maxLon,maxLat`, más `compare=<id>` y `var=<variable>`. Un enlace restaura el caso completo.
 
-## Demos obligatorias
+## Casos (ejemplos de demostración del reto)
 
-Ambas validadas con datos reales de NASA POWER (1981-01 → 2025-12, anomalías mensuales, Theil–Sen + Mann–Kendall con corrección Hamed–Rao, α = 0.05). Valores generados por el pipeline (`uv run python -m pipeline demos`, Hamed–Rao con 12 rezagos); los archivos están en `src/ui/public/demos/`.
+Sección "Cases from Chihuahua" de la UI. Cifras de `public/regions/summary.json` (NASA POWER 1981-01 → 2025-12, anomalías mensuales, Theil–Sen + Mann–Kendall con corrección Hamed–Rao, α = 0.05), generadas por `uv run python -m pipeline regions`; ningún número está escrito a mano. Cada caso abre la investigación con su lugar, variable y comparación. Decisión: [`decisions/2026-11-15-chihuahua-cases.md`](decisions/2026-11-15-chihuahua-cases.md).
 
-### Demo 1: calentamiento de la península ibérica
-
-- **Variable**: `temperature_2m` (temperatura del aire a 2 m).
-- **Fuente**: NASA POWER (`T2M`).
-- **Región**: península ibérica, bbox `[-10, 36, 3, 44]` (357 puntos de rejilla).
-- **Periodo**: 1981-01 a 2025-12, mensual.
-- **Resultado**: **+0.26 °C/década, p < 0.001** → aumento significativo.
-- **Mensaje**: "Near-surface air temperature here rose about 0.26 °C per decade since 1981."
-
-### Demo 2: misma variable, direcciones opuestas
-
-- **Variable**: `precipitation`, **misma fuente para ambas regiones**: NASA POWER (`PRECTOTCORR`).
-- **Región A**: Sahel occidental, bbox `[-17, 12, -2, 18]` → **+0.028 mm/día/década, p = 0.0035** (más lluvia; recuperación del Sahel tras las sequías de los 70–80).
-- **Región B**: Chile central, bbox `[-73, -38, -70, -30]` → **−0.111 mm/día/década, p < 0.001** (menos lluvia; "megasequía" chilena).
-- **Periodo**: 1981-01 a 2025-12, mensual.
-- **Mensaje**: "The same variable can rise in one region and fall in another."
-
-Descartados en la validación por no ser significativos: Mediterráneo occidental (p = 0.83), Sahel completo `[-15, 12, 30, 18]` (p = 0.32).
+| Caso | Lugar / variable | Resultado |
+|---|---|---|
+| **Delicias is heating up** | Delicias, temperatura | +2.4 °C desde 1981, p < 0.001 |
+| **Less rain, drier soil in Cuauhtémoc** | Cuauhtémoc, lluvia y humedad del suelo | −167 mm/año (−34 %), p = 0.010; suelo −11 %, p = 0.044 |
+| **Not one town: all of Chihuahua** | 8 zonas, temperatura y lluvia | +2.0 a +2.4 °C y −28 % a −39 % de lluvia, todas significativas |
+| **Same rain, opposite directions** | Estado de Chihuahua vs Sahel occidental, lluvia | −143 mm/año (−32 %) vs +45 mm/año (+8 %): la misma variable cambia en sentidos opuestos |
 
 ## Catálogo de variables (MVP, todas de NASA POWER)
 
@@ -57,19 +45,17 @@ Descartados en la validación por no ser significativos: Mediterráneo occidenta
 
 Parámetros y conversiones de unidades en `data-sources.md`. SST, aerosoles y NDVI (Giovanni) quedan fuera del MVP.
 
-## Regiones de ejemplo
+## Lugares precalculados
 
-NASA POWER exige bboxes de al menos 2° × 2°; regiones mayores de 10° se piden en teselas.
+NASA POWER exige bboxes de al menos 2° × 2°; regiones mayores de 10° se piden en teselas. Definidos en `src/pipeline/pipeline/regions.py`.
 
-| Tipo / uso | Región | Bbox `[minLon, minLat, maxLon, maxLat]` |
-|---|---|---|
-| Desierto | Sahara occidental | `[-15, 15, 5, 30]` |
-| Selva | Amazonía central | `[-70, -10, -55, 0]` |
-| Estuario | Río de la Plata | `[-59, -36, -55, -33]` |
-| Ciudad | Madrid y alrededores | `[-4.75, 39.4, -2.75, 41.4]` |
-| Demo 1 | Península ibérica | `[-10, 36, 3, 44]` |
-| Demo 2A | Sahel occidental | `[-17, 12, -2, 18]` |
-| Demo 2B | Chile central | `[-73, -38, -70, -30]` |
+| Grupo | Lugares |
+|---|---|
+| Chihuahua (2° × 2° alrededor de cada ciudad) | Cuauhtémoc, Delicias, Chihuahua, Ciudad Juárez, Hidalgo del Parral, Nuevo Casas Grandes, Jiménez, Ojinaga |
+| Chihuahua (estado) | `[-109, 25.5, -103.3, 31.8]` |
+| Around the world | Península ibérica `[-10, 36, 3, 44]`, Sahel occidental `[-17, 12, -2, 18]`, Chile central `[-73, -38, -70, -30]`, Amazonía central `[-70, -10, -55, 0]` |
+
+Cualquier otro lugar se analiza en vivo con coordenadas o dibujando un rectángulo.
 
 ## Fuera de alcance (MVP)
 

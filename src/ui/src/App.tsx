@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ApiStatus } from "./components/ApiStatus";
 import { CaseCard } from "./components/CaseCard";
 import { ComparisonScale } from "./components/ComparisonScale";
-import { DemoGallery } from "./components/DemoGallery";
+import { Cases, type CaseTarget } from "./components/Cases";
 import { EvidencePanel } from "./components/EvidencePanel";
 import { CUSTOM, PlacePicker } from "./components/PlacePicker";
 import { TrendMap } from "./components/TrendMap";
@@ -74,6 +74,14 @@ function App() {
   const second = usePlaceAnalyses(other);
 
   const update = useCallback((patch: Partial<Selection>) => setSelection((current) => ({ ...current, ...patch })), []);
+
+  const openCase = useCallback(
+    (target: CaseTarget) => {
+      update({ ...target, custom: null });
+      document.getElementById("investigate")?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+    },
+    [update],
+  );
 
   const investigateCell = useCallback(
     (region: TrendRegionSelection) => {
@@ -158,6 +166,14 @@ function App() {
           )}
         </section>
 
+        <section id="cases" className="section" aria-labelledby="cases-heading">
+          <div className="section__head">
+            <h2 id="cases-heading">Cases from Chihuahua</h2>
+            <p>Real findings from NASA data, prepared with the same method. Open one to investigate it yourself.</p>
+          </div>
+          <Cases onOpen={openCase} />
+        </section>
+
         <section id="map" className="section" aria-labelledby="map-heading">
           <div className="section__head">
             <h2 id="map-heading">Where is it changing fastest?</h2>
@@ -167,14 +183,6 @@ function App() {
             </p>
           </div>
           <TrendMap onAnalyzeRegion={investigateCell} />
-        </section>
-
-        <section id="cases" className="section" aria-labelledby="cases-heading">
-          <div className="section__head">
-            <h2 id="cases-heading">Same variable, opposite directions</h2>
-            <p>Real cases prepared with the same method. They work even when live analysis is asleep.</p>
-          </div>
-          <DemoGallery />
         </section>
 
         <section id="method" className="section method" aria-labelledby="method-heading">

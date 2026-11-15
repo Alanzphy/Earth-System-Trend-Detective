@@ -22,57 +22,53 @@ Earth System Trend Detective
 
 ### Elevator pitch
 
-A student-friendly tool that turns NASA Earth science data into a detective story: pick a variable and a region, see how it changes over time, and find out whether the trend is statistically significant.
+Chihuahua, Mexico, has warmed about 2.4 °C since 1981 and lost about a third of its rain. Earth System Trend Detective turns a student's phone into a scientific instrument: pick your town, read 45 years of NASA data, and find out what changed, how much, and whether it is real — then keep the evidence as your own case card.
 
 ### Inspiration
 
-Earth's environment is always changing. A variable can rise in one region and fall in another, even when the same process drives both. NASA satellites and models measure many variables, but students need help choosing which ones show change and understanding what the numbers mean.
+We give workshops in public schools in Chihuahua, a farming region hit by drought. The data about how the climate is changing exists — decades of NASA satellite-based and model data — but it does not reach the young people who will live from this land, in a form they can understand. Phones were made to consume; we wanted students to use theirs to investigate. The challenge asks exactly this: help students find what changes, where, how much, and whether it is significant.
 
 ### What it does
 
-- Lets students explore eight NASA POWER variables: air temperature, precipitation, relative and specific humidity, wind speed, solar radiation, evapotranspiration and root-zone soil wetness (1981–2025, monthly).
-- Shows a time series, a deseasonalized series and a trend line for a selected region and period.
-- Reports the direction, magnitude in units per decade, p-value and significance in plain language.
-- Compares regions to reveal opposite trends of the same variable.
-- Includes a precomputed pixel trend map that shows where change is happening, with statistically significant areas highlighted and non-significant areas faded.
-- Keeps demos and maps available as static files, so the landing page still works when the free backend is asleep.
+- **Pick a place**: eight zones of Chihuahua, the whole state, world regions, or any area drawn on a map or typed as coordinates.
+- **Case card**: what changed there since 1981 for eight NASA POWER variables at once (heat, rain, soil moisture, evaporation, humidity, sunlight, wind, water vapor), in units anyone can picture ("+2.4 °C", "−118 mm of rain per year"), with yearly warming stripes. Changes that are not statistically significant say "No clear trend".
+- **How we know it's real**: the monthly series with and without the seasons, the trend line, change per decade with 95% confidence interval, p-value, months analyzed and method. Every term opens a simple definition.
+- **Save my case card**: an image made on the device with a nickname and school, ready to share. Nothing is uploaded.
+- **Cases from Chihuahua**: Delicias is heating up; less rain and drier soil in Cuauhtémoc; all eight zones warmer and drier; the same rain falling in Chihuahua and rising in the Western Sahel.
+- **World trend map**: where temperature and rain changed fastest (2.5° cells, false discovery rate correction); any cell can be investigated live.
+- Works while the free backend sleeps: places, cases and maps are precomputed static files.
 
 ### How we built it
 
-- React, Vite, TypeScript, MapLibre GL and Plotly for the interface.
-- FastAPI and Pydantic for the backend and contracts.
-- cos(latitude)-weighted area averages, monthly anomalies, Theil–Sen slope per decade and Mann–Kendall test with the Hamed–Rao autocorrelation correction.
-- NASA POWER monthly regional data (MERRA-2 based), requested in 10° tiles.
-- An offline pipeline for demos and worldwide 2.5° trend maps with Benjamini–Hochberg FDR correction.
+- React, Vite, TypeScript, MapLibre GL and Plotly for the interface; FastAPI and Pydantic for the API and shared contracts.
+- NASA POWER monthly regional data (MERRA-2 meteorology, CERES/GEWEX solar radiation), cos(latitude)-weighted area averages, monthly anomalies, Theil–Sen slope per decade and Mann–Kendall test with the Hamed–Rao autocorrelation correction.
+- An offline pipeline that precomputes every place with exactly the same code as the live API, plus worldwide 2.5° trend maps with Benjamini–Hochberg FDR correction.
 - GitHub Actions for linting, tests and contract/type drift checks.
 
 ### Challenges
 
-- Regional trends can be noisy and seasonal, so the seasonal cycle must be removed before testing.
-- A trend can be real but not statistically significant; the interface must explain that difference without misleading students.
-- NASA services can be slow or require authentication, so the user experience needs caching, clear loading states and static demos.
-- The same variable can show opposite trends in nearby regions, which is exactly the behavior the tool should make visible.
+- Seasons hide slow change: the seasonal cycle must be removed before testing a trend.
+- A trend can look real and still be chance; the interface must say "not significant" without suggesting that nothing changed.
+- Making statistics readable for 12–18-year-olds without hiding the evidence a scientist would ask for.
+- One NASA POWER evapotranspiration parameter is zero most months over dry regions; we found it with the Chihuahua data and switched to land evaporation (EVLAND).
 
 ### Accomplishments
 
-- An end-to-end tool: guided flow, live analysis of any region through the API, plain-language verdicts, region comparison.
-- Two demos validated with real data: Iberian warming (+0.26 °C/decade) and opposite rainfall trends in the Western Sahel (wetter) and Central Chile (drier).
-- Worldwide trend maps with significance after FDR correction and variable-appropriate color scales.
-- Shared contracts from Python to TypeScript, verified in CI.
+- Real, local findings: every Chihuahua zone warmed +2.0 to +2.4 °C and lost 28–39% of its rain since 1981, all statistically significant; the state warms about 2.5 times the average of our world map.
+- A complete tool: any place on Earth, eight variables, plain-language verdicts, comparison, shareable case cards, phone-first design.
+- Every number in the app comes from the same tested code path; shared contracts from Python to TypeScript are verified in CI.
 
 ### What we learned
 
 - Removing seasonality and choosing the right significance test matter as much as the visualization.
-- Students need simple definitions and a clear verdict, not only charts.
-- Static precomputation is a practical way to keep a free deployment responsive.
-- Statistical significance and practical significance are different questions.
+- Students need a clear answer first and the evidence one tap away.
+- We know our limits: experts in agronomy and statistics should validate what students find, and teachers should shape the activity.
 
 ### What's next
 
-- Add satellite-only variables (sea surface temperature, aerosols, vegetation) through NASA Giovanni / GES DISC.
-- Daily data and seasonal (per-month) trends.
-- Detect non-linear change and breakpoints.
-- Add an optional Spanish/English selector.
+- A pilot in the public schools where we already give workshops, and weekly challenges for student clubs (a format like the one Las Niñas Sí Pueden uses).
+- Partnering with agronomy and statistics faculty (UACH) to review students' cases.
+- A Spanish version, a shared atlas of students' cases, and combining field sensors with satellite records.
 
 ### Built with
 

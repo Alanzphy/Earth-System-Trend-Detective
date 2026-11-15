@@ -73,3 +73,27 @@ def test_manifest_shape_lists_chihuahua_first() -> None:
     for r in regions:
         assert set(r) == {"id", "name", "group", "bbox", "file"}
         assert r["file"] == f"{r['id']}.json" and len(r["bbox"]) == 4
+
+
+def test_summary_keeps_trend_numbers_and_complete_years_only() -> None:
+    from pipeline.regions import build_summary
+
+    months = [f"2000-{m:02d}" for m in range(1, 13)] + ["2001-01"]
+    trend = {
+        "total_change": -0.4, "slope_per_decade": -0.1, "slope_units": "mm/day/decade",
+        "p_value": 0.01, "alpha": 0.05, "significant": True, "direction": "decreasing",
+        "period_start": "2000-01", "period_end": "2001-01",
+    }
+    analysis = {
+        "series": {"time": months, "values": [1.0] * 12 + [None]},
+        "anomalies": [0.5] * 12 + [2.0],
+        "trend": trend,
+    }
+    summary = build_summary([{"id": "x", "name": "X", "variables": {
+        "temperature_2m": analysis, "precipitation": analysis,
+    }}])
+    region = summary["regions"]["x"]
+    # 2001 has one month only: never a stripe from a partial year.
+    assert region["temperature_annual"] == [{"year": "2000", "value": 0.5}]
+    assert region["variables"]["precipitation"]["mean"] == 1.0
+    assert region["variables"]["precipitation"]["total_change"] == -0.4

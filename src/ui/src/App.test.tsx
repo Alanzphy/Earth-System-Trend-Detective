@@ -1,8 +1,10 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import centralChile from "../public/regions/central-chile.json?raw";
+import chihuahuaState from "../public/regions/chihuahua-state.json?raw";
 import delicias from "../public/regions/delicias.json?raw";
 import manifest from "../public/regions/manifest.json?raw";
+import summary from "../public/regions/summary.json?raw";
 import westernSahel from "../public/regions/western-sahel.json?raw";
 import App from "./App";
 import type { TrendRegionSelection } from "./lib/trendMaps";
@@ -11,7 +13,6 @@ import type { TrendRequest } from "./types/contracts";
 
 vi.mock("./components/ApiStatus", () => ({ ApiStatus: () => <p>API status</p> }));
 vi.mock("./components/AnalysisChart", () => ({ AnalysisChart: () => <div>Chart</div> }));
-vi.mock("./components/DemoGallery", () => ({ DemoGallery: () => <p>Demos</p> }));
 
 const cell: TrendRegionSelection = {
   id: "cell",
@@ -41,6 +42,8 @@ const FILES: Record<string, string> = {
   "regions/delicias.json": delicias,
   "regions/western-sahel.json": westernSahel,
   "regions/central-chile.json": centralChile,
+  "regions/chihuahua-state.json": chihuahuaState,
+  "regions/summary.json": summary,
 };
 
 type FetchMock = Mock<(url: string, init?: RequestInit) => Promise<Response>>;
@@ -128,5 +131,22 @@ describe("App", () => {
     expect(await within(card).findByRole("button", { name: /Wind No clear trend/ })).toBeInTheDocument();
     expect(within(card).getByRole("button", { name: /^Rain/ })).toHaveAttribute("aria-pressed", "true");
     expect(new URLSearchParams(window.location.search).get("bbox")).toBe("-107.5,27.5,-105,30");
+  });
+
+  it("opens a Chihuahua case as a comparison in the investigation", async () => {
+    const fetchMock = mockNetwork();
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<App />);
+    const cases = await screen.findByRole("region", { name: "Cases from Chihuahua" });
+    // Real numbers from summary.json: every Chihuahua zone is listed with its warming.
+    expect(await within(cases).findAllByRole("row")).toHaveLength(9);
+    fireEvent.click(within(cases).getByRole("button", { name: "Compare them" }));
+
+    expect(await screen.findByRole("article", { name: "State of Chihuahua" })).toBeInTheDocument();
+    expect(await screen.findByRole("article", { name: "Western Sahel" })).toBeInTheDocument();
+    const params = new URLSearchParams(window.location.search);
+    expect([params.get("place"), params.get("compare"), params.get("var")]).toEqual(["chihuahua-state", "western-sahel", "precipitation"]);
+    expect(trendCalls(fetchMock)).toHaveLength(0);
   });
 });

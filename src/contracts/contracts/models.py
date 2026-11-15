@@ -123,34 +123,6 @@ class ErrorResponse(Model):
     error: ErrorDetail
 
 
-# ---- Precomputed demos (static files under src/ui/public/demos/) ----
-
-
-class DemoPanel(Model):
-    label: str = Field(examples=["Western Sahel"])
-    analysis: AnalysisResponse
-
-
-class Demo(Model):
-    id: str
-    title: str
-    summary: str
-    panels: list[DemoPanel] = Field(min_length=1, max_length=2)
-
-
-class DemoSummary(Model):
-    id: str
-    title: str
-    summary: str
-    file: str = Field(description="Path relative to the demos folder.")
-
-
-class DemoManifest(Model):
-    version: Literal[1] = 1
-    generated_at: str
-    demos: list[DemoSummary]
-
-
 # ---- Precomputed trend maps (static files under src/ui/public/trend-maps/) ----
 
 
@@ -213,10 +185,6 @@ ALL_MODELS: tuple[type[BaseModel], ...] = (
     AnalysisResponse,
     TrendRequest,
     ErrorResponse,
-    DemoPanel,
-    Demo,
-    DemoSummary,
-    DemoManifest,
     TrendMapLegend,
     TrendMapEntry,
     TrendMapManifest,

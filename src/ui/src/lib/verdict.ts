@@ -10,7 +10,9 @@ export type VerdictHeadline = {
  * Only call a trend significant when the API says so AND p < alpha;
  * otherwise the headline never claims a direction as real.
  */
-export function verdictHeadline(trend: TrendResult): VerdictHeadline {
+export function verdictHeadline(
+  trend: Pick<TrendResult, "significant" | "p_value" | "alpha" | "direction">,
+): VerdictHeadline {
   const significant = trend.significant && trend.p_value < trend.alpha;
 
   if (!significant || trend.direction === "no trend") {

@@ -24,12 +24,12 @@ export function CheckIcon() {
 }
 
 /** One stripe per year: blue cooler, red warmer than the place's normal. */
-export function Stripes({ years, label }: { years: Array<{ year: string; value: number }>; label: string }) {
+export function Stripes({ years, label, compact = false }: { years: Array<{ year: string; value: number }>; label: string; compact?: boolean }) {
   const max = Math.max(...years.map((year) => Math.abs(year.value)), 0.001);
   const first = years[0]?.year;
   const last = years[years.length - 1]?.year;
   return (
-    <figure className="stripes" aria-label={label}>
+    <figure className={`stripes ${compact ? "stripes--compact" : ""}`} aria-label={label}>
       <div className="stripes__bars" role="img" aria-label={`${label}, ${first} to ${last}`}>
         {years.map((year) => (
           <i
@@ -39,11 +39,13 @@ export function Stripes({ years, label }: { years: Array<{ year: string; value: 
           />
         ))}
       </div>
-      <figcaption>
-        <span className="num">{first}</span>
-        <span>One stripe per year · blue cooler, red warmer than normal</span>
-        <span className="num">{last}</span>
-      </figcaption>
+      {!compact && (
+        <figcaption>
+          <span className="num">{first}</span>
+          <span>One stripe per year · blue cooler, red warmer than normal</span>
+          <span className="num">{last}</span>
+        </figcaption>
+      )}
     </figure>
   );
 }

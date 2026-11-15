@@ -1,1 +1,1 @@
-"""Offline pipeline: demos and trend maps (issue #22). See `python -m pipeline --help`."""
+"""Offline pipeline: trend maps and precomputed places. See `python -m pipeline --help`."""

@@ -38,7 +38,7 @@ The UI runs at `http://localhost:5173` and expects the API at `VITE_API_BASE_URL
 
 ## Estructura de la app
 
-`App.tsx` monta la banda con `PlacePicker`, la investigación (`CaseCard` + `EvidencePanel`, dos de cada uno al comparar dentro de `ComparisonScale`), el mapa (`TrendMap`), los casos reales (`DemoGallery`) y el método. `ApiStatus` queda en el pie.
+`App.tsx` monta la banda con `PlacePicker`, la investigación (`CaseCard` + `EvidencePanel`, dos de cada uno al comparar dentro de `ComparisonScale`), los casos de Chihuahua (`Cases`), el mapa (`TrendMap`) y el método. `ApiStatus` queda en el pie.
 
 - **Estado en la URL**: `?place=<id>` o `?bbox=minLon,minLat,maxLon,maxLat`, más `compare=<id>` y `var=<variable>`.
 - **Datos por lugar**: `src/lib/usePlaceAnalyses.ts`. Lugares precalculados → un archivo de `public/regions/` (`src/lib/places.ts`); áreas personalizadas → `POST /trend` por cada una de las 8 variables (`src/lib/api.ts`), con carga y errores por variable.
@@ -48,9 +48,9 @@ The UI runs at `http://localhost:5173` and expects the API at `VITE_API_BASE_URL
 - **Glosario**: `src/lib/glossary.ts` refleja la columna inglesa de `docs/glossary.md`; `GlossaryTerm` abre una ayuda accesible.
 - **Types**: always import contract types from `src/types/contracts.ts` (aliases of the generated file).
 
-## Demos
+## Casos de Chihuahua
 
-`public/demos/manifest.json` (`DemoManifest`) enumera los casos. Sus JSON (`Demo`) contienen uno o dos paneles y son generados por el pipeline; no se editan a mano. Las vistas previas muestran pendientes, p-valores, anomalías y tendencias desde esos mismos archivos. Abrir el caso muestra la evidencia completa; se puede cerrar sin recargar.
+`Cases` lee `public/regions/summary.json` (`src/lib/summary.ts`): cifras por variable y temperatura anual de cada lugar precalculado, ~56 KB en lugar de cargar cada archivo completo. Lo escribe `uv run python -m pipeline regions`; no se edita a mano. Cada caso abre la investigación con `place`, `compare` y `var`.
 
 ## Trend maps
 

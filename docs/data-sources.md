@@ -94,4 +94,4 @@ Flujo de `get_series`:
 
 ### Regiones precalculadas (`src/ui/public/regions/`)
 
-`uv run python -m pipeline regions` (desde la raíz) calcula las 8 variables del catálogo para 13 regiones fijas (8 zonas de 2° × 2° alrededor de ciudades de Chihuahua, el estado completo y las 4 regiones mundiales de las demos), periodo 1981-01 a 2025-12 (radiación solar desde 1984-01). Usa el mismo camino que `POST /trend` (`data.get_series` + `analysis.compute_trend`), así que los números coinciden con la API. Si una variable falla, el comando falla y no escribe nada.
+`uv run python -m pipeline regions` (desde la raíz) calcula las 8 variables del catálogo para 13 regiones fijas (8 zonas de 2° × 2° alrededor de ciudades de Chihuahua, el estado completo y 4 regiones mundiales), periodo 1981-01 a 2025-12 (radiación solar desde 1984-01). Usa el mismo camino que `POST /trend` (`data.get_series` + `analysis.compute_trend`), así que los números coinciden con la API. Si una variable falla, el comando falla y no escribe nada. También escribe `summary.json` (cifras por variable y temperatura anual por lugar) para la sección de casos.
