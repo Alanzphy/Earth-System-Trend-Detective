@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { loadDemo, loadDemoManifest } from "../lib/demos";
 import type { Demo, DemoSummary } from "../types/contracts";
 import { AnalysisResult } from "./AnalysisResult";
@@ -8,11 +8,17 @@ type Opened =
   | { status: "done"; id: string; demo: Demo }
   | { status: "error"; id: string; message: string };
 
+type Props = {
+  /** Open a case on request (the hero CTA); `nonce` re-opens it on repeat clicks. */
+  autoOpen?: { id: string; nonce: number } | null;
+};
+
 /** Precomputed demos from public/demos/; they work while the API sleeps. */
-export function DemoGallery() {
+export function DemoGallery({ autoOpen }: Props = {}) {
   const [demos, setDemos] = useState<DemoSummary[] | null>(null);
   const [listError, setListError] = useState<string | null>(null);
   const [opened, setOpened] = useState<Opened | null>(null);
+  const handledNonce = useRef(0);
 
   useEffect(() => {
     let active = true;
@@ -46,6 +52,19 @@ export function DemoGallery() {
       );
     }
   }
+
+  useEffect(() => {
+    if (!autoOpen || !demos || autoOpen.nonce === handledNonce.current) {
+      return;
+    }
+    const summary = demos.find((item) => item.id === autoOpen.id);
+    if (!summary) {
+      return;
+    }
+    handledNonce.current = autoOpen.nonce;
+    void open(summary);
+    document.getElementById("demos")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [autoOpen, demos]);
 
   if (listError) {
     return (

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ApiStatus } from "./components/ApiStatus";
 import { DemoGallery } from "./components/DemoGallery";
 import { GuidedFlow, type CatalogState } from "./components/GuidedFlow";
+import { Hero } from "./components/Hero";
 import { LiveAnalysis } from "./components/LiveAnalysis";
 import { TrendMap } from "./components/TrendMap";
 import { getVariables } from "./lib/api";
@@ -30,6 +31,8 @@ function App() {
     return initial.variable && initial.bbox ? { flow: initial, run: 0 } : null;
   });
   const [catalogResult, setCatalogResult] = useState<CatalogResult>({ status: "loading" });
+  // The hero CTA asks the gallery to open the first case; the nonce re-opens it on repeat clicks.
+  const [openCase, setOpenCase] = useState<{ id: string; nonce: number } | null>(null);
   const catalogWaking = useWaking(catalogResult.status === "loading");
   const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
 
@@ -105,64 +108,81 @@ function App() {
       : undefined;
 
   return (
-    <main className="app">
-      <header>
-        <p className="eyebrow">NASA Space Apps 2026</p>
-        <h1>Earth System Trend Detective</h1>
-        <p className="lead">
-          Pick an Earth variable, a region and a period to see how it changed and whether the
-          trend is statistically significant.
-        </p>
-        <p className="disclaimer">We describe past change; this is not a forecast.</p>
-        <ApiStatus />
+    <div className="site">
+      <header className="site-header">
+        <a className="brand" href="#top">
+          Earth Trend Detective
+        </a>
+        <nav className="site-nav" aria-label="Sections">
+          <a href="#demos">Cases</a>
+          <a href="#explore">Explore</a>
+        </nav>
       </header>
 
-      <section className="panel" id="demos" aria-labelledby="demos-heading">
-        <h2 id="demos-heading">Start with a demo</h2>
-        <p>Ready-made, precomputed examples. They load instantly, even if the server is asleep.</p>
-        <DemoGallery />
-      </section>
-
-      <section className="panel" id="trend-map-section" aria-labelledby="trend-map-heading">
-        <h2 id="trend-map-heading">Where is it changing?</h2>
-        <p>
-          Click a cell on the map to see its trend. Faded gray areas are not statistically
-          significant. Use “Analyze this region” to open it in the full analysis.
-        </p>
-        <TrendMap onAnalyzeRegion={analyzeMapRegion} />
-      </section>
-
-      <section className="panel" id="explore" aria-labelledby="explore-heading">
-        <h2 id="explore-heading">Explore a region</h2>
-        <GuidedFlow
-          catalog={catalog}
-          flow={flow}
-          onChange={setFlow}
-          onAnalyze={() => analyze(flow)}
+      <main className="app" id="top">
+        <Hero
+          onOpenCase={() =>
+            setOpenCase((current) => ({
+              id: "iberia-warming",
+              nonce: (current?.nonce ?? 0) + 1,
+            }))
+          }
         />
-      </section>
 
-      <section className="panel" id="analysis" aria-labelledby="analysis-heading">
-        <h2 id="analysis-heading" ref={resultsHeadingRef} tabIndex={-1}>
-          {panels.length > 1 ? "Comparing two regions" : "Results"}
-        </h2>
-        {panels.length === 0 && (
-          <p>Choose a variable, a region and a period above, then press “Analyze”.</p>
-        )}
-        {panels.length > 0 && (
+        <section className="panel" id="demos" aria-labelledby="demos-heading">
+          <h2 id="demos-heading">Start with a demo</h2>
+          <p>Ready-made, precomputed examples. They load instantly, even if the server is asleep.</p>
+          <DemoGallery autoOpen={openCase} />
+        </section>
+
+        <section className="panel" id="trend-map-section" aria-labelledby="trend-map-heading">
+          <h2 id="trend-map-heading">Where is it changing?</h2>
           <p>
-            {variableName ?? submitted?.flow.variable} · {submitted?.flow.start} to{" "}
-            {submitted?.flow.end}
-            {panels.length > 1 && " · same variable and period for both regions"}
+            Click a cell on the map to see its trend. Faded gray areas are not statistically
+            significant. Use “Analyze this region” to open it in the full analysis.
           </p>
-        )}
-        <div className={panels.length > 1 ? "compare-grid" : undefined}>
-          {panels.map((panel) => (
-            <LiveAnalysis key={panel.key} label={panel.label} request={panel.request} />
-          ))}
-        </div>
-      </section>
-    </main>
+          <TrendMap onAnalyzeRegion={analyzeMapRegion} />
+        </section>
+
+        <section className="panel" id="explore" aria-labelledby="explore-heading">
+          <h2 id="explore-heading">Explore a region</h2>
+          <GuidedFlow
+            catalog={catalog}
+            flow={flow}
+            onChange={setFlow}
+            onAnalyze={() => analyze(flow)}
+          />
+        </section>
+
+        <section className="panel" id="analysis" aria-labelledby="analysis-heading">
+          <h2 id="analysis-heading" ref={resultsHeadingRef} tabIndex={-1}>
+            {panels.length > 1 ? "Comparing two regions" : "Results"}
+          </h2>
+          {panels.length === 0 && (
+            <p>Choose a variable, a region and a period above, then press “Analyze”.</p>
+          )}
+          {panels.length > 0 && (
+            <p>
+              {variableName ?? submitted?.flow.variable} · {submitted?.flow.start} to{" "}
+              {submitted?.flow.end}
+              {panels.length > 1 && " · same variable and period for both regions"}
+            </p>
+          )}
+          <div className={panels.length > 1 ? "compare-grid" : undefined}>
+            {panels.map((panel) => (
+              <LiveAnalysis key={panel.key} label={panel.label} request={panel.request} />
+            ))}
+          </div>
+        </section>
+      </main>
+
+      <footer className="site-footer">
+        <p>
+          Data: NASA POWER (MERRA-2, CERES). Not an official NASA product, not endorsed by NASA.
+        </p>
+        <ApiStatus />
+      </footer>
+    </div>
   );
 }
 

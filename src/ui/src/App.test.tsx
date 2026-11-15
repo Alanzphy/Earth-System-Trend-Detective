@@ -72,17 +72,17 @@ describe("App", () => {
     vi.unstubAllGlobals();
   });
 
-  it("renders the header, disclaimer and sections in English", async () => {
+  it("renders the hero, disclaimer and sections in English", async () => {
     vi.stubGlobal("fetch", mockApi());
 
     render(<App />);
 
     expect(
-      screen.getByRole("heading", { name: "Earth System Trend Detective" }),
+      screen.getByRole("heading", { name: "Watch 45 years of Earth change." }),
     ).toBeInTheDocument();
-    expect(screen.getByText("We describe past change; this is not a forecast.")).toBeInTheDocument();
+    expect(screen.getByText(/Descriptive, not a forecast/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Cases" })).toHaveAttribute("href", "#demos");
     expect(screen.getByRole("heading", { name: "Start with a demo" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Where is it changing?" })).toBeInTheDocument();
     expect(await screen.findByRole("radio", { name: /Air temperature at 2 m/ })).toBeInTheDocument();
   });
 
@@ -132,7 +132,8 @@ describe("App", () => {
 
     render(<App />);
     await screen.findByRole("radio", { name: /Air temperature at 2 m/ });
-    fireEvent.click(screen.getByRole("button", { name: "Analyze this region" }));
+    const mapSection = screen.getByRole("region", { name: "Where is it changing?" });
+    fireEvent.click(within(mapSection).getByRole("button", { name: "Analyze this region" }));
 
     await waitFor(() => {
       const panel = screen.getByRole("region", { name: "Western Sahel" });
