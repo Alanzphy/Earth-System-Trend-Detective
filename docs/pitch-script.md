@@ -5,8 +5,8 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 
 # Cómo usar este guion
 
-- **Ritmo**: unas 140–150 palabras por minuto. Sin las frases **[recortable]**, el guion tiene unas 530 palabras (≈ 3:40 leído); con ellas, unas 560 (≈ 3:50).
-- **Ensayo**: ensáyenlo **sin** las frases recortables y con cronómetro, al menos dos veces. Agréguenlas solo si les sobran más de 15 segundos.
+- **Ritmo**: unas 140–150 palabras por minuto. Hablado son unas 480 palabras (≈ 3:18) más los **30 s de la demo**: **≈ 3:48 en total**, sin las frases **[recortable]**. Con ellas se llega a ≈ 4:00, sin margen.
+- **Ensayo**: ensáyenlo **sin** las frases recortables, con cronómetro y con la demo corriendo, al menos dos veces. Agréguenlas solo si les sobran más de 15 segundos.
 - **Reparto sugerido** (3 personas): A, diapositivas 1–2; B, diapositivas 3–4; C, diapositivas 5–7. Cada cambio de voz cae en un cambio de tema.
 - **Lo que está en pantalla**: el video dinámico de `video-plan.md`, un clip por diapositiva.
 - **Cifras**: todas salen de la app (NASA POWER 1981–2025) y están contrastadas en `validation.md`. No redondeen distinto a como está escrito aquí.
@@ -33,17 +33,17 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 >
 > Y muchos son **hijos y nietos de familias que siembran y crían ganado**: van a heredar la tierra y el agua de Chihuahua. Queremos que decidan **con datos, no solo con percepción**.
 
-# 3. La herramienta · 0:55–1:40 (≈ 90 palabras)
+# 3. La herramienta · 0:55–1:40 (≈ 40 palabras + demo de 30 s)
 
-**En pantalla:** la demo: elegir Delicias, contestar las 3 preguntas, revelar.
+**En pantalla:** 15 s con el título "Elige tu lugar · Apuesta · Revela"; después, **la demo de 30 s** (Remotion, subtítulos en español).
 
 > Esto es **Earth System Trend Detective**.
 >
-> El estudiante elige su lugar; por ejemplo, Delicias, **una de las principales zonas agrícolas del estado**. Antes de enseñarle los datos, **le preguntamos qué cree**: ¿hace más calor?, ¿llueve más o menos?, ¿el suelo está más seco? Porque cuando apuestas, **quieres saber la respuesta**.
+> El estudiante elige su lugar (por ejemplo, Delicias, **una de las principales zonas agrícolas del estado**) y, antes de ver los datos, **apuesta qué cambió**. Porque cuando apuestas, **quieres saber la respuesta**.
 >
-> Revela… y aquí está: **más 2.4 grados** desde 1981, menos lluvia y el suelo, **donde viven las raíces**, más seco.
->
-> Son las ocho variables de NASA **que importan en el campo**, y cada una dice **si el cambio es real o no**.
+> Mírenlo.
+
+*(Corre la demo de 30 s. **No hablen encima**: los subtítulos cuentan la historia. Retomen la palabra cuando termine.)*
 
 # 4. Por qué es confiable · 1:40–2:15 (≈ 90 palabras: la más justa; si van largos, quiten aquí la frase [recortable])
 
@@ -105,4 +105,4 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 - **No digan** que ya hay piloto, escuelas aliadas ni convenio con la UACH: son el siguiente paso ("buscamos", "lo que sigue").
 - **No digan** que la app es "para agricultores": es para estudiantes; el campo es lo que está en juego.
 - **No digan** "va a pasar", "en 2050…": la herramienta describe el pasado.
-- Si algo falla en la demo en vivo, sigan con el video: las cifras del guion son las mismas.
+- Si el video no arranca, sigan hablando con la app abierta en el teléfono o la laptop: las cifras del guion son las mismas.
