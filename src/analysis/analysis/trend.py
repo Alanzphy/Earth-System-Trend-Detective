@@ -133,15 +133,14 @@ def _verdict(trend: TrendResult, name: str, units: str) -> str:
             f"{name} {verb} by about {magnitude} ({period}). "
             f"This trend is statistically significant ({p}): it is {chance} to be just chance."
         )
-    if trend.slope_per_decade > 0:
-        change = f"rose slightly, by about {magnitude}"
-    elif trend.slope_per_decade < 0:
-        change = f"fell slightly, by about {magnitude}"
+    if trend.slope_per_decade == 0:
+        estimate = f"{name} shows no clear change ({period})"
     else:
-        change = "shows no clear change"
+        sign = "+" if trend.slope_per_decade > 0 else "−"
+        estimate = f"For {name.lower()}, the estimated change is {sign}{magnitude} ({period})"
     return (
-        f"{name} {change} ({period}), but we cannot rule out chance ({p}). "
-        "A longer period might reveal a trend."
+        f"{estimate}, but we cannot rule out chance ({p}). "
+        "A longer period or a different region might reveal a clear trend."
     )
 
 

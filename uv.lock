@@ -9,6 +9,7 @@ members = [
     "estd-analysis",
     "estd-contracts",
     "estd-data",
+    "estd-pipeline",
 ]
 
 [[package]]
@@ -189,6 +190,7 @@ dependencies = [
     { name = "estd-analysis" },
     { name = "estd-contracts" },
     { name = "estd-data" },
+    { name = "estd-pipeline" },
 ]
 
 [package.dev-dependencies]
@@ -205,6 +207,7 @@ requires-dist = [
     { name = "estd-analysis", editable = "src/analysis" },
     { name = "estd-contracts", editable = "src/contracts" },
     { name = "estd-data", editable = "src/data" },
+    { name = "estd-pipeline", editable = "src/pipeline" },
 ]
 
 [package.metadata.requires-dev]
@@ -284,6 +287,25 @@ dependencies = [
 requires-dist = [
     { name = "estd-contracts", editable = "src/contracts" },
     { name = "httpx", specifier = ">=0.27,<1" },
+    { name = "numpy", specifier = ">=2,<3" },
+]
+
+[[package]]
+name = "estd-pipeline"
+version = "0.1.0"
+source = { editable = "src/pipeline" }
+dependencies = [
+    { name = "estd-analysis" },
+    { name = "estd-contracts" },
+    { name = "estd-data" },
+    { name = "numpy" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "estd-analysis", editable = "src/analysis" },
+    { name = "estd-contracts", editable = "src/contracts" },
+    { name = "estd-data", editable = "src/data" },
     { name = "numpy", specifier = ">=2,<3" },
 ]
 
