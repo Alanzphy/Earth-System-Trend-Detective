@@ -157,7 +157,7 @@ def test_small_box_without_points_uses_the_nearest_one() -> None:
     ("variable", "parameter", "raw", "expected", "units"),
     [
         ("solar_radiation", "ALLSKY_SFC_SW_DWN", 18.0, 5.0, "kWh/m²/day"),
-        ("evapotranspiration", "EVPTRNS", 4.9, 2.0, "mm/day"),
+        ("evapotranspiration", "EVLAND", 2.0, 2.0, "mm/day"),
     ],
 )
 def test_unit_conversion(

@@ -42,7 +42,7 @@ Promedio por área: se calcula en `data` con ponderación por coseno de la latit
 | `specific_humidity_2m` | `QV2M` | g/kg | g/kg | |
 | `wind_speed_10m` | `WS10M` | m/s | m/s | |
 | `solar_radiation` | `ALLSKY_SFC_SW_DWN` | MJ/m²/día | kWh/m²/día | ÷ 3.6. Disponible desde 1984 |
-| `evapotranspiration` | `EVPTRNS` | MJ/m²/día | mm/día | ÷ 2.45 (calor latente de vaporización) |
+| `evapotranspiration` | `EVLAND` | mm/día | mm/día | Sin conversión: evaporación desde tierra (MERRA-2). Se descartó `EVPTRNS` (flujo de energía, MJ/m²/día) porque vale 0 en la mayoría de los meses en zonas secas como Chihuahua |
 | `soil_wetness_root` | `GWETROOT` | fracción 0–1 | fracción 0–1 | Humedad en la zona de raíces |
 
 ## Implementación (`src/data/`, #20)
@@ -59,7 +59,7 @@ Flujo de `get_series`:
 1. Busca la variable en el catálogo (`UnknownVariableError` si no existe) y recorta `start`/`end` (`YYYY-MM`, inclusivos) al periodo disponible (`NoDataError` si no hay solapamiento).
 2. Pide a POWER los **años completos** necesarios. El bbox se divide en teselas iguales de ≤ 10° por eje; si un eje mide < 2°, se ensancha a 2° alrededor del centro.
 3. Descarta las claves `YYYY13`, convierte `-999` en NaN, elimina puntos repetidos en los bordes compartidos entre teselas y conserva solo los puntos dentro del bbox pedido (o el más cercano al centro si no hay ninguno).
-4. `fetch_grid` recorta a los meses pedidos y aplica la conversión de unidades (radiación ÷ 3.6, evapotranspiración ÷ 2.45). Devuelve `Grid(lons, lats, time, values[puntos, meses], units)`, que también usa el pipeline de mapas de tendencia.
+4. `fetch_grid` recorta a los meses pedidos y aplica la conversión de unidades (radiación ÷ 3.6). Devuelve `Grid(lons, lats, time, values[puntos, meses], units)`, que también usa el pipeline de mapas de tendencia.
 5. `get_series` promedia cada mes con peso `cos(lat)` ignorando NaN (`null` si ningún punto tiene dato), redondea a 4 decimales y pone `grid_points` = número de puntos promediados.
 
 **Red y errores**: timeout por petición = argumento `timeout` o `ESTD_POWER_TIMEOUT_SECONDS` (60 s por defecto). Un reintento ante timeout, error de red o HTTP 5xx; si falla de nuevo, `UpstreamError(retryable=True)`. Un 4xx (p. ej. 422 por parámetros inválidos) da `UpstreamError(retryable=False)` con el mensaje de POWER. POWER no usa `EARTHDATA_TOKEN`.

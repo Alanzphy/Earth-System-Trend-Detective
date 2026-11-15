@@ -111,8 +111,9 @@ _ENTRIES: tuple[CatalogEntry, ...] = (
         "How much water goes from the soil and plants back into the air each day.",
         "water",
         "BrBG",
-        "EVPTRNS",
-        divisor=2.45,  # MJ/m²/day -> mm/day (latent heat of vaporization)
+        # Land evaporation in mm/day. EVPTRNS (an energy flux) is 0 in most months over
+        # dry regions such as northern Mexico, which made the trend meaningless there.
+        "EVLAND",
     ),
     _entry(
         "soil_wetness_root",
