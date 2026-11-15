@@ -26,7 +26,7 @@ La página es una sola vista en inglés, en este orden:
 
 ## Demos obligatorias
 
-Ambas validadas con datos reales de NASA POWER (1981-01 → 2025-12, anomalías mensuales, Theil–Sen + Mann–Kendall con corrección Hamed–Rao, α = 0.05). Valores de la prueba del 2026-11-14; el pipeline (#22) los recalcula.
+Ambas validadas con datos reales de NASA POWER (1981-01 → 2025-12, anomalías mensuales, Theil–Sen + Mann–Kendall con corrección Hamed–Rao, α = 0.05). Valores generados por el pipeline (`uv run python -m pipeline demos`, Hamed–Rao con 12 rezagos); los archivos están en `src/ui/public/demos/`.
 
 ### Demo 1: calentamiento de la península ibérica
 
@@ -40,7 +40,7 @@ Ambas validadas con datos reales de NASA POWER (1981-01 → 2025-12, anomalías 
 ### Demo 2: misma variable, direcciones opuestas
 
 - **Variable**: `precipitation`, **misma fuente para ambas regiones**: NASA POWER (`PRECTOTCORR`).
-- **Región A**: Sahel occidental, bbox `[-17, 12, -2, 18]` → **+0.028 mm/día/década, p = 0.036** (más lluvia; recuperación del Sahel tras las sequías de los 70–80).
+- **Región A**: Sahel occidental, bbox `[-17, 12, -2, 18]` → **+0.028 mm/día/década, p = 0.0035** (más lluvia; recuperación del Sahel tras las sequías de los 70–80).
 - **Región B**: Chile central, bbox `[-73, -38, -70, -30]` → **−0.111 mm/día/década, p < 0.001** (menos lluvia; "megasequía" chilena).
 - **Periodo**: 1981-01 a 2025-12, mensual.
 - **Mensaje**: "The same variable can rise in one region and fall in another."

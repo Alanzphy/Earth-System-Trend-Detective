@@ -1,13 +1,14 @@
 [project]
 name = "earth-system-trend-detective"
 version = "0.1.0"
-description = "uv workspace root for the Python areas (api, data, analysis, contracts)"
+description = "uv workspace root for the Python areas (api, data, analysis, contracts, pipeline)"
 requires-python = ">=3.12"
 dependencies = [
     "earth-system-trend-detective-api",
     "estd-analysis",
     "estd-contracts",
     "estd-data",
+    "estd-pipeline",
 ]
 
 [dependency-groups]
@@ -22,13 +23,14 @@ dev = [
 package = false
 
 [tool.uv.workspace]
-members = ["src/api", "src/data", "src/analysis", "src/contracts"]
+members = ["src/api", "src/data", "src/analysis", "src/contracts", "src/pipeline"]
 
 [tool.uv.sources]
 earth-system-trend-detective-api = { workspace = true }
 estd-analysis = { workspace = true }
 estd-contracts = { workspace = true }
 estd-data = { workspace = true }
+estd-pipeline = { workspace = true }
 
 [tool.ruff]
 line-length = 100
@@ -44,4 +46,4 @@ addopts = "-q --import-mode=importlib"
 filterwarnings = ["error"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["app", "data", "analysis", "contracts"]
+known-first-party = ["app", "data", "analysis", "contracts", "pipeline"]
