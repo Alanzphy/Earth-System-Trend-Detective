@@ -189,8 +189,9 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
         source: SOURCE_ID,
         paint: {
           "line-color": "#ffffff",
-          "line-width": 0.6,
-          "line-opacity": 0.75,
+          // A full 2.5° grid of white lines hides the colors when zoomed out.
+          "line-width": 0.5,
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0, 4, 0.6],
         },
       });
     }
