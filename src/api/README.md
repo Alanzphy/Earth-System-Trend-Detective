@@ -24,8 +24,10 @@ Documentación interactiva: `http://localhost:8000/docs`.
 | Método | Ruta | Descripción |
 |---|---|---|
 | GET | `/health` | Estado del servicio para Render. |
+| GET | `/variables` | Catálogo (`CatalogResponse`). |
+| POST | `/trend` | `TrendRequest` → `AnalysisResponse`. Errores como `ErrorResponse`: `unknown_variable` (404), `invalid_request`, `region_too_large` (> 40°), `period_out_of_range`, `no_data`, `insufficient_data` (422), `upstream_unavailable` (502/503). |
 
-El catálogo, la tendencia y las demos se implementan en los issues #6 y #7.
+Respuestas de `/trend` en caché en memoria (`CACHE_TTL_SECONDS`) por petición.
 
 ## Configuración
 
@@ -37,12 +39,12 @@ Variables en `.env` (plantilla: `.env.example` de la raíz).
 | `CORS_ORIGINS` | Orígenes permitidos, como lista JSON. | `["http://localhost:5173"]` |
 | `CACHE_TTL_SECONDS` | TTL de la caché en memoria. | `900` |
 | `REQUEST_TIMEOUT_SECONDS` | Timeout de llamadas a datos. | `30` |
-| `DATA_ADAPTER` | `fixture` o `real`. | `fixture` |
+| `DATA_ADAPTER` | `power` (NASA POWER) o `fixture` (serie sintética, sin red). | `power` |
 
-## Adaptadores
+## Fuentes de datos
 
-- `fixture`: datos deterministas (ciclo estacional + 0.02 °C/mes = 2.4 °C/década) para tests y para el corte vertical mientras `data` y `analysis` no existen.
-- `real`: delega en `data.get_series` y `analysis.compute_trend`, instalados como paquetes del workspace.
+- `power`: `data.get_series` (NASA POWER) + `analysis.compute_trend`.
+- `fixture`: misma lista de variables, serie sintética (ciclo estacional + 0.02 unidades/mes); útil sin red. El análisis es siempre el real.
 
 ## Verificación
 

@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
     cache_ttl_seconds: int = 900
     request_timeout_seconds: float = 30.0
-    data_adapter: str = "fixture"
+    data_adapter: str = "power"
 
 
 @lru_cache
