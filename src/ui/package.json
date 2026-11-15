@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview",
-    "generate:api-types": "openapi-typescript ../contracts/openapi.json -o src/types/api.d.ts"
+    "generate:api-types": "openapi-typescript ../contracts/openapi.json -o src/types/contracts.gen.ts"
   },
   "dependencies": {
     "maplibre-gl": "^5.0.0",

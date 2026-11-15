@@ -7,10 +7,10 @@ type Status = "loading" | "waking" | "ok" | "error";
 export const WAKING_AFTER_MS = 5000;
 
 const LABELS: Record<Status, string> = {
-  loading: "Comprobando API…",
-  waking: "Despertando el servidor… puede tardar hasta 1 minuto",
-  ok: "API conectada",
-  error: "API no disponible",
+  loading: "Checking API…",
+  waking: "Waking up the server… this can take up to 1 minute",
+  ok: "API connected",
+  error: "API unavailable",
 };
 
 export function ApiStatus() {

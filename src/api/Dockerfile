@@ -13,11 +13,13 @@ COPY pyproject.toml uv.lock ./
 COPY src/api/pyproject.toml src/api/
 COPY src/data/pyproject.toml src/data/
 COPY src/analysis/pyproject.toml src/analysis/
+COPY src/contracts/pyproject.toml src/contracts/
 RUN uv sync --frozen --no-install-workspace --package earth-system-trend-detective-api
 
 COPY src/api src/api
 COPY src/data src/data
 COPY src/analysis src/analysis
+COPY src/contracts src/contracts
 RUN uv sync --frozen --package earth-system-trend-detective-api
 
 ENV PATH="/app/.venv/bin:$PATH"

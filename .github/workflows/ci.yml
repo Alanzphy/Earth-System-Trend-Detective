@@ -20,6 +20,8 @@ jobs:
       - run: uv sync --frozen
       - run: uv run ruff check .
       - run: uv run pytest
+      - name: Contracts schema is up to date
+        run: uv run python -m contracts.export && git diff --exit-code src/contracts/openapi.json
 
   ui:
     runs-on: ubuntu-latest
@@ -47,5 +49,8 @@ jobs:
         run: pnpm lint
       - if: steps.has-ui.outputs.present == 'true'
         run: pnpm test
+      - if: steps.has-ui.outputs.present == 'true'
+        name: Generated TS types are up to date
+        run: pnpm generate:api-types && git diff --exit-code src/types/contracts.gen.ts
       - if: steps.has-ui.outputs.present == 'true'
         run: pnpm build

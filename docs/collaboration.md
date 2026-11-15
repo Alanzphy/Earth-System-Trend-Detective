@@ -32,9 +32,9 @@ flowchart LR
 |---|---|---|---|
 | data | `src/data/` | `data-sources.md` | @Alanzphy |
 | analysis | `src/analysis/` | `science.md` | @Alanzphy |
-| api | `src/api/` | `architecture.md` | @Francisco-Huerta-Trujillo |
-| ui | `src/ui/` | `product.md`, `glossary.md` | @Francisco-Huerta-Trujillo |
-| contracts | `src/contracts/` | `architecture.md` | ambos |
+| api | `src/api/` | `architecture.md` | @Alanzphy |
+| ui | `src/ui/` | `product.md`, `glossary.md` | @Alanzphy |
+| contracts | `src/contracts/` | `architecture.md` | @Alanzphy |
 
 Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 
@@ -63,7 +63,7 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 
 - **Cómo se publica**: merge a `main` → Render despliega cuando pasan los checks de CI (`autoDeployTrigger: checksPass`); Vercel despliega al instante y crea una vista previa por PR.
 - **Cambios de configuración**: por PR en `render.yaml` o `vercel.json`. El panel solo se usa para secretos.
-- **Acceso**: los planes gratuitos no admiten miembros de equipo. Huerta ve vistas previas y el estado del despliegue en sus PRs; si necesita logs, se los pide a Alan.
+- **Acceso**: los planes gratuitos no admiten miembros de equipo. Las vistas previas de Vercel son públicas (sin Deployment Protection) y el estado del despliegue aparece en cada PR.
 - **MCP** (solo en la máquina de Alan, nunca en el repo):
   - Render: `https://mcp.render.com/mcp` (OAuth)
   - Vercel: `https://mcp.vercel.com` (OAuth)
@@ -90,6 +90,13 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 2. Vercel: *Add New → Project*, este repo, *Root Directory* `src/ui`, variable `VITE_API_BASE_URL`.
 3. Actualizar `CORS_ORIGINS` en Render con la URL de Vercel.
 4. Comprobar: `GET https://<api>/health` → `{"status":"ok"}` y la UI muestra "API conectada".
+
+## Skills de agentes
+
+- Las skills se instalan localmente y **no se commitean** (`.agents/skills/` y `.claude/skills/` están en `.gitignore`).
+- `skills-lock.json` (versionado) registra fuente y hash de cada skill para que todos instalen la misma versión.
+- Instalada: `design-taste-frontend` (`Leonxlnx/taste-skill`). Instalar con `npx skills add Leonxlnx/taste-skill`.
+- Uso previsto: rediseño final de la UI. Su hook `Stop` corre un chequeo en navegador (hasta 10 min) al terminar cada turno del agente.
 
 ## Pendiente de configurar
 

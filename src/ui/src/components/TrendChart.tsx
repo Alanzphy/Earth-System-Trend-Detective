@@ -20,14 +20,14 @@ export function TrendChart() {
           y: VALUES,
           type: "scatter",
           mode: "lines",
-          name: "Serie de ejemplo",
+          name: "Example series",
         },
         {
           x: TIME,
           y: TREND,
           type: "scatter",
           mode: "lines",
-          name: "Tendencia",
+          name: "Trend",
           line: { dash: "dash" },
         },
       ]}
@@ -35,7 +35,7 @@ export function TrendChart() {
         autosize: true,
         margin: { l: 48, r: 16, t: 16, b: 48 },
         legend: { orientation: "h" },
-        yaxis: { title: { text: "Temperatura (°C)" } },
+        yaxis: { title: { text: "Temperature (°C)" } },
       }}
       config={{ responsive: true, displayModeBar: false }}
       style={{ width: "100%", height: "320px" }}

@@ -14,20 +14,20 @@ function App() {
         <p className="eyebrow">NASA Space Apps 2026</p>
         <h1>Earth System Trend Detective</h1>
         <p>
-          Explora variables del sistema Tierra, visualiza su evolución y descubre
-          si sus tendencias son significativas.
+          Explore Earth system variables, see how they change over time, and find
+          out whether their trends are significant.
         </p>
         <ApiStatus />
       </header>
 
       <section className="panel">
-        <h2>Región de estudio</h2>
+        <h2>Study region</h2>
         <MapView />
       </section>
 
       <section className="panel">
-        <h2>Ejemplo de serie temporal</h2>
-        <Suspense fallback={<p>Cargando gráfico…</p>}>
+        <h2>Example time series</h2>
+        <Suspense fallback={<p>Loading chart…</p>}>
           <TrendChart />
         </Suspense>
       </section>
