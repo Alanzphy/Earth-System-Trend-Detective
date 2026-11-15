@@ -6,11 +6,11 @@ import maplibregl, {
   type Map as MapLibreMap,
   type MapMouseEvent,
 } from "maplibre-gl";
+import { formatPValue } from "../lib/format";
 import { colorForValue, fillColorExpression } from "../lib/palette";
 import {
   cellPropertiesFromRendered,
   formatBbox,
-  formatPValue,
   formatSlope,
   loadTrendMapData,
   loadTrendMapManifest,
@@ -19,10 +19,10 @@ import {
   type TrendCellCollection,
   type TrendRegionSelection,
 } from "../lib/trendMaps";
+import { MAP_STYLE_URL } from "../lib/mapStyle";
 import type { TrendMapEntry } from "../types/contracts";
 import { TrendMapLegend } from "./TrendMapLegend";
 
-const MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
 const SOURCE_ID = "trend-map-source";
 const SIGNIFICANT_LAYER = "trend-map-significant";
 const NOT_SIGNIFICANT_LAYER = "trend-map-not-significant";
@@ -30,18 +30,45 @@ const OUTLINE_LAYER = "trend-map-outline";
 
 type Props = {
   onSelectRegion?: (region: TrendRegionSelection) => void;
-  onAnalyzeRegion?: (region: TrendRegionSelection) => void;
+  onAnalyzeRegion: (region: TrendRegionSelection) => void;
 };
 
-export function TrendMap({ onSelectRegion, onAnalyzeRegion = analyzeRegionInUrl }: Props) {
+export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [entry, setEntry] = useState<TrendMapEntry | null>(null);
-  const [data, setData] = useState<TrendCellCollection | null>(null);
+  const [visible, setVisible] = useState(false);
+  const [maps, setMaps] = useState<TrendMapEntry[]>([]);
+  const [entryId, setEntryId] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState<{ id: string; collection: TrendCellCollection } | null>(
+    null,
+  );
   const [selected, setSelected] = useState<TrendRegionSelection | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const entry = maps.find((map) => map.id === entryId) ?? null;
+  // Only hand data to the map once it belongs to the selected entry.
+  const data = entry && loaded?.id === entry.id ? loaded.collection : null;
+  const loading = !error && (!entry || !data);
+
+  // Maps can hold thousands of cells (~1.5 MB); fetch them only near the viewport.
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element || typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((item) => item.isIntersecting)) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -70,33 +97,47 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion = analyzeRegionInUrl 
   }, []);
 
   useEffect(() => {
+    if (!visible) {
+      return;
+    }
     let active = true;
-
-    async function load() {
-      try {
-        const manifest = await loadTrendMapManifest();
-        const firstMap = manifest.maps[0];
-        const collection = await loadTrendMapData(firstMap);
-
+    loadTrendMapManifest()
+      .then((manifest) => {
         if (active) {
-          setEntry(firstMap);
-          setData(collection);
-          setLoading(false);
+          setMaps(manifest.maps);
+          setEntryId(manifest.maps[0].id);
         }
-      } catch (loadError) {
+      })
+      .catch((loadError: unknown) => {
         if (active) {
           setError(loadError instanceof Error ? loadError.message : "Unknown error");
-          setLoading(false);
         }
-      }
-    }
-
-    load();
-
+      });
     return () => {
       active = false;
     };
-  }, []);
+  }, [visible]);
+
+  useEffect(() => {
+    if (!entry) {
+      return;
+    }
+    let active = true;
+    loadTrendMapData(entry)
+      .then((collection) => {
+        if (active) {
+          setLoaded({ id: entry.id, collection });
+        }
+      })
+      .catch((loadError: unknown) => {
+        if (active) {
+          setError(loadError instanceof Error ? loadError.message : "Unknown error");
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [entry]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -210,9 +251,27 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion = analyzeRegionInUrl 
 
   return (
     <div className="trend-map">
+      {maps.length > 1 && (
+        <div className="trend-map__switcher" role="group" aria-label="Choose a trend map">
+          {maps.map((map) => (
+            <button
+              key={map.id}
+              type="button"
+              aria-pressed={map.id === entryId}
+              onClick={() => {
+                setSelected(null);
+                setEntryId(map.id);
+              }}
+            >
+              {map.title}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div ref={containerRef} className="trend-map__canvas" aria-label="Trend map" />
 
-      {loading && <p>Loading trend map…</p>}
+      {loading && <p role="status">Loading trend map…</p>}
       {error && (
         <p className="trend-map__error" role="alert">
           Could not load the trend map: {error}
@@ -248,14 +307,4 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion = analyzeRegionInUrl 
       )}
     </div>
   );
-}
-
-function analyzeRegionInUrl(region: TrendRegionSelection) {
-  const params = new URLSearchParams(window.location.search);
-  params.set("variable", region.variable);
-  params.set("bbox", region.bbox.join(","));
-  params.set("start", region.period[0]);
-  params.set("end", region.period[1]);
-  window.history.replaceState(null, "", `${window.location.pathname}?${params.toString()}`);
-  document.getElementById("analysis")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }

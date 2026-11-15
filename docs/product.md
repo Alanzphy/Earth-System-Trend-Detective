@@ -5,15 +5,24 @@
 - **Primario**: estudiantes de secundaria y universidad.
 - **Secundario**: público general con base científica, docentes.
 
-## Flujo principal (MVP)
+## Flujo principal (MVP, implementado en la UI)
 
-1. **Preguntas guiadas**: ¿Qué te interesa? (temperatura, agua, hielo, vegetación, aire…) ¿Dónde? (mapa / tipo de región).
-2. **Sugerencia de variables** con definición simple (ver `glossary.md`).
-3. **Selección de región y periodo**.
-4. **Visualización**: serie temporal cruda, serie desestacionalizada, línea de tendencia.
-5. **Veredicto**: dirección, magnitud (unidades/década), significancia (p-valor) explicada en lenguaje simple.
-6. **Comparar regiones**: misma variable, tendencias opuestas.
-7. **Mapa de tendencias**: vista precalculada de "¿dónde está cambiando?" con píxeles significativos y atenuados.
+La página es una sola vista en inglés, en este orden:
+
+1. **Cabecera**: qué hace la herramienta en una línea y el aviso "We describe past change; this is not a forecast.". Indicador de estado de la API.
+2. **Demos** ("Start with a demo"): galería leída de `src/ui/public/demos/manifest.json`. Al abrir una demo se muestran sus paneles con el mismo gráfico y veredicto que el análisis en vivo; las demos de dos paneles se ven lado a lado. Son archivos estáticos: funcionan con el backend dormido.
+3. **Mapa de tendencias** ("Where is it changing?"): mapa precalculado (`public/trend-maps/`) con celdas significativas coloreadas y no significativas atenuadas en gris. Paleta divergente centrada en 0: `RdBu` (azul = baja, rojo = sube) para variables tipo temperatura y `BrBG` (marrón = más seco, verde azulado = más húmedo) para variables de agua. Si hay varios mapas, botones para cambiar. Al hacer clic en una celda, "Analyze this region" rellena el flujo guiado con variable, bbox y periodo y lanza el análisis.
+4. **Flujo guiado** ("Explore a region"):
+   1. **Tema**: Temperature, Water, Air, Energy, Soil; filtra el catálogo (`GET /variables`) por `category`.
+   2. **Variable**: nombre, unidades, definición simple, fuente y disponibilidad.
+   3. **Región**: atajos con las regiones de ejemplo (abajo), dibujo de un rectángulo con dos clics en el mapa o coordenadas escritas (alternativa con teclado). Aviso si la caja es menor de 2° × 2°; error si supera 40° × 40° (límite de la API). "Compare with another region" añade una región B.
+   4. **Periodo**: mes inicial y final dentro de la disponibilidad de la variable (por defecto 1981-01 a 2025-12); resolución mensual.
+
+   El estado se refleja en la URL (`variable`, `bbox`, `start`, `end`, `compare`); un enlace con variable y región lanza el análisis al cargar.
+5. **Resultados**: `POST /trend` por región (dos en paralelo al comparar, lado a lado). Mientras carga: "Preparing NASA data…", y tras 5 s "Waking up the server…". Los errores `ErrorResponse` se muestran con su mensaje y código.
+   - **Gráfico** (Plotly, carga diferida): arriba la serie mensual cruda; abajo las anomalías (sin ciclo estacional) con la línea de tendencia, solo sobre los meses analizados (nunca se extrapola).
+   - **Veredicto**: flecha y palabra (Increasing / Decreasing / No clear trend), insignia de significancia con icono y texto (no solo color), pendiente por década con unidades e IC 95 %, cambio total en el periodo, p-valor, α, método, periodo, región y n. Solo se dice "statistically significant" si `significant` es verdadero y p < α. Texto en lenguaje simple de la API (`verdict`).
+   - Cada término técnico (anomalía, tendencia, ciclo estacional, p-valor, intervalo de confianza, significancia, Theil–Sen, Mann–Kendall) abre su definición de `glossary.md` en un globo accesible.
 
 ## Demos obligatorias
 
