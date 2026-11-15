@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-14T00:00:00Z",
+  "demos": [
+    {
+      "id": "sample-rain-opposite-directions",
+      "title": "Sample: same variable, opposite directions",
+      "summary": "Sample data: precipitation rising in the Western Sahel and falling in Central Chile, side by side.",
+      "file": "sample-rain-opposite-directions.json"
+    }
+  ]
+}
