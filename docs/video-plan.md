@@ -1,84 +1,121 @@
-# Plan de producción: video de 30 s y capturas del pitch
+# Plan de producción: video de entrega, video dinámico del pitch y capturas
 
-> Documento autocontenido para quien produzca el material (una persona o Claude en la app de escritorio). No hace falta otro contexto: aquí está qué es el proyecto, qué mensaje transmitir, qué grabar escena por escena, qué debe verse en pantalla y cómo exportarlo.
+> Documento autocontenido para quien produzca el material (una persona o Claude, de Anthropic, en la app de escritorio). No hace falta otro contexto: aquí está qué es el proyecto, qué mensaje transmitir, qué capturar, cómo animarlo y cómo exportarlo. **Todas las cifras de este documento salen de la app** (NASA POWER 1981–2025) y se pueden comprobar en las URLs indicadas.
 
-## 1. Qué es el proyecto (contexto mínimo)
+## 1. Qué es el proyecto
 
-- **Earth System Trend Detective**, NASA Space Apps Challenge 2026, reto *"Be An Earth System Trend Detective"*: herramienta para que estudiantes elijan variables del sistema Tierra y descubran **qué cambia, dónde, cuánto y si el cambio es significativo**.
-- **Para quién**: jóvenes de 12–18 años de escuelas públicas de Chihuahua (México), desde el teléfono. El equipo da talleres en escuelas públicas.
-- **Idea central**: *de consumir a investigar*. El teléfono se vuelve un instrumento científico: el estudiante elige su lugar, lee 45 años de datos de NASA y se lleva una **tarjeta de caso** con su hallazgo, que puede compartir.
-- **Dato gancho (real, calculado con la app)**: en Delicias, Chihuahua, la temperatura subió **+2.4 °C desde 1981** (p < 0.001) y llueve **~118 mm menos al año**. El estado de Chihuahua se calienta **unas 2.5 veces** más rápido que el promedio del mapa mundial de la app.
-- **Tono**: curiosidad de detective, asombro, rigor científico. **Nunca** alarmista, infantil ni de "dashboard corporativo". La herramienta describe el pasado: **no es un pronóstico** ni un consejo agrícola.
+- **Earth System Trend Detective**, NASA Space Apps Challenge 2026, reto *"Be An Earth System Trend Detective"*: una herramienta para que estudiantes descubran **qué cambia, dónde, cuánto y si el cambio es significativo** en variables del sistema Tierra.
+- **Para quién**: jóvenes de 12–18 años de escuelas públicas de Chihuahua (México), desde el teléfono. El equipo ya da talleres en escuelas públicas.
+- **Idea central: de consumir a investigar.** "Los teléfonos se hicieron para consumir, no para crear." El estudiante elige su lugar, lee 45 años de datos de NASA y se lleva una **tarjeta de caso** con su hallazgo, con su alias, para compartir.
+- **Hallazgos reales** (todos estadísticamente significativos):
+  - Delicias: **+2.4 °C** desde 1981 y **−118 mm** de lluvia al año (−34 %).
+  - Cuauhtémoc: **−167 mm** de lluvia al año (−34 %) y **−11 %** de humedad del suelo.
+  - Las 8 zonas de Chihuahua: **+2.0 a +2.4 °C** y **28–39 % menos lluvia**.
+  - Estado de Chihuahua: **+2.1 °C**, **−143 mm** al año (−32 %); se calienta **unas 2.5 veces** el promedio del mapa mundial de la app y está en el **4 %** de celdas que más rápido se calientan.
+  - Misma variable, direcciones opuestas: lluvia **−32 %** en Chihuahua y **+8 %** (+45 mm) en el Sahel occidental.
+- **Modelo**: los jóvenes investigan; el equipo pone la tecnología y la experiencia en talleres; expertos (agronomía UACH, estadística) validan; NASA pone los datos. El equipo reconoce sus límites y busca apoyo experto.
+- **Tono**: curiosidad de detective, asombro, rigor. **Nunca** alarmista, infantil ni de dashboard corporativo. Es **descriptivo, no un pronóstico** ni consejo agrícola.
 
 ## 2. Entregables
 
-| # | Entregable | Formato |
-|---|---|---|
-| A | **Video de la entrega** | MP4 H.264, 1920 × 1080, **≤ 30 s exactos**, sin audio o con música libre de derechos, **subtítulos en inglés** incrustados |
-| B | **Video para el pitch** | El mismo video **sin subtítulos** (se narra en vivo en español), mismo formato |
-| C | **Capturas para las diapositivas** | PNG 1920 × 1080 (escritorio) y 1170 × 2532 o similar (teléfono), listadas en la sección 6 |
-| D | **Imagen de tarjeta de caso** | El PNG que genera la propia app (botón *Save my case card*) |
+| # | Entregable | Para qué | Formato |
+|---|---|---|---|
+| A | **Video de entrega** | Se sube a Space Apps | MP4 H.264, 1920 × 1080, **≤ 30 s**, subtítulos en **inglés**, sin voz |
+| B | **Video dinámico del pitch** | Se proyecta mientras el equipo expone 4 min en español | 7 clips MP4 1920 × 1080 (uno por diapositiva, en bucle) + una versión continua de 4:00 |
+| C | **Capturas** | Material base de A y B | PNG 1920 × 1080 a escala 2× (3840 × 2160 si es posible) y de teléfono (390 × 844 a 3×) |
+| D | **Tarjetas de caso** | Momento "se lleva su caso" | PNG que genera la app (botón *Save my case card*) |
 
-## 3. Reglas obligatorias (requisitos de Space Apps y del proyecto)
+## 3. Reglas obligatorias
 
-1. Todo en **inglés** en el video de la entrega (subtítulos y pantalla). El pitch en vivo es en español.
-2. **Sin logos, banderas ni identificadores de misión de NASA** en nada que agreguemos (la app ya cumple).
-3. **Nada generado por IA** en imagen, video o voz (si lo hubiera, exigiría marca de agua visible). Solo grabación real de la app y texto.
-4. **Solo cifras que se vean en la app.** Si una cifra en pantalla no coincide con este plan, se usa la de la pantalla y se ajusta el subtítulo; nunca al revés.
-5. **Privacidad**: en la tarjeta se escribe un alias o nombre de pila de ejemplo (p. ej. `Ana`), nunca nombres completos ni datos reales de menores.
-6. Duración final **≤ 30 s**. Si se pasa, se recorta, no se acelera el texto.
+1. **Video de entrega en inglés.** El video del pitch lleva texto en **español** (el pitch es en español).
+2. **Sin logos, banderas ni identificadores de misión de NASA**, ni logos de instituciones (UACH, etc.): solo sus nombres en texto.
+3. **IA**: si una IA (por ejemplo Claude) compone, anima o genera cualquier parte de un video o imagen, ese archivo debe llevar **una marca de agua visible** durante todo el video, p. ej. esquina inferior derecha, 18 px, 70 % de opacidad: *"Motion graphics made with AI assistance (Claude)"* en A y *"Animación hecha con asistencia de IA (Claude)"* en B. Una grabación de pantalla hecha por una persona, sin edición con IA, no la necesita. Nunca voces generadas por IA.
+4. **Solo cifras reales de la app.** Si algo en pantalla no coincide con este documento, manda la pantalla y se corrige el texto.
+5. **Privacidad**: alias o nombre de pila de ejemplo (`Ana`, `Luis`) y escuela genérica (`Secundaria 12`). Nunca nombres completos ni datos reales de menores.
+6. Sin música con derechos; si se usa, libre de derechos y muy baja (en el pitch, mejor sin audio).
 
-## 4. Preparación
+## 4. Sistema visual (el mismo de la app)
 
-- **URL**: `https://earth-system-trend-detective-xi.vercel.app`. Antes de grabar, confirmar que muestra el diseño nuevo: banda azul noche con el título **"Is your town changing?"** y un selector de lugar. Si muestra el diseño anterior, avisar al equipo: falta publicar.
-- **Navegador**: Chrome o Safari, ventana de **1600 × 900** o pantalla completa 16:9, zoom 100 %, sin barra de marcadores ni extensiones visibles, modo claro del sistema.
-- **Precarga** (para que nada aparezca cargando en el video): abrir `https://earth-system-trend-detective-xi.vercel.app/?place=delicias&var=temperature_2m`, bajar hasta **"Where is it changing fastest?"**, esperar ~10 s a que el mapa muestre colores, y volver arriba. Las zonas de Chihuahua están precalculadas: no dependen del servidor.
-- **Grabación** (macOS): `Cmd + Shift + 5` → *Grabar la parte seleccionada* sobre la ventana del navegador, o QuickTime → *Nueva grabación de pantalla*. Grabar cada escena por separado o todo seguido (40–60 s) y recortar después.
-- **Cursor**: movimientos lentos y directos; pausa de ~1 s sobre cada cifra antes de hacer clic.
+| Rol | Valor |
+|---|---|
+| Fondo nocturno | `#0f1a3a` (variantes `#1a2856`, `#24346b`) |
+| Texto sobre noche | `#f4f6ff`, secundario `#b4bee0` |
+| Acción / cifra principal | naranja `#ff6a1a`, ámbar `#ffb347` |
+| "Verificado" | celeste `#9fd7ff` |
+| Papel | `#f3f5fb` |
+| Calor / frío (franjas y mapa) | escala RdBu: azul `#2166ac` → blanco `#f7f7f7` → rojo `#b2182b` |
+| Seco / húmedo | marrón `#8c510a` / verde azulado `#01665e` |
+| Tipografía | **Archivo** (Google Fonts, eje de ancho: expandida y negra para cifras y títulos) + **JetBrains Mono** solo para evidencia (p-valor, IC, años) |
 
-## 5. Escenas del video (30 s)
+**Lenguaje de movimiento**: una sola idea por escena; entradas con *ease-out* suave (600–900 ms); nada de rebotes, partículas ni giros 3D. La **firma** es la revelación de las **franjas anuales de izquierda a derecha, año por año de 1981 a 2025**, con un contador de año. Las cifras **cuentan hacia su valor** (0 → +2.4 °C) en ~1 s y se quedan quietas para leerse. Respetar márgenes de 120 px; texto en pantalla de 2 líneas como máximo.
 
-Las cifras entre comillas deben **verse en pantalla**; son la comprobación de cada escena.
+## 5. Preparación y capturas (base para A y B)
 
-| # | Tiempo | Dónde / qué hacer | Debe verse | Subtítulo (inglés) |
-|---|---|---|---|---|
-| 1 | 0:00–0:05 | Abrir `/?place=delicias&var=temperature_2m` arriba del todo. Quieto. | Banda azul noche, **"Is your town changing?"**, selector con *Delicias area, Chihuahua*, atajos (Cuauhtémoc, Delicias…) | **NASA Earth data. Your town. 45 years.** |
-| 2 | 0:05–0:11 | Bajar suavemente hasta ver la tarjeta completa. Quieto sobre la cifra. | Tarjeta *Delicias area, Chihuahua*, franjas azul→rojo 1981–2025, **"+2.4 °C" "warmer since 1981"**, insignia **"Statistically significant … p < 0.001"** | **Delicias, Chihuahua: +2.4 °C since 1981. Not chance.** |
-| 3 | 0:11–0:16 | En *What changed here*, clic en **Rain**; 2 s; clic en **Soil moisture**. | La cifra grande cambia a **"−118 mm"** *less rain per year*, luego a la humedad del suelo; la cuadrícula muestra las 8 variables (una dice **"No clear trend"**) | **Less rain. Drier soil. Eight variables at once.** |
-| 4 | 0:16–0:21 | Clic otra vez en **Heat**. En *How we know it's real*, clic en **Raw monthly values**; 2 s; clic en **Without seasons**. | Vista cruda: ondas de verano/invierno; vista sin estaciones: línea naranja de tendencia subiendo | **Remove the seasons. Then test the trend.** |
-| 5 | 0:21–0:26 | Bajar a **"Where is it changing fastest?"**. Quieto sobre el mapa. | Mapa nocturno con celdas rojas; Chihuahua visible; texto *"warms about 2.5 times the average of this map"* | **Chihuahua warms 2.5× the map's average.** |
-| 6 | 0:26–0:30 | Volver a la tarjeta, clic **Save my case card**, escribir `Ana` y `Secundaria 12`, clic **Save image**. Cerrar con la imagen descargada abierta a pantalla completa (Vista Previa), o un fundido a ella. | La imagen de la tarjeta con *Investigated by Ana · Secundaria 12* | **Students become climate detectives.** + URL `earth-system-trend-detective-xi.vercel.app` |
+**URL**: `https://earth-system-trend-detective-xi.vercel.app`. Antes de capturar, comprobar que se ve la banda azul con **"Is your town changing?"** y, más abajo, la sección **"Cases from Chihuahua"**. Si no, avisar al equipo.
 
-**Si sobra tiempo o se quiere una alternativa a la escena 5**: abrir `/?place=western-sahel&compare=central-chile&var=precipitation` → dos tarjetas: Sahel **"+45 mm"** (más lluvia) y Chile central **"−182 mm"** (menos lluvia). Subtítulo: **Same rain, opposite directions.** Es el corazón del reto (una variable puede subir en un lugar y bajar en otro).
+Navegador a **1600 × 900** (o 1920 × 1080), zoom 100 %, sin barra de marcadores. Para el mapa, bajar a *Where is it changing fastest?* y esperar ~10 s a que se vean las celdas de color antes de capturar.
 
-### Subtítulos: estilo
+| ID | Captura | URL / acción | Debe verse |
+|---|---|---|---|
+| C1 | Portada | `/?place=delicias&var=temperature_2m`, arriba | "Is your town changing?", selector con Delicias |
+| C2 | Tarjeta Delicias | misma URL, bajar a la tarjeta | Franjas, **+2.4 °C**, "Statistically significant … p < 0.001", cuadrícula de 8 variables |
+| C3 | Lluvia Delicias | clic en **Rain** | **−118 mm**, "less rain per year since 1981 (−34%)" |
+| C4 | Evidencia sin estaciones | *How we know it's real*, vista **Without seasons** | Línea naranja de tendencia subiendo |
+| C5 | Evidencia cruda | vista **Raw monthly values** | Ondas de verano/invierno |
+| C6 | Casos | sección **Cases from Chihuahua** | 4 casos con cifras |
+| C7 | Tabla 8 zonas | caso **Not one town: all of Chihuahua** | 8 filas con franjas, +2.0 a +2.4 °C, −28 % a −39 % |
+| C8 | Lluvia opuesta | caso **Same rain, opposite directions** | **−143 mm** Chihuahua, **+45 mm** Sahel |
+| C9 | Comparación | botón **Compare them** | Dos tarjetas lado a lado |
+| C10 | Mapa mundial | `/?place=chihuahua-state&var=temperature_2m` → *Where is it changing fastest?* | Mapa nocturno con celdas rojas; texto "2.5 times … top 4%" |
+| C11 | Teléfono | modo dispositivo (iPhone, 390 × 844) en `/?place=delicias&var=temperature_2m` | Tarjeta completa en vertical |
+| D1–D3 | Tarjetas de caso | en Delicias, Cuauhtémoc y Ciudad Juárez: **Save my case card** → alias `Ana`, `Luis`, `Sofi`; escuela `Secundaria 12` → **Save image** | PNG 1080 × 1350 de cada caso |
 
-Texto blanco sobre una franja oscura semitransparente en la parte inferior, centrado, fuente sans (Archivo, Helvetica o SF), ~44 px en 1080p, máximo 2 líneas, visible al menos 2.5 s. Herramientas: iMovie (Títulos → *Tercio inferior*), CapCut o Clipchamp. La URL de la escena 6 puede quedar fija los últimos 4 s.
+**Grabación de interacciones** (para A y la escena 3 de B): grabar en pantalla (macOS `Cmd + Shift + 5`, o QuickTime) los clics de la sección 6, con el cursor lento y pausas de ~1 s sobre cada cifra.
 
-## 6. Capturas para las diapositivas del pitch (4 min, 7 diapositivas)
+## 6. Entregable A: video de entrega (30 s, inglés)
 
-| Diapositiva | Captura | URL / acción |
-|---|---|---|
-| 1 · Gancho | Mapa mundial con Chihuahua en rojo | `/?place=chihuahua-state&var=temperature_2m` → sección *Where is it changing fastest?* |
-| 2 · Problema | Tarjeta de Delicias en **teléfono** (vista vertical) | Modo dispositivo del navegador (iPhone) o un teléfono real, `/?place=delicias&var=temperature_2m` |
-| 3 · Demo | Video **B** (sin subtítulos) incrustado en la diapositiva, en silencio, como archivo local | — |
-| 4 · Por qué es confiable | Panel *How we know it's real* en vista *Without seasons*, y otra en *Raw monthly values* | Mismo enlace de Delicias |
-| 5 · De consumir a investigar | La imagen de la tarjeta (entregable D) junto a un teléfono | Botón *Save my case card* |
-| 6 · Quién lo hace posible | Sin captura de la app (texto: talleres en escuelas públicas, UACH, Zootecnia, formato tipo Las Niñas Sí Pueden) | — |
-| 7 · Siguientes pasos | Comparación Sahel vs Chile central | `/?place=western-sahel&compare=central-chile&var=precipitation` |
+| # | Tiempo | Qué se ve | Subtítulo |
+|---|---|---|---|
+| 1 | 0:00–0:05 | C1: portada, quieta | **NASA Earth data. Your town. 45 years.** |
+| 2 | 0:05–0:11 | Bajada a C2; quieto en la cifra | **Delicias, Chihuahua: +2.4 °C since 1981. Not chance.** |
+| 3 | 0:11–0:16 | Clic en **Rain** (C3), luego **Soil moisture** | **Less rain. Drier soil. Eight variables at once.** |
+| 4 | 0:16–0:21 | **Raw monthly values** → **Without seasons** (C5 → C4) | **Remove the seasons. Then test the trend.** |
+| 5 | 0:21–0:26 | Casos: tabla de 8 zonas (C7) | **Not one town: every zone of Chihuahua.** |
+| 6 | 0:26–0:30 | **Save my case card** → la imagen D1 a pantalla completa + URL | **Students become climate detectives.** · `earth-system-trend-detective-xi.vercel.app` |
 
-## 7. Qué no decir ni mostrar
+Subtítulos: blanco sobre franja oscura semitransparente abajo, Archivo o Helvetica ~44 px, ≥ 2.5 s cada uno. Si el video se edita o compone con IA, marca de agua (regla 3).
 
-- No afirmar que ya hay un piloto, escuelas aliadas o resultados con estudiantes: es el **siguiente paso**.
-- No presentar la tendencia como pronóstico ("va a hacer", "en 2050…").
-- No usar las cifras de Iberia como "el ejemplo principal": el foco es Chihuahua.
-- No mostrar la evapotranspiración como dato estelar (se corrigió su fuente recientemente; usar temperatura, lluvia y humedad del suelo).
+## 7. Entregable B: video dinámico del pitch (4 min, español)
 
-## 8. Comprobación final antes de entregar
+Se proyecta **detrás del equipo** mientras habla. Se entrega **por clips, uno por diapositiva, cada uno en bucle** (si el orador se alarga, la imagen no se queda en negro), y además una versión continua de 4:00. Texto en pantalla en **español**, poco y grande: el protagonista es la voz del equipo.
 
-- [ ] Dura ≤ 30 s (comprobar en el reproductor).
-- [ ] 1920 × 1080, MP4 H.264, se reproduce sin internet.
-- [ ] Cada cifra del subtítulo coincide con la pantalla en ese momento.
-- [ ] Ningún logo de NASA, ninguna imagen o voz generada por IA.
-- [ ] La URL final es la de producción y abre el diseño nuevo.
-- [ ] Versión B (sin subtítulos) exportada para la diapositiva 3.
+| # | Tiempo | Clip (duración) | Qué se anima | Texto en pantalla | Lo que dice el equipo (referencia) |
+|---|---|---|---|---|---|
+| 1 | 0:00–0:25 | **Gancho** (25 s, bucle) | Fondo nocturno. Las franjas del **estado de Chihuahua** aparecen año por año (contador 1981 → 2025, azules → rojos). Al llegar a 2025 cuenta **+2.1 °C**. Después entra la línea "2.5×". | **Chihuahua se calienta 2.5 veces más rápido que el promedio del planeta.** | El dato real, local, con NASA |
+| 2 | 0:25–0:55 | **El problema** (30 s) | Tipografía cinética sobre las franjas atenuadas, una frase a la vez. Al final, C11 (teléfono) entra desde abajo. | **Los datos existen: 45 años de NASA.** → **No llegan a quienes viven de esta tierra.** → **Los teléfonos se hicieron para consumir.** | Talleres en escuelas públicas, jóvenes de la periferia |
+| 3 | 0:55–1:40 | **La herramienta** (45 s) | La grabación de interacciones (sección 6, escenas 1–4) dentro de un marco de laptop o teléfono dibujado con formas simples, con títulos breves: "Elige tu lugar", "Qué cambió", "¿Es real?". | Títulos de 2–3 palabras | Demo narrada en vivo |
+| 4 | 1:40–2:15 | **Por qué es confiable** (35 s) | C5 (ondas de estaciones) se transforma en C4 (sin estaciones); la línea de tendencia se dibuja; aparecen 3 pasos numerados uno por uno. | **1. Quitamos las estaciones · 2. Medimos el cambio · 3. ¿Pudo ser azar? p < 0.001** · *Descriptivo, no es un pronóstico* | Validez científica |
+| 5 | 2:15–2:55 | **De consumir a investigar** (40 s) | Las tarjetas D1–D3 entran como cartas en abanico; cada una muestra su alias. Luego se ve C3/C2 en el teléfono con "Save my case card". | **Cada estudiante se lleva su caso.** → **Lo comparte con su nombre de detective.** | Mecanismo de impacto, retos semanales para clubes |
+| 6 | 2:55–3:30 | **Quién lo hace posible** (35 s) | Diagrama de 4 nodos que se conectan con líneas: **Jóvenes** (investigan) → **Nosotros** (tecnología + talleres) → **Expertos** (agronomía UACH, estadística) → **Datos de NASA**. Sin logos. | Nombres de los nodos | Límites del equipo; apoyo de expertos; formato tipo Las Niñas Sí Pueden |
+| 7 | 3:30–4:00 | **Cierre** (30 s, bucle) | La tabla de 8 zonas (C7) entra fila por fila; luego "misma lluvia, direcciones opuestas" (C8: −32 % vs +8 %); final: título + URL, quieto. | **No es un pueblo: es todo Chihuahua.** → **Earth System Trend Detective** · URL · *Datos: NASA POWER* | Siguientes pasos: piloto en escuelas, versión en español, atlas de casos |
+
+**Cómo producirlo** (sugerencia para Claude): una página HTML/CSS/JS por clip a 1920 × 1080 que use las capturas reales como imágenes y anime con CSS o una línea de tiempo en JS (o Remotion si está disponible); exportar con grabación de pantalla a 60 fps o render de Remotion; recortar a la duración exacta; asegurar que el último cuadro empate con el primero para el bucle. Incluir la marca de agua de la regla 3 en todos los clips.
+
+**En la presentación**: insertar cada clip en su diapositiva como archivo local (no desde internet), reproducción automática, en bucle, sin sonido.
+
+## 8. Qué no decir ni mostrar
+
+- No afirmar que ya hay un piloto, escuelas aliadas, convenios o resultados con estudiantes: es el **siguiente paso**.
+- No presentar tendencias como pronóstico ("en 2050…", "va a…").
+- No usar Iberia como ejemplo principal; el foco es Chihuahua (el Sahel solo como contraste de lluvia).
+- No destacar la evapotranspiración (su fuente se corrigió recientemente); usar temperatura, lluvia y humedad del suelo.
+- No usar logos de NASA ni de instituciones; no inventar citas ni testimonios.
+
+## 9. Comprobación final
+
+- [ ] A dura ≤ 30 s, 1920 × 1080, MP4 H.264, en inglés.
+- [ ] B: 7 clips en bucle + versión de 4:00, texto en español.
+- [ ] Cada cifra mostrada coincide con la app (sección 1 y capturas).
+- [ ] Marca de agua de IA visible en todo lo que haya compuesto o animado una IA.
+- [ ] Sin logos de NASA ni de instituciones; sin voces generadas por IA.
+- [ ] La URL final abre el diseño nuevo con la sección "Cases from Chihuahua".
