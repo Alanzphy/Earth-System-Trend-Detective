@@ -18,18 +18,17 @@ export function AnalysisResult({ label, analysis }: Props) {
   return (
     <section className="analysis-result" aria-label={label}>
       <h3>{label}</h3>
+      <VerdictCard analysis={analysis} />
       <figure className="analysis-result__chart">
         <Suspense fallback={<p>Loading chart…</p>}>
           <AnalysisChart analysis={analysis} />
         </Suspense>
         <figcaption>
-          Top: raw monthly values ({analysis.series.units}). Bottom: monthly{" "}
-          <GlossaryTerm term="anomaly">anomalies</GlossaryTerm> (the{" "}
-          <GlossaryTerm term="seasonalCycle">seasonal cycle</GlossaryTerm> removed) and the
-          fitted <GlossaryTerm term="trend">trend</GlossaryTerm> line.
+          Monthly <GlossaryTerm term="anomaly">anomalies</GlossaryTerm>, with the{" "}
+          <GlossaryTerm term="seasonalCycle">seasonal cycle</GlossaryTerm> removed.
+          The solid line shows the <GlossaryTerm term="trend">trend</GlossaryTerm>, not a forecast.
         </figcaption>
       </figure>
-      <VerdictCard analysis={analysis} />
     </section>
   );
 }

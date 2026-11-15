@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useEffect, useId, useMemo, useState } from "react";
+import { ChartScaleContext } from "../lib/chartScale";
 import { symmetricDomain } from "../lib/scale";
 import type { AnalysisResponse } from "../types/contracts";
 import { Plot } from "./Plot";
@@ -17,8 +18,15 @@ export function AnalysisChart({ analysis }: Props) {
   const { series, anomalies, trend_line: trendLine, trend } = analysis;
   const [showRaw, setShowRaw] = useState(false);
   const units = series.units;
-  const anomalyDomain = symmetricDomain(anomalies);
-  const rawDomain = symmetricDomain(series.values);
+  const localDomain = useMemo(() => symmetricDomain(anomalies), [anomalies]);
+  const sharedScale = useContext(ChartScaleContext);
+  const register = sharedScale?.register;
+  const id = useId();
+  useEffect(() => {
+    register?.(id, localDomain);
+    return () => register?.(id, null);
+  }, [id, localDomain, register]);
+  const anomalyDomain = sharedScale?.domain ?? localDomain;
 
   return (
     <div className="chart">
@@ -33,6 +41,7 @@ export function AnalysisChart({ analysis }: Props) {
                   mode: "lines" as const,
                   name: "Monthly values",
                   line: { color: "#9aa7b4", width: 1 },
+                  yaxis: "y2",
                   hovertemplate: `%{x}: %{y:.2f} ${units}<extra></extra>`,
                 },
               ]
@@ -66,14 +75,20 @@ export function AnalysisChart({ analysis }: Props) {
             title: { text: `Anomaly (${units})` },
             zeroline: true,
             zerolinecolor: "#c9c3b8",
-            ...(showRaw ? { range: rawDomain } : { range: anomalyDomain }),
+            range: anomalyDomain,
+            domain: showRaw ? [0, 0.45] : [0, 1],
           },
+          ...(showRaw ? { yaxis2: {
+            title: { text: `Monthly value (${units})` },
+            domain: [0.65, 1], anchor: "x",
+            zeroline: false,
+          } } : {}),
           paper_bgcolor: "rgba(0,0,0,0)",
           plot_bgcolor: "rgba(0,0,0,0)",
           font: { family: "Instrument Sans Variable, system-ui, sans-serif", size: 12, color: "#3b4045" },
         }}
         config={{ responsive: true, displayModeBar: false }}
-        style={{ width: "100%", height: "340px" }}
+        style={{ width: "100%", height: showRaw ? "480px" : "300px" }}
       />
 
       <button type="button" className="chart__toggle" onClick={() => setShowRaw((open) => !open)}>

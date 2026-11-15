@@ -25,6 +25,8 @@ const mapMock = vi.hoisted(() => {
     queryRenderedFeatures: vi.fn((): unknown[] => []),
     getCanvas: vi.fn(() => ({ style: {} })),
     fitBounds: vi.fn(),
+    getStyle: vi.fn(() => ({ layers: [] })),
+    moveLayer: vi.fn(),
   };
 });
 

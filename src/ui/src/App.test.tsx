@@ -72,18 +72,14 @@ describe("App", () => {
     vi.unstubAllGlobals();
   });
 
-  it("renders the hero, disclaimer and sections in English", async () => {
-    vi.stubGlobal("fetch", mockApi());
-
+  it("lets a visitor configure an investigation without running one on first load", async () => {
+    const fetchMock = mockApi();
+    vi.stubGlobal("fetch", fetchMock);
     render(<App />);
-
-    expect(
-      screen.getByRole("heading", { name: "Watch 45 years of Earth change." }),
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Descriptive, not a forecast/)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Cases" })).toHaveAttribute("href", "#demos");
-    expect(screen.getByRole("heading", { name: "Start with a demo" })).toBeInTheDocument();
-    expect(await screen.findByRole("radio", { name: /Air temperature at 2 m/ })).toBeInTheDocument();
+    await screen.findByRole("option", { name: /Air temperature at 2 m/ });
+    expect(screen.getByRole("combobox", { name: "Earth variable" })).toHaveValue("");
+    expect(screen.getByRole("combobox", { name: "Region: choose a place" })).toHaveValue("");
+    expect(fetchMock.mock.calls.some(([url]) => String(url).endsWith("/trend"))).toBe(false);
   });
 
   it("restores the flow from the URL and compares two regions side by side", async () => {
@@ -107,15 +103,20 @@ describe("App", () => {
 
     const trendCalls = fetchMock.mock.calls.filter(([url]) => String(url).endsWith("/trend"));
     expect(trendCalls).toHaveLength(2);
-    expect(screen.getByRole("radio", { name: /Precipitation/ })).toBeChecked();
+    expect(screen.getByRole("combobox", { name: "Earth variable" })).toHaveValue("precipitation");
   });
 
   it("mirrors the guided flow in the URL", async () => {
     vi.stubGlobal("fetch", mockApi());
 
     render(<App />);
-    fireEvent.click(await screen.findByRole("radio", { name: /Air temperature at 2 m/ }));
-    fireEvent.click(screen.getByRole("button", { name: /Iberian Peninsula/ }));
+    await screen.findByRole("option", { name: /Air temperature at 2 m/ });
+    fireEvent.change(screen.getByRole("combobox", { name: "Earth variable" }), {
+      target: { value: "temperature_2m" },
+    });
+    fireEvent.change(screen.getByRole("combobox", { name: "Region: choose a place" }), {
+      target: { value: "iberia" },
+    });
 
     await waitFor(() => {
       const params = new URLSearchParams(window.location.search);
@@ -131,7 +132,7 @@ describe("App", () => {
     vi.stubGlobal("fetch", fetchMock);
 
     render(<App />);
-    await screen.findByRole("radio", { name: /Air temperature at 2 m/ });
+    await screen.findByRole("option", { name: /Air temperature at 2 m/ });
     const mapSection = screen.getByRole("region", { name: "Where is it changing?" });
     fireEvent.click(within(mapSection).getByRole("button", { name: "Analyze this region" }));
 
@@ -139,7 +140,7 @@ describe("App", () => {
       const panel = screen.getByRole("region", { name: "Western Sahel" });
       expect(within(panel).getByRole("article", { name: "Verdict" })).toBeInTheDocument();
     });
-    expect(screen.getByRole("radio", { name: /Precipitation/ })).toBeChecked();
+    expect(screen.getByRole("combobox", { name: "Earth variable" })).toHaveValue("precipitation");
     expect(new URLSearchParams(window.location.search).get("bbox")).toBe("-17,12,-2,18");
   });
 });

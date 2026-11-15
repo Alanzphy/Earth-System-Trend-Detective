@@ -1,3 +1,4 @@
+import { useId, useState } from "react";
 import {
   analysisBoxError,
   box,
@@ -24,35 +25,41 @@ const FIELDS: Array<{ key: keyof BBox; label: string; min: number; max: number }
 
 export function RegionPicker({ title, bbox, onChange }: Props) {
   const error = bbox ? analysisBoxError(bbox) : null;
-
+  const id = useId();
+  const [drawing, setDrawing] = useState(false);
+  const [custom, setCustom] = useState(false);
+  const example = bbox ? EXAMPLE_REGIONS.find((region) => sameBbox(bbox, region.bbox)) : null;
   return (
     <fieldset className="region-picker">
       <legend>{title}</legend>
 
-      <div className="chips">
-        {EXAMPLE_REGIONS.map((region) => (
-          <button
-            key={region.id}
-            type="button"
-            className="chip"
-            aria-pressed={bbox ? sameBbox(bbox, region.bbox) : false}
-            onClick={() => onChange(region.bbox)}
-          >
-            {region.name}
-          </button>
-        ))}
-      </div>
+      <label className="field" htmlFor={id}>
+        <span className="sr-only">{title}: choose a place</span>
+        <select id={id} value={custom || (bbox && !example) ? "custom" : example?.id ?? ""}
+          onChange={(event) => {
+            setCustom(event.target.value === "custom");
+            const region = EXAMPLE_REGIONS.find((item) => item.id === event.target.value);
+            if (region) onChange(region.bbox);
+          }}>
+          <option value="">Choose a region…</option>
+          {EXAMPLE_REGIONS.map((region) => (
+            <option key={region.id} value={region.id}>{region.name}</option>
+          ))}
+          <option value="custom">Custom area / map cell</option>
+        </select>
+      </label>
 
-      <details className="region-picker__more">
+      <details className="region-picker__more" open={custom || undefined}
+        onToggle={(event) => setDrawing(event.currentTarget.open)}>
         <summary>Draw a box or type coordinates</summary>
-        <BboxPicker bbox={bbox} onChange={onChange} label={`${title}: map to draw a box`} />
+        {drawing && <BboxPicker bbox={bbox} onChange={onChange} label={`${title}: map to draw a box`} />}
         <div className="coords">
         {FIELDS.map((field) => (
           <label key={field.key}>
             {field.label}
             <input
               type="number"
-              step="0.25"
+              step="any"
               min={field.min}
               max={field.max}
               value={bbox ? bbox[field.key] : ""}
@@ -80,9 +87,7 @@ export function RegionPicker({ title, bbox, onChange }: Props) {
           are used.
         </p>
       )}
-      {!bbox && (
-        <p className="hint">Tip: boxes of at least {MIN_BOX_DEGREES}° × {MIN_BOX_DEGREES}° work best.</p>
-      )}
+      {!bbox && <p className="field-help">Pick a place, or draw your own area.</p>}
     </fieldset>
   );
 }
