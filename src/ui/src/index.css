@@ -185,9 +185,10 @@ a {
   box-shadow: var(--shadow-pop);
 }
 
+/* The hero carries the promise and the finding; the live map has its own section
+   below. Keeping WebGL out of the first screen removes the one flaky dependency. */
 .hero__map {
-  position: absolute;
-  inset: 0;
+  display: none;
 }
 
 /* Artifact: the map is an image. No chrome, no pointer input. */
@@ -232,10 +233,10 @@ a {
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
-  gap: var(--space-8);
-  align-items: start;
-  padding: var(--space-12) var(--space-8) var(--space-8);
-  min-height: 620px;
+  gap: var(--space-12);
+  align-items: center;
+  padding: var(--space-16) var(--space-12);
+  min-height: 480px;
 }
 
 .hero h1 {

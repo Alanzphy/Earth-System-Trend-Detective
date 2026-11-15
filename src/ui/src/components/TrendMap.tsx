@@ -87,8 +87,9 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
     const map = new maplibregl.Map({
       container: containerRef.current,
       style: isArtifact ? MAP_STYLE_DARK_URL : MAP_STYLE_URL,
-      center: isArtifact ? [0, 12] : [-20, 15],
-      zoom: isArtifact ? 0.9 : 1.6,
+      // The artifact frames a region so its 2.5° cells read as squares, not a wash.
+      center: isArtifact ? [4, 30] : [-20, 15],
+      zoom: isArtifact ? 2.6 : 1.6,
       interactive: !isArtifact,
     });
 
@@ -190,8 +191,9 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
             entry.palette,
             entry.legend,
           ) as ExpressionSpecification,
-          // The hero artifact sits under a scrim, so its cells need more presence.
-          "fill-opacity": isArtifact ? 1 : 0.78,
+          // Opaque cells at world zoom cover the planet and read as a smear; this
+          // keeps the continents visible while the colour still carries the trend.
+          "fill-opacity": isArtifact ? 0.9 : 0.55,
         },
       });
     }
@@ -206,7 +208,7 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion, variant = "explore" 
           "fill-antialias": false,
           // Opaque enough that the blue ocean does not read as a "decrease" color.
           "fill-color": "#cfd6de",
-          "fill-opacity": 0.75,
+          "fill-opacity": 0.38,
         },
       });
     }
