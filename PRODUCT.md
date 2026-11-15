@@ -30,7 +30,7 @@ La herramienta (mapa, tendencias, significancia) la puede hacer cualquiera. Lo q
 
 ## Operating Context
 
-- Entrega: NASA Space Apps 2026, reto "Be An Earth System Trend Detective". Límite: **2026-11-16, 13:00 (hora de Chihuahua)**. Video ≤ 30 s o ≤ 7 diapositivas; página del proyecto en inglés.
+- Entrega: NASA Space Apps 2026 (fin de semana 14–15 de noviembre), reto "Be An Earth System Trend Detective". Límite: **domingo 2026-11-15, 13:00 (hora de Chihuahua)**. Video ≤ 30 s o ≤ 7 diapositivas; página del proyecto en inglés.
 - Los jueces puntúan **Impact, Creativity, Validity (incluye usabilidad), Relevance, Presentation** ([guía oficial](https://assets.spaceappschallenge.org/media/documents/Final_Space_Apps_2025_Judging_Guidelines_for_web.pdf)). Premios afines: Local Impact, Most Inspirational, Best Storytelling, Best Use of Data.
 - Uso real: aula con proyector o teléfono; conexión variable; el backend gratuito puede estar dormido (demos y mapas son estáticos).
 - La idea de vincularlo al trabajo educativo del equipo vino del grupo de mentores.
