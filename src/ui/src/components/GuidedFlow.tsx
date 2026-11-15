@@ -23,6 +23,32 @@ type Props = {
   onAnalyze: () => void;
 };
 
+function VariableOption({
+  item,
+  flow,
+  onChoose,
+}: {
+  item: Variable;
+  flow: FlowState;
+  onChoose: (next: Variable) => void;
+}) {
+  return (
+    <label className="variable">
+      <input
+        type="radio"
+        name="variable"
+        value={item.id}
+        checked={flow.variable === item.id}
+        onChange={() => onChoose(item)}
+      />
+      <span>
+        <strong>{item.name}</strong> <span className="variable__units">({item.units})</span>
+        <span className="variable__description">{item.description}</span>
+      </span>
+    </label>
+  );
+}
+
 export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
   const variables = catalog.status === "ready" ? catalog.variables : [];
   const variable = variables.find((item) => item.id === flow.variable);
@@ -98,22 +124,20 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
           </p>
         )}
         <div className="variables">
-          {shown.map((item) => (
-            <label key={item.id} className="variable">
-              <input
-                type="radio"
-                name="variable"
-                value={item.id}
-                checked={flow.variable === item.id}
-                onChange={() => chooseVariable(item)}
-              />
-              <span>
-                <strong>{item.name}</strong> <span className="variable__units">({item.units})</span>
-                <span className="variable__description">{item.description}</span>
-              </span>
-            </label>
+          {shown.slice(0, 3).map((item) => (
+            <VariableOption key={item.id} item={item} flow={flow} onChoose={chooseVariable} />
           ))}
         </div>
+        {shown.length > 3 && (
+          <details className="variables__more">
+            <summary>Show all {shown.length} variables</summary>
+            <div className="variables">
+              {shown.slice(3).map((item) => (
+                <VariableOption key={item.id} item={item} flow={flow} onChoose={chooseVariable} />
+              ))}
+            </div>
+          </details>
+        )}
       </fieldset>
 
       <div className="flow__step">
@@ -151,6 +175,7 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
         )}
       </div>
 
+      <div className="flow__final">
       <fieldset className="flow__step">
         <legend>
           <span className="flow__number">4</span> Which period?
@@ -196,6 +221,7 @@ export function GuidedFlow({ catalog, flow, onChange, onAnalyze }: Props) {
             ))}
           </ul>
         )}
+      </div>
       </div>
     </form>
   );
