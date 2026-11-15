@@ -6,6 +6,8 @@ Reglas para agentes de IA en este repo. El proceso completo para personas está 
 
 **Earth System Trend Detective** (NASA Space Apps 2026). Herramienta para que estudiantes seleccionen variables del sistema Tierra, visualicen su evolución y determinen qué cambia, dónde, cuánto y si es significativo. Enunciado: [`docs/challenge.md`](docs/challenge.md).
 
+**Antes de cualquier trabajo de UI, demo o texto de entrega, lee [`PRODUCT.md`](PRODUCT.md)**: objetivo, historia (jóvenes de familias agricultoras de Chihuahua), público, evidencia y anti-objetivos.
+
 ## Antes de empezar
 
 1. No hace falta issue previo ni rama por tarea: trabaja en `main` o en la rama que prefieras.
