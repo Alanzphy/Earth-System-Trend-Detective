@@ -1,12 +1,2 @@
-# Dueños por área. Ver docs/collaboration.md
-*                   @Alanzphy @Francisco-Huerta-Trujillo
-/src/data/          @Alanzphy
-/src/analysis/      @Alanzphy
-/docs/data-sources.md @Alanzphy
-/docs/science.md    @Alanzphy
-/src/api/           @Francisco-Huerta-Trujillo
-/src/ui/            @Francisco-Huerta-Trujillo
-/docs/product.md    @Francisco-Huerta-Trujillo
-/docs/glossary.md   @Francisco-Huerta-Trujillo
-/src/contracts/     @Alanzphy @Francisco-Huerta-Trujillo
-/docs/architecture.md @Alanzphy @Francisco-Huerta-Trujillo
+# Owner of every area. See docs/collaboration.md
+* @Alanzphy

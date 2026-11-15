@@ -12,33 +12,33 @@ describe("ApiStatus", () => {
     vi.useRealTimers();
   });
 
-  it("muestra la API conectada", async () => {
+  it("shows the API as connected", async () => {
     vi.mocked(getHealth).mockResolvedValue({ status: "ok" });
 
     render(<ApiStatus />);
 
-    expect(await screen.findByText("API conectada")).toBeInTheDocument();
+    expect(await screen.findByText("API connected")).toBeInTheDocument();
   });
 
-  it("muestra la API no disponible", async () => {
+  it("shows the API as unavailable", async () => {
     vi.mocked(getHealth).mockRejectedValue(new Error("down"));
 
     render(<ApiStatus />);
 
-    expect(await screen.findByText("API no disponible")).toBeInTheDocument();
+    expect(await screen.findByText("API unavailable")).toBeInTheDocument();
   });
 
-  it("avisa que el servidor está despertando si /health tarda", () => {
+  it("warns that the server is waking up when /health is slow", () => {
     vi.useFakeTimers();
     vi.mocked(getHealth).mockReturnValue(new Promise(() => {}));
 
     render(<ApiStatus />);
-    expect(screen.getByText("Comprobando API…")).toBeInTheDocument();
+    expect(screen.getByText("Checking API…")).toBeInTheDocument();
 
     act(() => {
       vi.advanceTimersByTime(WAKING_AFTER_MS);
     });
 
-    expect(screen.getByText(/Despertando el servidor/)).toBeInTheDocument();
+    expect(screen.getByText(/Waking up the server/)).toBeInTheDocument();
   });
 });

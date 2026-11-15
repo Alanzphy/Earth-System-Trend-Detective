@@ -27,5 +27,5 @@ export function MapView() {
     };
   }, []);
 
-  return <div ref={containerRef} className="map" aria-label="Mapa de regiones" />;
+  return <div ref={containerRef} className="map" aria-label="Region map" />;
 }
