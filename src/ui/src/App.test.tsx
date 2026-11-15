@@ -1,29 +1,25 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
+import centralChile from "../public/regions/central-chile.json?raw";
+import delicias from "../public/regions/delicias.json?raw";
+import manifest from "../public/regions/manifest.json?raw";
+import westernSahel from "../public/regions/western-sahel.json?raw";
 import App from "./App";
 import type { TrendRegionSelection } from "./lib/trendMaps";
-import { jsonResponse, makeAnalysis, VARIABLES } from "./test/fixtures";
+import { jsonResponse, makeAnalysis } from "./test/fixtures";
 import type { TrendRequest } from "./types/contracts";
 
-vi.mock("./components/ApiStatus", () => ({
-  ApiStatus: () => <p>API connected</p>,
-}));
+vi.mock("./components/ApiStatus", () => ({ ApiStatus: () => <p>API status</p> }));
+vi.mock("./components/AnalysisChart", () => ({ AnalysisChart: () => <div>Chart</div> }));
+vi.mock("./components/DemoGallery", () => ({ DemoGallery: () => <p>Demos</p> }));
 
-vi.mock("./components/BboxPicker", () => ({
-  BboxPicker: () => <div>Map</div>,
-}));
-
-vi.mock("./components/AnalysisChart", () => ({
-  AnalysisChart: () => <div>Chart</div>,
-}));
-
-const sahelCell: TrendRegionSelection = {
-  id: "western-sahel",
-  label: "Western Sahel",
-  slope: 0.028,
-  p_value: 0.036,
+const cell: TrendRegionSelection = {
+  id: "cell",
+  label: "28.75°N, 106.25°W (2.5° cell)",
+  slope: 0.5,
+  p_value: 0.001,
   significant: true,
-  bbox: [-17, 12, -2, 18],
+  bbox: [-107.5, 27.5, -105, 30],
   variable: "precipitation",
   units: "mm/day",
   slope_units: "mm/day/decade",
@@ -33,34 +29,38 @@ const sahelCell: TrendRegionSelection = {
 
 vi.mock("./components/TrendMap", () => ({
   TrendMap: ({ onAnalyzeRegion }: { onAnalyzeRegion: (region: TrendRegionSelection) => void }) => (
-    <button type="button" onClick={() => onAnalyzeRegion(sahelCell)}>
+    <button type="button" onClick={() => onAnalyzeRegion(cell)}>
       Analyze this region
     </button>
   ),
 }));
 
-vi.mock("./components/DemoGallery", () => ({
-  DemoGallery: () => <p>Demos</p>,
-}));
+// The precomputed files the app ships in public/regions.
+const FILES: Record<string, string> = {
+  "regions/manifest.json": manifest,
+  "regions/delicias.json": delicias,
+  "regions/western-sahel.json": westernSahel,
+  "regions/central-chile.json": centralChile,
+};
 
-function mockApi() {
+type FetchMock = Mock<(url: string, init?: RequestInit) => Promise<Response>>;
+
+function mockNetwork(): FetchMock {
   return vi.fn(async (url: string, init?: RequestInit) => {
-    if (url.endsWith("/variables")) {
-      return jsonResponse({ variables: VARIABLES });
+    const file = Object.keys(FILES).find((suffix) => url.endsWith(suffix));
+    if (file) {
+      return jsonResponse(JSON.parse(FILES[file]));
     }
     if (url.endsWith("/trend")) {
       const request = JSON.parse(init?.body as string) as TrendRequest;
-      const slope = request.bbox.min_lon < -50 ? -0.111 : 0.028;
-      return jsonResponse(
-        makeAnalysis({
-          slope_per_decade: slope,
-          direction: slope > 0 ? "increasing" : "decreasing",
-          slope_units: "mm/day/decade",
-        }),
-      );
+      return jsonResponse(makeAnalysis({ slope_per_decade: 0.2, total_change: 0.9, significant: request.variable !== "wind_speed_10m", p_value: request.variable === "wind_speed_10m" ? 0.4 : 0.001 }));
     }
     return jsonResponse({}, 404);
   });
+}
+
+function trendCalls(fetchMock: FetchMock) {
+  return fetchMock.mock.calls.filter(([url]) => String(url).endsWith("/trend"));
 }
 
 describe("App", () => {
@@ -72,75 +72,61 @@ describe("App", () => {
     vi.unstubAllGlobals();
   });
 
-  it("lets a visitor configure an investigation without running one on first load", async () => {
-    const fetchMock = mockApi();
-    vi.stubGlobal("fetch", fetchMock);
-    render(<App />);
-    await screen.findByRole("option", { name: /Air temperature at 2 m/ });
-    expect(screen.getByRole("combobox", { name: "Earth variable" })).toHaveValue("");
-    expect(screen.getByRole("combobox", { name: "Region: choose a place" })).toHaveValue("");
-    expect(fetchMock.mock.calls.some(([url]) => String(url).endsWith("/trend"))).toBe(false);
-  });
-
-  it("restores the flow from the URL and compares two regions side by side", async () => {
-    const fetchMock = mockApi();
-    vi.stubGlobal("fetch", fetchMock);
-    window.history.replaceState(
-      null,
-      "",
-      "/?variable=precipitation&bbox=-17,12,-2,18&start=1981-01&end=2025-12&compare=-73,-38,-70,-30",
-    );
-
-    render(<App />);
-
-    const results = screen.getByRole("region", { name: "Comparing two regions" });
-    await waitFor(() => expect(within(results).getAllByRole("article")).toHaveLength(2));
-    const panelA = within(results).getByRole("region", { name: "Region A: Western Sahel" });
-    const panelB = within(results).getByRole("region", { name: "Region B: Central Chile" });
-    expect(panelA.parentElement).toHaveClass("compare-grid");
-    expect(within(panelA).getByRole("heading", { name: /Increasing/ })).toBeInTheDocument();
-    expect(within(panelB).getByRole("heading", { name: /Decreasing/ })).toBeInTheDocument();
-
-    const trendCalls = fetchMock.mock.calls.filter(([url]) => String(url).endsWith("/trend"));
-    expect(trendCalls).toHaveLength(2);
-    expect(screen.getByRole("combobox", { name: "Earth variable" })).toHaveValue("precipitation");
-  });
-
-  it("mirrors the guided flow in the URL", async () => {
-    vi.stubGlobal("fetch", mockApi());
-
-    render(<App />);
-    await screen.findByRole("option", { name: /Air temperature at 2 m/ });
-    fireEvent.change(screen.getByRole("combobox", { name: "Earth variable" }), {
-      target: { value: "temperature_2m" },
-    });
-    fireEvent.change(screen.getByRole("combobox", { name: "Region: choose a place" }), {
-      target: { value: "iberia" },
-    });
-
-    await waitFor(() => {
-      const params = new URLSearchParams(window.location.search);
-      expect(params.get("variable")).toBe("temperature_2m");
-      expect(params.get("bbox")).toBe("-10,36,3,44");
-      expect(params.get("start")).toBe("1981-01");
-      expect(params.get("end")).toBe("2025-12");
-    });
-  });
-
-  it("fills the flow from the trend map and runs the analysis", async () => {
-    const fetchMock = mockApi();
+  it("opens on a precomputed Chihuahua case without calling the live API", async () => {
+    const fetchMock = mockNetwork();
     vi.stubGlobal("fetch", fetchMock);
 
     render(<App />);
-    await screen.findByRole("option", { name: /Air temperature at 2 m/ });
-    const mapSection = screen.getByRole("region", { name: "Where is it changing?" });
-    fireEvent.click(within(mapSection).getByRole("button", { name: "Analyze this region" }));
 
-    await waitFor(() => {
-      const panel = screen.getByRole("region", { name: "Western Sahel" });
-      expect(within(panel).getByRole("article", { name: "Verdict" })).toBeInTheDocument();
-    });
-    expect(screen.getByRole("combobox", { name: "Earth variable" })).toHaveValue("precipitation");
-    expect(new URLSearchParams(window.location.search).get("bbox")).toBe("-17,12,-2,18");
+    const card = await screen.findByRole("article", { name: "Delicias area, Chihuahua" });
+    // Real Delicias data: warming of about +2.4 °C since 1981, and water vapor without a clear trend.
+    expect(await within(card).findByText("+2.4 °C", { selector: ".num-display" })).toBeInTheDocument();
+    expect(within(card).getByRole("button", { name: /Water vapor No clear trend/ })).toBeInTheDocument();
+    expect(within(card).getByText(/Statistically significant/)).toBeInTheDocument();
+    expect(trendCalls(fetchMock)).toHaveLength(0);
+    expect(new URLSearchParams(window.location.search).get("place")).toBe("delicias");
+  });
+
+  it("restores a comparison from the URL and focuses the variable it names", async () => {
+    vi.stubGlobal("fetch", mockNetwork());
+    window.history.replaceState(null, "", "/?place=western-sahel&compare=central-chile&var=precipitation");
+
+    render(<App />);
+
+    const sahel = await screen.findByRole("article", { name: "Western Sahel" });
+    const chile = await screen.findByRole("article", { name: "Central Chile" });
+    // Same variable, opposite directions: more rain in the Sahel, less in central Chile.
+    expect(await within(sahel).findByText(/more rain per year/)).toBeInTheDocument();
+    expect(await within(chile).findByText(/less rain per year/)).toBeInTheDocument();
+    expect(screen.getAllByRole("region", { name: /Evidence: Precipitation/ })).toHaveLength(2);
+  });
+
+  it("switches the focused variable and keeps it in the URL", async () => {
+    vi.stubGlobal("fetch", mockNetwork());
+
+    render(<App />);
+    const card = await screen.findByRole("article", { name: "Delicias area, Chihuahua" });
+    fireEvent.click(await within(card).findByRole("button", { name: /^Rain/ }));
+
+    expect(within(card).getByRole("button", { name: /^Rain/ })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("region", { name: /Evidence: Precipitation in Delicias/ })).toBeInTheDocument();
+    expect(new URLSearchParams(window.location.search).get("var")).toBe("precipitation");
+  });
+
+  it("investigates a map cell live, one request per variable", async () => {
+    const fetchMock = mockNetwork();
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<App />);
+    await screen.findByRole("article", { name: "Delicias area, Chihuahua" });
+    fireEvent.click(screen.getByRole("button", { name: "Analyze this region" }));
+
+    const card = await screen.findByRole("article", { name: "Area 107.5°W to 105°W, 27.5°N to 30°N" });
+    await waitFor(() => expect(trendCalls(fetchMock)).toHaveLength(8));
+    const variables = trendCalls(fetchMock).map(([, init]) => (JSON.parse(init?.body as string) as TrendRequest).variable);
+    expect(new Set(variables).size).toBe(8);
+    expect(await within(card).findByRole("button", { name: /Wind No clear trend/ })).toBeInTheDocument();
+    expect(within(card).getByRole("button", { name: /^Rain/ })).toHaveAttribute("aria-pressed", "true");
+    expect(new URLSearchParams(window.location.search).get("bbox")).toBe("-107.5,27.5,-105,30");
   });
 });

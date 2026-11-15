@@ -38,12 +38,13 @@ The UI runs at `http://localhost:5173` and expects the API at `VITE_API_BASE_URL
 
 ## Estructura de la app
 
-`App.tsx` monta una introducción breve, el espacio de investigación (`GuidedFlow` junto a un único `TrendMap`), resultados bajo demanda, casos reales (`DemoGallery`) y una explicación de lectura. El estado del servicio queda en el pie. No hay un segundo mapa decorativo.
+`App.tsx` monta la banda con `PlacePicker`, la investigación (`CaseCard` + `EvidencePanel`, dos de cada uno al comparar dentro de `ComparisonScale`), el mapa (`TrendMap`), los casos reales (`DemoGallery`) y el método. `ApiStatus` queda en el pie.
 
-- **Estado en la URL**: `?variable=&bbox=minLon,minLat,maxLon,maxLat&start=YYYY-MM&end=YYYY-MM&compare=…` (`src/lib/flow.ts`). Un enlace completo restaura y ejecuta el análisis.
-- **Constructor**: selector de variable con definición, regiones predefinidas o coordenadas/dibujo bajo demanda y meses de inicio/fin. La comparación comienza con la región B vacía.
-- **API**: `GET /variables` y `POST /trend` (`src/lib/api.ts`). La carga y los errores son explícitos; no se sustituyen por datos de demostración.
-- **Resultado**: `LiveAnalysis` → `AnalysisResult`; conclusión primero y gráfico diferido después. `ComparisonScale` comparte la unión del rango de anomalías entre gráficos; la serie cruda opcional utiliza un eje separado.
+- **Estado en la URL**: `?place=<id>` o `?bbox=minLon,minLat,maxLon,maxLat`, más `compare=<id>` y `var=<variable>`.
+- **Datos por lugar**: `src/lib/usePlaceAnalyses.ts`. Lugares precalculados → un archivo de `public/regions/` (`src/lib/places.ts`); áreas personalizadas → `POST /trend` por cada una de las 8 variables (`src/lib/api.ts`), con carga y errores por variable.
+- **Cifras en lenguaje simple y franjas**: `src/lib/evidence.ts`; metadatos y orden de variables en `src/lib/variables.ts` (espejo de `src/data/data/catalog.py`).
+- **Imagen de la tarjeta**: `src/lib/shareCard.ts` dibuja en canvas en el dispositivo; compartir nativo o descarga.
+- **Gráfico**: `AnalysisChart` (Plotly, carga diferida); `ComparisonScale` comparte el rango de anomalías; la serie cruda usa un eje separado.
 - **Glosario**: `src/lib/glossary.ts` refleja la columna inglesa de `docs/glossary.md`; `GlossaryTerm` abre una ayuda accesible.
 - **Types**: always import contract types from `src/types/contracts.ts` (aliases of the generated file).
 

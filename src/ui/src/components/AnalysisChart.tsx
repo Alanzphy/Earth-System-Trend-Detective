@@ -52,7 +52,7 @@ export function AnalysisChart({ analysis }: Props) {
             type: "scatter",
             mode: "lines",
             name: "Anomalies",
-            line: { color: "#486581", width: 1.2 },
+            line: { color: "#8b95b8", width: 1.1 },
             hovertemplate: `%{x}: %{y:+.2f} ${units}<extra></extra>`,
           },
           {
@@ -62,7 +62,7 @@ export function AnalysisChart({ analysis }: Props) {
             mode: "lines",
             name: `Trend · ${trend.slope_units}`,
             connectgaps: true,
-            line: { color: "#17191b", width: 2.5 },
+            line: { color: "#ff6a1a", width: 3.5 },
             hovertemplate: `%{x}: %{y:+.2f} ${units}<extra></extra>`,
           },
         ]}
@@ -74,7 +74,7 @@ export function AnalysisChart({ analysis }: Props) {
           yaxis: {
             title: { text: `Anomaly (${units})` },
             zeroline: true,
-            zerolinecolor: "#c9c3b8",
+            zerolinecolor: "#b3bdd6",
             range: anomalyDomain,
             domain: showRaw ? [0, 0.45] : [0, 1],
           },
@@ -85,7 +85,7 @@ export function AnalysisChart({ analysis }: Props) {
           } } : {}),
           paper_bgcolor: "rgba(0,0,0,0)",
           plot_bgcolor: "rgba(0,0,0,0)",
-          font: { family: "Instrument Sans Variable, system-ui, sans-serif", size: 12, color: "#3b4045" },
+          font: { family: "Archivo Variable, system-ui, sans-serif", size: 12, color: "#39436a" },
         }}
         config={{ responsive: true, displayModeBar: false }}
         style={{ width: "100%", height: showRaw ? "480px" : "300px" }}

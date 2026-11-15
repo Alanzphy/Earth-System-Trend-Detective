@@ -1,50 +1,44 @@
-# Sistema visual — Earth Trend Detective
+# Sistema visual — Earth System Trend Detective
 
-## Decisión
+## Idea
 
-La app es un **atlas de investigación para estudiantes**, no una landing page. La pregunta del reto guía la pantalla: qué cambia, dónde, cuánto y con qué evidencia. Se conservan los datos y métodos; se reduce la cantidad de decisiones visibles.
+**"Is your town changing?"** El estudiante elige un lugar (Chihuahua primero, cualquier lugar del mundo después) y se lleva una **tarjeta de caso** hecha por él: qué cambió, cuánto y si es real. Rechaza el dashboard genérico (pestañas + gráfico + mapa) y la landing page de marketing.
 
-En un aula o al revisar un enlace compartido, el visitante necesita leer controles con luz ambiente y distinguir datos sobre el mapa. Por eso el constructor es claro y el mapa es oscuro. No hay mapa decorativo ni segundo contexto WebGL en la portada.
+La tarjeta es el objeto firma: aparece en la app, se guarda como imagen para compartir y sirve como pieza del pitch y del video.
 
 ## Composición
 
-- Cabecera con identidad, navegación por anclas y enlace para saltar a la investigación.
-- Introducción breve; el trabajo empieza en el primer bloque, no debajo de una portada de pantalla completa.
-- Escritorio: constructor de 346 px a la izquierda; mapa, escala y selección a la derecha.
-- Móvil: constructor seguido del mismo mapa. Sin ocultar variables, resultados ni comparación.
-- Resultado individual: conclusión junto al gráfico; al comparar, dos regiones con la misma escala de anomalías.
-- Ejemplos: superficies cálida y acuosa con cifras, p-valores y trazados derivados de los archivos reales.
-- Explicación de método al final; sin información estadística avanzada obligatoria para comenzar.
+- **Banda nocturna** (cabecera): marca, navegación por anclas, título "Is your town changing?", selector de lugar con atajos de Chihuahua. Área personalizada por coordenadas o dibujo, bajo demanda.
+- **Investigación** (se monta sobre el borde de la banda): tarjeta del caso a la izquierda; "How we know it's real" a la derecha (gráfico de anomalías + tendencia, IC 95 %, p-valor, meses, método). En móvil, una debajo de la otra.
+- **Comparar**: un selector añade un segundo lugar; dos tarjetas y dos evidencias con la **misma escala** de anomalías.
+- **Mapa mundial** en panel nocturno, **casos reales** (Iberia; Sahel vs Chile) y **método** en tres pasos.
 
-## Identidad y tokens
+## Tokens
 
-| Rol | Token / valor |
+| Rol | Valor |
 |---|---|
-| Fondo | `--paper: #f2f6f3` |
-| Lectura / controles | `--surface: #ffffff` |
-| Superficie secundaria | `--surface-2: #eaf0ec` |
-| Texto | `--ink: #192e29`, `--ink-2: #435d54` |
-| Texto secundario | `--muted: #597166` |
-| Acción y selección | `--accent: #16634f` |
-| Mapa | `--deep: #101e26`, `--deep-2: #1c2d35` |
-| Texto sobre mapa | `--deep-ink: #f0f5f4`, `--deep-muted: #b3c4c8` |
-| Foco | ocre `#bc7d26`, anillo de 3 px |
+| Banda, tarjeta, mapa | `--night #0f1a3a`, `--night-2 #1a2856`, `--night-3 #24346b` |
+| Texto sobre noche | `--night-ink #f4f6ff`, `--night-muted #b4bee0` |
+| Acción y cifra principal | `--sun #ff6a1a`, `--sun-2 #ffb347` |
+| Estado verificado | `--sky #9fd7ff` |
+| Fondo de lectura | `--paper #f3f5fb`, `--surface #fff`, `--line #d9dfee` |
+| Texto | `--ink #0f1a3a`, `--ink-2 #39436a`, `--muted #59628a` |
+| Foco | anillo naranja de 3 px |
 
-Instrument Sans para interfaz y lectura; IBM Plex Mono únicamente para medidas, unidades y cifras tabulares. Ambas autoalojadas. Títulos hasta 61 px; texto principal de 16–18 px. Espaciado base 4/8/12/16/24/32/48/64 px; radios 6/8/10/16 px. Una sombra suave solo para superposiciones.
+**Tipografía**: Archivo variable (eje de ancho) autoalojada — expandida y negra para títulos y cifras, ancho normal para lectura. JetBrains Mono variable solo para evidencia (IC, p, n, años). Radios 8/12/22 px; una sola sombra, la de la tarjeta.
 
-## Datos y verdad visual
+## Datos y verdad
 
-- Colores científicos independientes de la identidad: `RdBu` para temperatura y `BrBG` para agua; neutro siempre en cero.
-- Gris significa que la celda no pasa la prueba de significancia. No se usa azul para «no significativo».
-- Costas, fronteras y nombres quedan sobre los colores. La selección lleva un contorno ocre.
-- Escala y relleno proceden del mismo manifiesto. Cambiar de variable borra la selección anterior.
-- Las vistas pequeñas de los casos trazan anomalías y tendencia reales, sin inventar una curva decorativa.
-- No logos, banderas ni identificadores de misión de NASA.
+- Cifras en lenguaje simple calculadas desde `total_change` de la API (`src/lib/evidence.ts`): °C desde el año inicial; lluvia en mm/año y % de lo normal; humedad relativa en puntos; el resto en % del promedio.
+- Solo se muestra una cifra como cambio si es significativa (p < α); si no, "No clear trend" con su p-valor. Nunca se oculta el estado no significativo.
+- Franjas anuales: anomalías medias por año completo, escala `RdBu` centrada en cero.
+- Colores científicos del mapa (`RdBu` temperatura, `BrBG` agua) independientes de la identidad.
+- Sin logos, banderas ni identificadores de misión de NASA.
 
-## Interacción y accesibilidad
+## Accesibilidad y privacidad
 
-Selectores nativos, objetivos de 44 px, foco visible y ayudas bajo demanda. Región B empieza vacía. La selección de extremos del mapa permite investigar sin ratón; las coordenadas permiten definir cualquier área admitida por la API.
+Controles nativos (select, botones, formulario), objetivos ≥ 44 px, foco visible, significancia con icono + palabra, alternativa de teclado para el mapa, `prefers-reduced-motion`. La imagen de la tarjeta se genera en el dispositivo (canvas), no se sube, y solo admite alias o nombre de pila + escuela/club; el formulario lo advierte.
 
-La conclusión antecede al detalle técnico. «No significativo» nunca equivale a «no hay cambio». Los datos crudos usan un eje distinto al de las anomalías. En comparación, el rango compartido es la unión de los rangos de ambos gráficos, no una aproximación por redondeo.
+## Reglas
 
-El movimiento se reserva al encuadre del mapa y al indicador de carga; se respeta `prefers-reduced-motion`. El hero anterior, sus componentes duplicados y las reglas CSS acumuladas fueron eliminados.
+Sin etiquetas en mayúsculas sobre los títulos, sin bordes laterales de color, sin tarjetas anidadas, sin texto en degradado.

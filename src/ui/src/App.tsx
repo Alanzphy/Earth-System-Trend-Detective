@@ -1,237 +1,206 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ApiStatus } from "./components/ApiStatus";
-import { DemoGallery } from "./components/DemoGallery";
+import { CaseCard } from "./components/CaseCard";
 import { ComparisonScale } from "./components/ComparisonScale";
-import { GuidedFlow, type CatalogState } from "./components/GuidedFlow";
-import { LiveAnalysis } from "./components/LiveAnalysis";
+import { DemoGallery } from "./components/DemoGallery";
+import { EvidencePanel } from "./components/EvidencePanel";
+import { CUSTOM, PlacePicker } from "./components/PlacePicker";
 import { TrendMap } from "./components/TrendMap";
-import { getVariables } from "./lib/api";
-import {
-  box,
-  clampPeriod,
-  parseFlowState,
-  serializeFlowState,
-  trendRequests,
-  type FlowState,
-} from "./lib/flow";
+import { formatRegion } from "./lib/format";
+import { bboxToParam, box, parseBboxParam } from "./lib/flow";
+import { loadPlaceManifest, type PlaceSummary } from "./lib/places";
 import type { TrendRegionSelection } from "./lib/trendMaps";
-import { useWaking } from "./lib/useWaking";
-import type { Variable } from "./types/contracts";
+import { usePlaceAnalyses, type Place } from "./lib/usePlaceAnalyses";
+import { isVariableId, type VariableId } from "./lib/variables";
+import type { BBox } from "./types/contracts";
 
-type CatalogResult =
-  | { status: "loading" }
-  | { status: "ready"; variables: Variable[] }
-  | { status: "error"; message: string };
+const DEFAULT_PLACE = "delicias";
+
+type Selection = { place: string; custom: BBox | null; compare: string; focus: VariableId };
+
+function readUrl(): Selection {
+  const params = new URLSearchParams(window.location.search);
+  const custom = parseBboxParam(params.get("bbox"));
+  const variable = params.get("var");
+  return {
+    place: custom ? CUSTOM : (params.get("place") ?? DEFAULT_PLACE),
+    custom,
+    compare: params.get("compare") ?? "",
+    focus: isVariableId(variable) ? variable : "temperature_2m",
+  };
+}
+
+function writeUrl({ place, custom, compare, focus }: Selection) {
+  const params = new URLSearchParams();
+  if (place === CUSTOM && custom) params.set("bbox", bboxToParam(custom));
+  else params.set("place", place);
+  if (compare) params.set("compare", compare);
+  params.set("var", focus);
+  window.history.replaceState(null, "", `${window.location.pathname}?${params}`);
+}
+
+function toPlace(id: string, custom: BBox | null, places: PlaceSummary[] | null): Place | null {
+  if (id === CUSTOM) {
+    return custom ? { kind: "custom", name: `Area ${formatRegion(custom)}`, bbox: custom } : null;
+  }
+  const summary = places?.find((place) => place.id === id);
+  return summary ? { kind: "preset", summary } : null;
+}
+
+function placeName(place: Place | null): string {
+  return place ? (place.kind === "preset" ? place.summary.name : place.name) : "";
+}
 
 function App() {
-  const [flow, setFlow] = useState<FlowState>(() => parseFlowState(window.location.search));
-  // A shared link with a complete flow runs the analysis right away.
-  const [submitted, setSubmitted] = useState<{ flow: FlowState; run: number } | null>(() => {
-    const initial = parseFlowState(window.location.search);
-    return initial.variable && initial.bbox ? { flow: initial, run: 0 } : null;
-  });
-  const [catalogResult, setCatalogResult] = useState<CatalogResult>({ status: "loading" });
-  // A guided example can be opened from the introduction without configuring a request.
-  const [openCase, setOpenCase] = useState<{ id: string; nonce: number } | null>(null);
-  const catalogWaking = useWaking(catalogResult.status === "loading");
-  const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
-
-  const catalog: CatalogState =
-    catalogResult.status === "loading" ? { status: "loading", waking: catalogWaking } : catalogResult;
+  const [selection, setSelection] = useState<Selection>(readUrl);
+  const [places, setPlaces] = useState<PlaceSummary[] | null>(null);
+  const [placesError, setPlacesError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
-    getVariables()
-      .then((response) => {
-        if (active) {
-          setCatalogResult({ status: "ready", variables: response.variables });
-        }
-      })
-      .catch((error: unknown) => {
-        if (active) {
-          setCatalogResult({
-            status: "error",
-            message: error instanceof Error ? error.message : "Unknown error",
-          });
-        }
-      });
+    loadPlaceManifest()
+      .then((manifest) => active && setPlaces(manifest.regions))
+      .catch((error: unknown) => active && setPlacesError(error instanceof Error ? error.message : "Unknown error"));
     return () => {
       active = false;
     };
   }, []);
 
-  useEffect(() => {
-    const query = serializeFlowState(flow);
-    window.history.replaceState(null, "", `${window.location.pathname}?${query}`);
-  }, [flow]);
+  useEffect(() => writeUrl(selection), [selection]);
 
-  const analyze = useCallback((next: FlowState) => {
-    setSubmitted((current) => ({ flow: next, run: (current?.run ?? 0) + 1 }));
-  }, []);
+  const place = useMemo(() => toPlace(selection.place, selection.custom, places), [selection.place, selection.custom, places]);
+  const other = useMemo(() => toPlace(selection.compare, null, places), [selection.compare, places]);
+  const primary = usePlaceAnalyses(place);
+  const second = usePlaceAnalyses(other);
 
-  useEffect(() => {
-    if (submitted) {
-      resultsHeadingRef.current?.focus();
-      document.getElementById("analysis")?.scrollIntoView?.({ behavior: "smooth", block: "start" });
-    }
-  }, [submitted]);
+  const update = useCallback((patch: Partial<Selection>) => setSelection((current) => ({ ...current, ...patch })), []);
 
-  const analyzeMapRegion = useCallback(
+  const investigateCell = useCallback(
     (region: TrendRegionSelection) => {
-      const [minLon, minLat, maxLon, maxLat] = region.bbox;
-      const period = { start: region.period[0], end: region.period[1] };
-      const variable =
-        catalogResult.status === "ready"
-          ? catalogResult.variables.find((item) => item.id === region.variable)
-          : undefined;
-      const next: FlowState = {
-        variable: region.variable,
-        bbox: box(minLon, minLat, maxLon, maxLat),
-        compare: null,
-        ...(variable ? clampPeriod(period, variable) : period),
-      };
-      setFlow(next);
-      analyze(next);
+      const [west, south, east, north] = region.bbox;
+      update({ place: CUSTOM, custom: box(west, south, east, north), compare: "", focus: isVariableId(region.variable) ? region.variable : "temperature_2m" });
+      document.getElementById("investigate")?.scrollIntoView?.({ behavior: "smooth", block: "start" });
     },
-    [analyze, catalogResult],
+    [update],
   );
 
-  const panels = useMemo(
-    () =>
-      submitted
-        ? trendRequests(submitted.flow).map((panel) => ({
-            ...panel,
-            key: `${submitted.run}-${panel.label}-${serializeFlowState(submitted.flow)}`,
-          }))
-        : [],
-    [submitted],
-  );
-
-  const variableName =
-    catalogResult.status === "ready" && submitted
-      ? catalogResult.variables.find((item) => item.id === submitted.flow.variable)?.name
-      : undefined;
+  const comparing = Boolean(other);
 
   return (
     <div className="site">
-      <a className="skip-link" href="#explore">Skip to exploration</a>
-      <header className="site-header">
-        <a className="brand" href="#top">
-          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <circle cx="16" cy="16" r="13" />
-            <ellipse cx="16" cy="16" rx="6" ry="13" />
-            <path d="M3 16h26M6 8.5h20M6 23.5h20" />
-          </svg>
-          Earth Trend Detective
-        </a>
-        <nav className="site-nav" aria-label="Sections">
-          <a href="#explore">Explore</a>
-          <a href="#demos">Cases</a>
-          <a href="#method">How it works</a>
-        </nav>
-      </header>
-
-      <main className="app" id="top">
-        <section className="introduction" aria-labelledby="page-heading">
-          <h1 id="page-heading">What is changing<br />on <span>Earth?</span></h1>
-          <div className="introduction__copy">
-            <p>Warmer here. Drier there. Explore NASA data to find what is changing,
-              where, and whether the change stands out from natural variation.</p>
-            <button className="text-action" type="button" onClick={() =>
-              setOpenCase((current) => ({
-                id: "rain-opposite-directions",
-                nonce: (current?.nonce ?? 0) + 1,
-              }))
-            }>New here? Start with a real example <span aria-hidden="true">→</span></button>
-          </div>
-        </section>
-
-        <div className="workspace">
-          <section className="investigation" id="explore" aria-labelledby="explore-heading">
-            <div className="investigation__heading">
-              <h2 id="explore-heading">Your investigation</h2>
-              <p>A variable. A place. A little curiosity.</p>
-            </div>
-            <GuidedFlow
-              catalog={catalog}
-              flow={flow}
-              onChange={setFlow}
-              onAnalyze={() => analyze(flow)}
+      <a className="skip-link" href="#investigate">
+        Skip to the investigation
+      </a>
+      <div className="band">
+        <header className="band__bar">
+          <a className="brand" href="#top">
+            Earth System <b>Trend Detective</b>
+          </a>
+          <nav aria-label="Sections">
+            <a href="#investigate">Investigate</a>
+            <a href="#map">World map</a>
+            <a href="#cases">Cases</a>
+            <a href="#method">How it works</a>
+          </nav>
+        </header>
+        <div className="band__intro" id="top">
+          <h1>
+            Is <em>your town</em> changing?
+          </h1>
+          <p>Pick a place and read 45 years of NASA data: what changed, how much, and whether it is real.</p>
+          {placesError ? (
+            <p className="error" role="alert">
+              Could not load the places: {placesError}
+            </p>
+          ) : (
+            <PlacePicker
+              places={places}
+              value={selection.place}
+              customBbox={selection.custom}
+              onSelect={(id) => update({ place: id, custom: id === CUSTOM ? selection.custom : null })}
+              onCustom={(custom) => update({ place: CUSTOM, custom })}
             />
-          </section>
-
-          <section className="atlas" id="trend-map-section" aria-labelledby="trend-map-heading">
-            <div className="atlas__heading">
-              <div>
-                <h2 id="trend-map-heading">Where is it changing?</h2>
-                <p>Click a cell to investigate its trend.</p>
-              </div>
-              <a href="#map-reading">How to read this map</a>
-            </div>
-            <TrendMap onAnalyzeRegion={analyzeMapRegion} />
-          </section>
+          )}
         </div>
+      </div>
 
-        {panels.length > 0 && (
-          <section className="results section-wrap" id="analysis" aria-labelledby="analysis-heading">
-            <div className="section-heading">
-              <div>
-                <h2 id="analysis-heading" ref={resultsHeadingRef} tabIndex={-1}>
-                  {panels.length > 1 ? "Comparing two regions" : "What the data tells us"}
-                </h2>
-                <p className="results__meta">
-                  {variableName ?? submitted?.flow.variable} · {submitted?.flow.start} to{" "}
-                  {submitted?.flow.end}
-                  {panels.length > 1 && " · same variable and period for both regions"}
-                </p>
+      <main className="app">
+        <section id="investigate" className={`investigation ${comparing ? "investigation--compare" : ""}`} aria-label="Investigation">
+          {!place && selection.place === CUSTOM && (
+            <p className="investigation__empty">Type or draw an area above, then press “Investigate this area”.</p>
+          )}
+          {place && (
+            <ComparisonScale key={`${selection.place}-${selection.compare}`}>
+              <div className="investigation__card">
+                <CaseCard name={placeName(place)} analyses={primary.analyses} focus={selection.focus} onFocus={(focus) => update({ focus })} waking={primary.waking} />
+                {other && (
+                  <CaseCard name={placeName(other)} analyses={second.analyses} focus={selection.focus} onFocus={(focus) => update({ focus })} waking={second.waking} />
+                )}
               </div>
-              <a href="#explore">Change your investigation</a>
-            </div>
-            <ComparisonScale key={submitted?.run}>
-            <div className={panels.length > 1 ? "compare-grid" : undefined}>
-              {panels.map((panel) => (
-                <LiveAnalysis key={panel.key} label={panel.label} request={panel.request} />
-              ))}
-            </div>
+              <div className="investigation__evidence">
+                <EvidencePanel place={placeName(place)} variable={selection.focus} state={primary.analyses[selection.focus]} />
+                {other && <EvidencePanel place={placeName(other)} variable={selection.focus} state={second.analyses[selection.focus]} />}
+                <label className="compare">
+                  Compare with
+                  <select value={selection.compare} disabled={!places} onChange={(event) => update({ compare: event.target.value })}>
+                    <option value="">No comparison</option>
+                    {places
+                      ?.filter((item) => item.id !== selection.place)
+                      .map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+              </div>
             </ComparisonScale>
-          </section>
-        )}
-
-        <section className="cases section-wrap" id="demos" aria-labelledby="demos-heading">
-          <div className="section-heading">
-            <h2 id="demos-heading">One planet. Different stories.</h2>
-            <p>Start with the evidence. These real examples work even when live analysis is asleep.</p>
-          </div>
-          <DemoGallery autoOpen={openCase} />
+          )}
         </section>
 
-        <section className="method section-wrap" id="method" aria-labelledby="method-heading">
-          <div className="method__intro">
-            <h2 id="method-heading">Find a trend.<br />Question the evidence.</h2>
-            <p>We describe past change. This is not a forecast.</p>
+        <section id="map" className="section" aria-labelledby="map-heading">
+          <div className="section__head">
+            <h2 id="map-heading">Where is it changing fastest?</h2>
+            <p>
+              The State of Chihuahua warms about <strong>2.5 times</strong> the average of this map and sits in the{" "}
+              <strong>top 4%</strong> of cells warming fastest (1981–2025). Click any cell to investigate it.
+            </p>
           </div>
-          <div className="method__explanations">
-            <div id="map-reading">
-              <h3>Read the map</h3>
-              <p>Color shows the direction and speed of change, not the temperature or rainfall
-                itself. Gray cells do not pass the statistical test. The scale changes with the variable.</p>
-            </div>
-            <div>
-              <h3>Look beyond the seasons</h3>
-              <p>We remove the repeating seasonal cycle before fitting a trend. That helps separate
-                a long-term change from a normal summer or winter.</p>
-            </div>
-            <div>
+          <TrendMap onAnalyzeRegion={investigateCell} />
+        </section>
+
+        <section id="cases" className="section" aria-labelledby="cases-heading">
+          <div className="section__head">
+            <h2 id="cases-heading">Same variable, opposite directions</h2>
+            <p>Real cases prepared with the same method. They work even when live analysis is asleep.</p>
+          </div>
+          <DemoGallery />
+        </section>
+
+        <section id="method" className="section method" aria-labelledby="method-heading">
+          <h2 id="method-heading">Be a detective, not a fortune teller</h2>
+          <ol className="method__steps">
+            <li>
+              <h3>Remove the seasons</h3>
+              <p>Every month is compared with what is normal for that month, so a hot summer is not mistaken for a trend.</p>
+            </li>
+            <li>
+              <h3>Measure the change</h3>
+              <p>A robust slope gives the change per decade, with a 95% range of where the true value probably is.</p>
+            </li>
+            <li>
               <h3>Ask: could it be chance?</h3>
-              <p>A statistical test checks the evidence for a trend. Not significant does not mean
-                no change; a longer record may reveal more. Open “How we measured it” for the method and uncertainty.</p>
-            </div>
-          </div>
+              <p>A statistical test answers it. “No clear trend” does not mean nothing changed — only that the data cannot prove it yet.</p>
+            </li>
+          </ol>
+          <p className="method__note">We describe past change. This is not a forecast and not farming advice.</p>
         </section>
       </main>
 
       <footer className="site-footer">
-        <p>NASA POWER data · MERRA-2 &amp; CERES<br />Independent project. Not affiliated with or endorsed by NASA.</p>
+        <p>
+          Data: NASA POWER (MERRA-2, CERES). Independent student project; not affiliated with or endorsed by NASA.
+        </p>
         <ApiStatus />
       </footer>
     </div>

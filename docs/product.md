@@ -2,30 +2,22 @@
 
 ## Usuarios
 
-- **Primario**: estudiantes de secundaria y universidad.
-- **Secundario**: público general con base científica, docentes.
+- **Primario**: estudiantes de secundaria y preparatoria (12–18 años) de escuelas públicas de Chihuahua, desde el teléfono. Ver `PRODUCT.md`.
+- **Secundario**: docentes, jueces locales del hackathon y público general.
 
 ## Flujo principal (MVP, implementado en la UI)
 
-La página es una herramienta de exploración en inglés, no una portada seguida de formularios:
+Una sola vista en inglés, organizada alrededor de la pregunta **"Is your town changing?"** (detalle visual en `DESIGN.md`):
 
-1. **Introducción**: la pregunta «What is changing on Earth?» y acceso directo a un ejemplo real.
-2. **Espacio de investigación**:
-   - En escritorio, el constructor y un único mapa comparten la pantalla. En móvil se apilan.
-   - **Qué**: filtro opcional por tema y selector de variable con su definición simple.
-   - **Dónde**: selector de regiones; dibujo y coordenadas se muestran bajo demanda. Comparar abre un selector B vacío: nunca se elige una región por el usuario.
-   - **Cuándo**: meses de inicio y fin, ajustados a la disponibilidad real de cada variable.
-   - **Mapa**: temperatura y precipitación precalculadas (`public/trend-maps/`), escala divergente centrada en cero y celdas no significativas grises. Nombres, fronteras y costas conservan la referencia geográfica. No se repite el mundo ni se permite inclinarlo. Un selector ofrece las 20 celdas significativas de mayor cambio absoluto como alternativa de teclado, identificadas explícitamente como extremos, no como muestra representativa.
-   - Clic o selección de una celda → evidencia local → «Analyze this region» configura y ejecuta su análisis.
-   - Paletas: `RdBu` (azul baja / rojo sube) para temperatura; `BrBG` (marrón disminuye / verde azulado aumenta) para agua.
-3. **Resultados**: conclusión y cambio por década primero; gráfico de anomalías al lado en escritorio, debajo en móvil. Al comparar, ambos gráficos comparten exactamente el mismo rango de anomalías. La serie mensual cruda es opcional y usa un eje separado, nunca el mismo que las anomalías.
-   - Solo se afirma significancia si p < α. Se conservan pendiente, IC 95 %, cambio total, región, periodo y p-valor.
-   - Método, α, n, puntos de rejilla y glosario están bajo «How we measured it». No se extrapola al futuro.
-   - `POST /trend` se ejecuta por región; carga y errores son explícitos. El foco pasa al resultado cuando existe en el DOM.
-4. **Casos reales**: dos ejemplos con cifras, p-valores y gráficos calculados desde los JSON del pipeline; no números escritos a mano. Abrirlos muestra la misma evidencia que un análisis en vivo. Se pueden cerrar y funcionan sin API.
-5. **Cómo leer la evidencia**: explicación breve de colores, estacionalidad y significancia; aviso visible de que no es un pronóstico.
+1. **Elegir lugar**: selector con 8 zonas de Chihuahua de 2° × 2° (Cuauhtémoc, Delicias, Chihuahua, Ciudad Juárez, Parral, Nuevo Casas Grandes, Jiménez, Ojinaga), el estado completo y 4 regiones del mundo, más atajos de Chihuahua. Las zonas están **precalculadas** (`public/regions/`, `uv run python -m pipeline regions`): cargan al instante y funcionan con el backend dormido. "Somewhere else" abre coordenadas o dibujo en mapa y ejecuta `POST /trend` en vivo para las 8 variables.
+2. **Tarjeta del caso**: nombre del lugar, franjas anuales de temperatura, la cifra principal de la variable enfocada en lenguaje simple (p. ej. "+2.4 °C warmer since 1981", "−118 mm less rain per year"), su veredicto con p-valor y la cuadrícula **"What changed here"** con las 8 variables. Una variable no significativa se muestra como "No clear trend". Cada celda enfoca su variable.
+3. **"How we know it's real"**: veredicto de la API, gráfico de anomalías con tendencia (serie cruda opcional en eje propio), cambio por década, IC 95 %, p-valor, meses y método bajo "How we measured it". No es un pronóstico ni consejo agrícola.
+4. **Guardar la tarjeta**: imagen 4:5 generada en el dispositivo (sin subir datos) con alias o nombre de pila y escuela/club opcionales; usa compartir nativo si existe, si no descarga.
+5. **Comparar**: un segundo lugar precalculado; dos tarjetas y dos evidencias con la misma escala de anomalías.
+6. **Mapa mundial** (`public/trend-maps/`): temperatura y lluvia, celdas no significativas en gris, selector de teclado con las 20 celdas de mayor cambio. "Analyze this region" convierte la celda en un área personalizada analizada en vivo.
+7. **Casos reales** ("Same variable, opposite directions") y **método** en tres pasos.
 
-El estado del constructor se refleja en la URL (`variable`, `bbox`, `start`, `end`, `compare`). Un enlace completo restaura y ejecuta la investigación. Los resultados no ocupan espacio hasta que se solicita un análisis. Las áreas personalizadas siguen admitiendo coordenadas decimales; no se restringen a múltiplos de 0,25°.
+El estado vive en la URL: `?place=<id>` o `?bbox=minLon,minLat,maxLon,maxLat`, más `compare=<id>` y `var=<variable>`. Un enlace restaura el caso completo.
 
 ## Demos obligatorias
 
