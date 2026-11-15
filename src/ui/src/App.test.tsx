@@ -10,6 +10,10 @@ vi.mock("./components/MapView", () => ({
   MapView: () => <div>Map</div>,
 }));
 
+vi.mock("./components/TrendMap", () => ({
+  TrendMap: () => <div>Trend map</div>,
+}));
+
 vi.mock("./components/TrendChart", () => ({
   TrendChart: () => <div>Chart</div>,
 }));

@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "generated_at": "2026-11-14T00:00:00Z",
+  "maps": [
+    {
+      "id": "sample-precipitation",
+      "title": "Sample: precipitation trends",
+      "variable": "precipitation",
+      "units": "mm/day",
+      "slope_units": "mm/day/decade",
+      "period": [
+        "1981-01",
+        "2025-12"
+      ],
+      "palette": "BrBG",
+      "cell_size_deg": 2.0,
+      "file": "sample-precipitation.geojson",
+      "legend": {
+        "min": -0.12,
+        "max": 0.12
+      },
+      "alpha": 0.05,
+      "fdr": false,
+      "is_sample": true
+    }
+  ]
+}

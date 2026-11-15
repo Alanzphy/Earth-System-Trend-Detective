@@ -78,3 +78,126 @@ header h1 {
   background: #fed7d7;
   color: #822727;
 }
+
+.trend-map {
+  display: grid;
+  gap: 1rem;
+}
+
+.trend-map__canvas {
+  width: 100%;
+  height: 380px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.trend-map__legend {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.trend-map__legend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.trend-map__badge {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #fefcbf;
+  color: #744210;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.trend-map__gradient {
+  height: 0.75rem;
+  margin: 0 1rem;
+  border: 1px solid #bcccdc;
+  border-radius: 999px;
+}
+
+.trend-map__ticks {
+  position: relative;
+  height: 1.2rem;
+  margin: 0 1rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: #334e68;
+}
+
+.trend-map__tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.trend-map__scale-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #334e68;
+}
+
+.trend-map__swatch {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-right: 0.4rem;
+  border: 1px solid #829ab1;
+  border-radius: 0.2rem;
+  vertical-align: middle;
+}
+
+.trend-map__units,
+.trend-map__note {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.trend-map__note {
+  color: #52667a;
+}
+
+.trend-map__error {
+  margin: 0;
+  color: #822727;
+  font-weight: 600;
+}
+
+.trend-map__selection {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.9rem 1rem;
+  border-left: 4px solid #2f855a;
+  border-radius: 0.5rem;
+  background: #f0fff4;
+}
+
+.trend-map__selection p {
+  margin: 0;
+}
+
+.trend-map__selection button {
+  justify-self: start;
+  margin-top: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #2f855a;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trend-map__selection button:hover {
+  background: #276749;
+}

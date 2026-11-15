@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { ApiStatus } from "./components/ApiStatus";
 import { MapView } from "./components/MapView";
+import { TrendMap } from "./components/TrendMap";
 
 // Plotly is the heaviest dependency; load it after the first paint.
 const TrendChart = lazy(() =>
@@ -26,6 +27,15 @@ function App() {
       </section>
 
       <section className="panel">
+        <h2>Where is it changing?</h2>
+        <p>
+          Click a region on the trend map to see its trend. Faded areas are not
+          statistically significant.
+        </p>
+        <TrendMap />
+      </section>
+
+      <section className="panel" id="analysis">
         <h2>Example time series</h2>
         <Suspense fallback={<p>Loading chart…</p>}>
           <TrendChart />
