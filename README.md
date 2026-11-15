@@ -9,15 +9,15 @@ Built for the **2026 NASA Space Apps Challenge**.
 | Resource | Link |
 |---|---|
 | Source code | https://github.com/Alanzphy/Earth-System-Trend-Detective |
-| Web app | Add the Vercel production URL after the first deployment |
-| API health | https://estd-api.onrender.com/health (the free Render tier may take ~1 minute to wake up) |
+| Web app | https://earth-system-trend-detective-xi.vercel.app |
+| API health | https://estd-api-8l11.onrender.com/health (the free Render tier may take ~1 minute to wake up; demos and maps do not need it) |
 | Space Apps project page | Add the public project page URL before submission |
 
 ## What it does
 
 Earth system variables can trend upward in one region and downward in another, even when the same process drives both. The app helps students become data detectives:
 
-- Choose an Earth science variable such as air temperature, precipitation, humidity, wind, radiation, soil moisture, sea surface temperature, aerosols or vegetation.
+- Choose an Earth science variable: air temperature, precipitation, relative and specific humidity, wind speed, solar radiation, evapotranspiration or root-zone soil wetness.
 - Pick a region and a time period.
 - Inspect the raw series, the deseasonalized series and the trend line.
 - Read a plain-language verdict with the direction, magnitude in units per decade, p-value and significance.
@@ -30,26 +30,17 @@ The UI is in English by default, following the Space Apps minimum requirements.
 
 1. **Guided questions** help the user choose a topic and a region.
 2. **Variable catalog** provides simple definitions and units.
-3. **Data layer** requests area-averaged series from NASA POWER and Giovanni Time Series.
-4. **Analysis layer** removes the seasonal cycle, estimates the trend with Theil–Sen and tests significance with Mann–Kendall.
-5. **Verdict** reports method, period, region, units and statistical significance.
-6. **Precomputed maps and demos** are served as static files so the landing page and demos keep working even when the free backend is asleep.
+3. **Data layer** downloads monthly gridded data from NASA POWER (MERRA-2 based, 0.5° × 0.625°) for the region and averages it with cos(latitude) weights.
+4. **Analysis layer** removes the seasonal cycle (monthly anomalies), estimates the slope per decade with Theil–Sen and tests significance with the Mann–Kendall test using the Hamed–Rao correction for autocorrelation (α = 0.05).
+5. **Verdict** reports direction, change per decade with 95% confidence interval, total change, p-value, method, period, region and units in plain language. It describes past change; it is not a forecast.
+6. **Precomputed demos and trend maps** (2.5° cells worldwide, Benjamini–Hochberg FDR correction across cells) are served as static files, so they work even when the free backend is asleep.
 
 ## NASA data and credits
 
-This project uses or plans to use the following NASA and partner resources:
+- [NASA POWER](https://power.larc.nasa.gov/) — all variables in the app. *These data were obtained from the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science Program.* Meteorology derived from [MERRA-2](https://gmao.gsfc.nasa.gov/reanalysis/MERRA-2/); solar radiation from CERES/GEWEX.
+- [NASA Earthdata](https://www.earthdata.nasa.gov/) and [GES DISC](https://disc.gsfc.nasa.gov/) — evaluated for future variables (sea surface temperature, aerosols, vegetation via [Giovanni](https://giovanni.gsfc.nasa.gov/)).
 
-- [NASA POWER](https://power.larc.nasa.gov/) — meteorology and solar energy parameters.
-- [NASA GES DISC Giovanni](https://giovanni.gsfc.nasa.gov/) — time series for precipitation, temperature, aerosols and vegetation.
-- [NASA Earthdata](https://www.earthdata.nasa.gov/) — authentication and data discovery.
-- [NASA GLDAS](https://ldas.gsfc.nasa.gov/gldas/) — land surface and soil moisture.
-- [NASA MERRA-2](https://gmao.gsfc.nasa.gov/reanalysis/MERRA-2/) — reanalysis variables.
-- [NASA MODIS](https://modis.gsfc.nasa.gov/) — land, atmosphere and vegetation observations.
-- [NASA GPM](https://gpm.nasa.gov/) — precipitation.
-- [NASA Worldview](https://worldview.earthdata.nasa.gov/) — visual exploration of Earth data.
-- [CUAHSI](https://www.cuahsi.org/) — hydrology data and tools.
-
-Dataset details, access notes and status are maintained in [`docs/data-sources.md`](docs/data-sources.md).
+Dataset details, validation and access notes are in [`docs/data-sources.md`](docs/data-sources.md).
 
 This is not an official NASA product and is not endorsed by NASA. No NASA logos, flags or mission identifiers are used in the generated project content.
 
@@ -64,10 +55,11 @@ This is not an official NASA product and is not endorsed by NASA. No NASA logos,
 
 ```text
 docs/          living documentation and decisions
-src/contracts/ shared schemas
-src/data/      data ingestion and caching
-src/analysis/  trend and significance methods
-src/api/       FastAPI backend
+src/contracts/ shared Pydantic schemas → OpenAPI → TypeScript types
+src/data/      NASA POWER client, tiling, area averages
+src/analysis/  anomalies, Theil–Sen, Mann–Kendall (Hamed–Rao), verdict
+src/api/       FastAPI backend (/variables, /trend)
+src/pipeline/  offline generation of demos and trend maps
 src/ui/        React frontend
 ```
 
@@ -85,8 +77,14 @@ uv run pytest
 API:
 
 ```sh
-cd src/api
 uv run uvicorn app.main:app --reload
+```
+
+Regenerate demos and trend maps (writes `src/ui/public/`; trend maps download ~2 GB from NASA POWER):
+
+```sh
+uv run python -m pipeline demos
+uv run python -m pipeline trend-maps
 ```
 
 UI:
@@ -111,7 +109,7 @@ cd src/ui && pnpm lint && pnpm test && pnpm build
 
 ## AI usage declaration
 
-This project's code and documentation were developed with the assistance of AI coding agents (opencode). AI was used for code generation, refactoring, tests and documentation. No AI-generated images or videos are included. NASA data is used according to the dataset terms listed above. This declaration is included on the Space Apps project page and in this README.
+This project's code and documentation were developed with the assistance of AI coding agents: **omp** (oh-my-pi) running Anthropic Claude models, and **opencode**. AI was used for code generation, refactoring, tests, data validation scripts and documentation; every change was reviewed and merged by the team through pull requests with automated tests. No AI-generated images, video or audio are included. NASA data is used according to the dataset terms listed above. This declaration is also on the Space Apps project page.
 
 ## Space Apps submission
 
