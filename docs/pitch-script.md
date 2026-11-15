@@ -44,8 +44,6 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 >
 > Son ocho variables de NASA a la vez, en unidades que cualquiera entiende, y cada una dice **si el cambio es real o no**.
 
-*Si la función de predicción no se integra a la app, digan solo: "El estudiante elige su lugar, por ejemplo Delicias, y aquí está:", y continúen con las cifras.*
-
 # 4. Por qué es confiable · 1:40–2:15 (≈ 90 palabras: la más justa)
 
 **En pantalla:** la serie con estaciones se transforma en la serie sin estaciones; se dibuja la tendencia; aparecen 3 pasos.

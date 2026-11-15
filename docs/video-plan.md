@@ -68,9 +68,14 @@ Navegador a **1600 × 900** (o 1920 × 1080), zoom 100 %, sin barra de marcadore
 | C9 | Comparación | botón **Compare them** | Dos tarjetas lado a lado |
 | C10 | Mapa mundial | `/?place=chihuahua-state&var=temperature_2m` → *Where is it changing fastest?* | Mapa nocturno con celdas rojas; texto "2.5 times … top 4%" |
 | C11 | Teléfono | modo dispositivo (iPhone, 390 × 844) en `/?place=delicias&var=temperature_2m` | Tarjeta completa en vertical |
-| D1–D3 | Tarjetas de caso | en Delicias, Cuauhtémoc y Ciudad Juárez: **Save my case card** → alias `Ana`, `Luis`, `Sofi`; escuela `Secundaria 12` → **Save image** | PNG 1080 × 1350 de cada caso |
+| C12 | Predice antes de ver | Abrir `/` **sin parámetros** en una pestaña nueva (con `?place=` no aparece) y bajar a la tarjeta | Franjas ocultas, "Before you look: what do you think changed here since 1981?", 3 preguntas, botón "Answer all three to reveal" |
+| C13 | Resultado de la apuesta | En C12 elegir **Warmer**, **More rain**, **Drier** → **Reveal** | "You called **2 of 3** before looking", × en lluvia con "the data says less rain", y debajo **+2.4 °C** |
+| D1–D3 | Tarjetas de caso | Abrir `/`, elegir la zona en el selector (Delicias, Cuauhtémoc, Ciudad Juárez), contestar las 3 preguntas y revelar; luego **Save my case card** → alias `Ana`, `Luis`, `Sofi`; escuela `Secundaria 12` → **Save image** | PNG 1080 × 1350 con "Predicted N of 3 before looking" arriba |
 
-**Grabación de interacciones** (para A y la escena 3 de B): grabar en pantalla (macOS `Cmd + Shift + 5`, o QuickTime) los clics de la sección 6, con el cursor lento y pausas de ~1 s sobre cada cifra.
+**Grabaciones de interacción** (macOS `Cmd + Shift + 5` o QuickTime; cursor lento, pausas de ~1 s sobre cada cifra):
+
+- **R1, para A**: los clics de la sección 6.
+- **R2, para la escena 3 de B**: abrir `/` sin parámetros → bajar a la tarjeta de Delicias → elegir **Warmer**, **More rain**, **Drier** (una pausa breve en cada una) → **Reveal** → quedarse 2 s en "You called 2 of 3" → clic en **Rain** → **Raw monthly values** → **Without seasons**. Unos 40 s.
 
 ## 6. Entregable A: video de entrega (30 s, inglés)
 
@@ -93,9 +98,9 @@ Se proyecta **detrás del equipo** mientras habla. Se entrega **por clips, uno p
 |---|---|---|---|---|---|
 | 1 | 0:00–0:25 | **Gancho** (25 s, bucle) | Fondo nocturno. Las franjas del **estado de Chihuahua** aparecen año por año (contador 1981 → 2025, azules → rojos). Al llegar a 2025 cuenta **+2.1 °C**. Después, el mapa mundial (C10) con Chihuahua resaltado. | **Chihuahua está en el 4 % de los lugares del mapa que más rápido se calientan.** (Nunca "más rápido que el planeta": el mapa incluye océano.) | El dato real, local, con NASA |
 | 2 | 0:25–0:55 | **El problema** (30 s) | Tipografía cinética sobre las franjas atenuadas, una frase a la vez. Al final, C11 (teléfono) entra desde abajo. | **Los datos existen: 45 años de NASA.** → **No llegan a quienes viven de esta tierra.** → **Los teléfonos se hicieron para consumir.** → **Ellos van a heredar la tierra y el agua de Chihuahua.** | Talleres en escuelas públicas; que decidan con datos, no solo con percepción |
-| 3 | 0:55–1:40 | **La herramienta** (45 s) | La grabación de interacciones (sección 6, escenas 1–4) dentro de un marco de laptop o teléfono dibujado con formas simples, con títulos breves: "Elige tu lugar", "Qué cambió", "¿Es real?". | Títulos de 2–3 palabras | Demo narrada en vivo |
+| 3 | 0:55–1:40 | **La herramienta** (45 s) | La grabación R2 dentro de un marco de laptop o teléfono dibujado con formas simples, con títulos breves que cambian con la acción: "Elige tu lugar" → "Apuesta" → "Revela" → "¿Es real?". | Títulos de 1–3 palabras | Demo narrada en vivo: "cuando apuestas, quieres saber la respuesta" |
 | 4 | 1:40–2:15 | **Por qué es confiable** (35 s) | C5 (ondas de estaciones) se transforma en C4 (sin estaciones); la línea de tendencia se dibuja; aparecen 3 pasos numerados uno por uno. | **1. Quitamos las estaciones · 2. Medimos el cambio · 3. ¿Pudo ser azar? p < 0.001** · *Descriptivo, no es un pronóstico* | Validez científica |
-| 5 | 2:15–2:55 | **De consumir a investigar** (40 s) | Las tarjetas D1–D3 entran como cartas en abanico; cada una muestra su alias. Luego se ve C3/C2 en el teléfono con "Save my case card". | **Cada estudiante se lleva su caso.** → **Lo comparte con su nombre de detective.** | Mecanismo de impacto, retos semanales para clubes |
+| 5 | 2:15–2:55 | **De consumir a investigar** (40 s) | C13 (el "2 of 3") aparece primero; luego las tarjetas D1–D3 entran como cartas en abanico, cada una con su alias y su "Predicted N of 3". | **Primero la curiosidad, después la evidencia.** → **Cada estudiante se lleva su caso.** | Mecanismo de impacto; guía de taller de 45 min |
 | 6 | 2:55–3:30 | **Quién lo hace posible** (35 s) | Diagrama de 4 nodos que se conectan con líneas: **Jóvenes** (investigan) → **Nosotros** (tecnología + talleres) → **Expertos** (agronomía UACH, estadística) → **Datos de NASA**. Sin logos. | Nombres de los nodos | Límites del equipo; apoyo de expertos; formato tipo Las Niñas Sí Pueden |
 | 7 | 3:30–4:00 | **Cierre** (30 s, bucle) | La tabla de 8 zonas (C7) entra fila por fila; luego "misma lluvia, direcciones opuestas" (C8: −32 % vs +8 %); final: frase de cierre, luego título + URL, quieto. | **No es un pueblo: es todo Chihuahua.** → **Los teléfonos se hicieron para consumir. Con 45 años de datos de NASA, cada estudiante puede convertir el suyo en un instrumento científico.** → **Earth System Trend Detective** · URL · *Datos: NASA POWER* | Siguientes pasos: piloto en escuelas, versión en español, atlas de casos |
 

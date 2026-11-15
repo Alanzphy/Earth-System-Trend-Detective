@@ -67,6 +67,7 @@ Un mapa con tendencias lo puede hacer cualquiera. Lo que no se copia:
 
 - 8 variables mensuales de NASA POWER (1981–2025): temperatura, lluvia, humedad del suelo, evaporación, humedad relativa, radiación solar, viento y vapor de agua.
 - 13 lugares precalculados (8 zonas de Chihuahua, el estado y 4 regiones del mundo), análisis en vivo de cualquier área, comparación de dos lugares, 4 casos de Chihuahua y mapas mundiales de tendencia con FDR.
+- **Predice antes de ver**: al elegir un lugar, el estudiante apuesta (calor, lluvia, humedad del suelo) antes de ver los datos; al revelar, ve cuántas acertó y el puntaje va en su tarjeta. Despierta la curiosidad; nunca modifica los datos.
 - **Descriptivo, no un pronóstico ni una recomendación agronómica.**
 - Resolución de reanálisis (~0.5°): describe la región, no una parcela.
 - Interfaz **en inglés** (requisito de Space Apps); el español es el primer paso del piloto.

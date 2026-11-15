@@ -24,6 +24,9 @@ Retoma la diapositiva 2 (el problema) y cierra el círculo. Alternativas si el e
 **¿Ya lo probaron con estudiantes?**
 Todavía no, y no vamos a decir que sí. Es un hackathon de 48 horas. Lo que sí tenemos es el canal: ya damos talleres en secundarias y prepas públicas de Chihuahua. El siguiente paso es un piloto ahí, y la prueba de éxito es concreta: que un estudiante elija su zona y explique, con cifras y su significancia, qué cambió desde 1981.
 
+**¿Para qué sirven las preguntas antes de ver los datos?**
+Para despertar la curiosidad. Es una técnica de enseñanza de ciencias, "predecir, observar, explicar": cuando apuestas, quieres saber la respuesta, y cuando te equivocas, lo que descubres se te queda. Se califica la intuición del estudiante, nunca se modifican los datos. "Sin cambio claro" es la respuesta correcta cuando la tendencia no es significativa, así que también enseña a no ver tendencias donde no las hay.
+
 **¿Qué cambia para un estudiante después de usarlo?**
 Pasa de "dicen que hace más calor" a "en Delicias subió 2.4 °C desde 1981 y no es azar, p < 0.001". Y se lleva una tarjeta con su hallazgo y su alias. Esa tarjeta es el producto de su investigación, no un contenido que consumió.
 
