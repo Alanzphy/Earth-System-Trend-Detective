@@ -90,7 +90,7 @@ Copy this text into the Space Apps project page and keep it in the README:
 
 ## Demo
 
-Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The same silent screen recording is used twice: as the submission video (with English captions) and inside a slide of the 4-minute pitch, narrated live in Spanish.
+Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The same silent screen recording is used twice: as the submission video (with English captions) and inside a slide of the 4-minute pitch, narrated live in Spanish. **The full, self-contained production plan (scenes, captions, screenshots, checks) is in [`video-plan.md`](video-plan.md).**
 
 ### 30-second video (screen recording, English captions)
 
