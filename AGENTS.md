@@ -28,7 +28,7 @@ Reglas para agentes de IA en este repo. El proceso completo para personas está 
 | `docs/architecture.md` | Componentes, contratos, stack |
 | `docs/data-sources.md` | Datasets, acceso, citas |
 | `docs/science.md` | Métodos de tendencia y significancia |
-| `docs/submission.md` · `docs/video-plan.md` · `docs/pitch-script.md` · `docs/pitch-qa.md` | Textos de entrega; plan del video y capturas; guion hablado del pitch; respuestas para el jurado |
+| `docs/submission.md` · `docs/video-plan.md` · `docs/video-prompt.md` · `docs/pitch-script.md` · `docs/pitch-qa.md` | Textos de entrega; plan del video y capturas; prompt de Remotion para Claude; guion hablado del pitch; respuestas para el jurado |
 | `docs/workshop-guide.md` | Guía de taller de 45 min para docentes (predecir, revelar, ¿es real?, comparar, caso) |
 | `docs/validation.md` | Contraste independiente de las cifras de Chihuahua (ERA5, INECC) y qué se puede afirmar |
 | `docs/glossary.md` | Definiciones simples para la UI |

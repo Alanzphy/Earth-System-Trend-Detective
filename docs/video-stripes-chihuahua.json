@@ -1,0 +1,232 @@
+{
+  "place": "State of Chihuahua",
+  "source": "NASA POWER T2M monthly anomalies, yearly means (same as the app stripes)",
+  "unit": "°C vs 1981-2025 monthly normal",
+  "stripes": [
+    {
+      "year": 1981,
+      "anomaly": -0.83,
+      "color": "#8eb0d2"
+    },
+    {
+      "year": 1982,
+      "anomaly": -0.2,
+      "color": "#dde5ee"
+    },
+    {
+      "year": 1983,
+      "anomaly": -1.02,
+      "color": "#76a0ca"
+    },
+    {
+      "year": 1984,
+      "anomaly": -1.22,
+      "color": "#5c8ec1"
+    },
+    {
+      "year": 1985,
+      "anomaly": -1.13,
+      "color": "#6997c5"
+    },
+    {
+      "year": 1986,
+      "anomaly": -0.68,
+      "color": "#a1bdd9"
+    },
+    {
+      "year": 1987,
+      "anomaly": -1.4,
+      "color": "#477fb9"
+    },
+    {
+      "year": 1988,
+      "anomaly": -0.62,
+      "color": "#a9c2dc"
+    },
+    {
+      "year": 1989,
+      "anomaly": -0.17,
+      "color": "#e2e9f0"
+    },
+    {
+      "year": 1990,
+      "anomaly": -0.94,
+      "color": "#81a7ce"
+    },
+    {
+      "year": 1991,
+      "anomaly": -1.51,
+      "color": "#3976b4"
+    },
+    {
+      "year": 1992,
+      "anomaly": -1.07,
+      "color": "#709cc8"
+    },
+    {
+      "year": 1993,
+      "anomaly": -0.65,
+      "color": "#a5c0da"
+    },
+    {
+      "year": 1994,
+      "anomaly": 0.52,
+      "color": "#e2b3b9"
+    },
+    {
+      "year": 1995,
+      "anomaly": 0.11,
+      "color": "#f3e9ea"
+    },
+    {
+      "year": 1996,
+      "anomaly": 0.12,
+      "color": "#f2e7e9"
+    },
+    {
+      "year": 1997,
+      "anomaly": -0.58,
+      "color": "#aec5dd"
+    },
+    {
+      "year": 1998,
+      "anomaly": -0.15,
+      "color": "#e5ebf1"
+    },
+    {
+      "year": 1999,
+      "anomaly": 0.26,
+      "color": "#ecd5d8"
+    },
+    {
+      "year": 2000,
+      "anomaly": 0.37,
+      "color": "#e8c6cb"
+    },
+    {
+      "year": 2001,
+      "anomaly": 0.01,
+      "color": "#f7f6f6"
+    },
+    {
+      "year": 2002,
+      "anomaly": 0.13,
+      "color": "#f2e6e7"
+    },
+    {
+      "year": 2003,
+      "anomaly": 0.32,
+      "color": "#eaccd0"
+    },
+    {
+      "year": 2004,
+      "anomaly": -0.68,
+      "color": "#a1bdd9"
+    },
+    {
+      "year": 2005,
+      "anomaly": 0.16,
+      "color": "#f0e2e3"
+    },
+    {
+      "year": 2006,
+      "anomaly": 0.21,
+      "color": "#eedbdd"
+    },
+    {
+      "year": 2007,
+      "anomaly": -0.34,
+      "color": "#ccdae8"
+    },
+    {
+      "year": 2008,
+      "anomaly": -0.33,
+      "color": "#cddae8"
+    },
+    {
+      "year": 2009,
+      "anomaly": 0.06,
+      "color": "#f5eff0"
+    },
+    {
+      "year": 2010,
+      "anomaly": -0.56,
+      "color": "#b1c7de"
+    },
+    {
+      "year": 2011,
+      "anomaly": 0.62,
+      "color": "#dea6ad"
+    },
+    {
+      "year": 2012,
+      "anomaly": 0.75,
+      "color": "#d8949c"
+    },
+    {
+      "year": 2013,
+      "anomaly": -0.25,
+      "color": "#d7e1ec"
+    },
+    {
+      "year": 2014,
+      "anomaly": 0.38,
+      "color": "#e8c5c9"
+    },
+    {
+      "year": 2015,
+      "anomaly": 0.12,
+      "color": "#f2e7e8"
+    },
+    {
+      "year": 2016,
+      "anomaly": 0.54,
+      "color": "#e1b0b6"
+    },
+    {
+      "year": 2017,
+      "anomaly": 1.1,
+      "color": "#ca6773"
+    },
+    {
+      "year": 2018,
+      "anomaly": 0.62,
+      "color": "#dea6ad"
+    },
+    {
+      "year": 2019,
+      "anomaly": 0.56,
+      "color": "#e0adb3"
+    },
+    {
+      "year": 2020,
+      "anomaly": 1.11,
+      "color": "#ca6572"
+    },
+    {
+      "year": 2021,
+      "anomaly": 0.97,
+      "color": "#d07782"
+    },
+    {
+      "year": 2022,
+      "anomaly": 0.47,
+      "color": "#e4b9be"
+    },
+    {
+      "year": 2023,
+      "anomaly": 1.53,
+      "color": "#b92e3f"
+    },
+    {
+      "year": 2024,
+      "anomaly": 1.69,
+      "color": "#b2182b"
+    },
+    {
+      "year": 2025,
+      "anomaly": 1.59,
+      "color": "#b62638"
+    }
+  ]
+}

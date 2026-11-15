@@ -77,6 +77,8 @@ Navegador a **1600 × 900** (o 1920 × 1080), zoom 100 %, sin barra de marcadore
 - **R1, para A**: los clics de la sección 6.
 - **R2, para la escena 3 de B**: abrir `/` sin parámetros → bajar a la tarjeta de Delicias → elegir **Warmer**, **More rain**, **Drier** (una pausa breve en cada una) → **Reveal** → quedarse 2 s en "You called 2 of 3" → clic en **Rain** → **Raw monthly values** → **Without seasons**. Unos 40 s.
 
+**Nombres de archivo**: guarden cada captura con su ID (`C2.png`, `C12.png`, `D1.png`…) y las grabaciones como `R1.mp4` y `R2.mp4`. Así las espera el proyecto de Remotion (`video-prompt.md`).
+
 ## 6. Entregable A: video de entrega (30 s, inglés)
 
 | # | Tiempo | Qué se ve | Subtítulo |
@@ -102,9 +104,9 @@ Se proyecta **detrás del equipo** mientras habla. Se entrega **por clips, uno p
 | 4 | 1:40–2:15 | **Por qué es confiable** (35 s) | C5 (ondas de estaciones) se transforma en C4 (sin estaciones); la línea de tendencia se dibuja; aparecen 3 pasos numerados uno por uno. | **1. Quitamos las estaciones · 2. Medimos el cambio · 3. ¿Pudo ser azar? p < 0.001** · *Descriptivo, no es un pronóstico* | Validez científica |
 | 5 | 2:15–2:55 | **De consumir a investigar** (40 s) | C13 (el "2 of 3") aparece primero; luego las tarjetas D1–D3 entran como cartas en abanico, cada una con su alias y su "Predicted N of 3". | **Primero la curiosidad, después la evidencia.** → **Cada estudiante se lleva su caso.** | Mecanismo de impacto; guía de taller de 45 min |
 | 6 | 2:55–3:30 | **Quién lo hace posible** (35 s) | Diagrama de 4 nodos que se conectan con líneas: **Jóvenes** (investigan) → **Nosotros** (tecnología + talleres) → **Expertos** (agronomía UACH, estadística) → **Datos de NASA**. Sin logos. | Nombres de los nodos | Límites del equipo; apoyo de expertos; formato tipo Las Niñas Sí Pueden |
-| 7 | 3:30–4:00 | **Cierre** (30 s, bucle) | La tabla de 8 zonas (C7) entra fila por fila; luego "misma lluvia, direcciones opuestas" (C8: −32 % vs +8 %); final: frase de cierre, luego título + URL, quieto. | **No es un pueblo: es todo Chihuahua.** → **Los teléfonos se hicieron para consumir. Con 45 años de datos de NASA, cada estudiante puede convertir el suyo en un instrumento científico.** → **Earth System Trend Detective** · URL · *Datos: NASA POWER* | Siguientes pasos: piloto en escuelas, versión en español, atlas de casos |
+| 7 | 3:30–4:00 | **Cierre** (30 s, bucle) | La tabla de 8 zonas (C7) entra fila por fila, resaltando la columna de temperatura (+2.0 a +2.4 °C); final: frase de cierre, luego título + URL, quieto. Sin cifras de lluvia (ver `validation.md`). | **No es un pueblo: es todo Chihuahua.** → **Los teléfonos se hicieron para consumir. Con 45 años de datos de NASA, cada estudiante puede convertir el suyo en un instrumento científico.** → **Earth System Trend Detective** · URL · *Datos: NASA POWER* | Siguientes pasos: piloto en escuelas, versión en español, escuelas agrícolas |
 
-**Cómo producirlo** (sugerencia para Claude): una página HTML/CSS/JS por clip a 1920 × 1080 que use las capturas reales como imágenes y anime con CSS o una línea de tiempo en JS (o Remotion si está disponible); exportar con grabación de pantalla a 60 fps o render de Remotion; recortar a la duración exacta; asegurar que el último cuadro empate con el primero para el bucle. Incluir la marca de agua de la regla 3 en todos los clips.
+**Cómo producirlo**: con **Remotion** (video como código React que se exporta directamente a MP4, con duraciones exactas en cuadros y bucles perfectos). El prompt listo para Claude está en [`video-prompt.md`](video-prompt.md); las franjas reales del estado están en [`video-stripes-chihuahua.json`](video-stripes-chihuahua.json). Todos los clips llevan la marca de agua de la regla 3.
 
 **En la presentación**: insertar cada clip en su diapositiva como archivo local (no desde internet), reproducción automática, en bucle, sin sonido.
 
