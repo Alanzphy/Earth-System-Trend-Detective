@@ -93,7 +93,7 @@ Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The 
 | # | Time | Slide | Message |
 |---|---|---|---|
 | 1 | 0:00–0:25 | "Chihuahua está en el 4 % de los lugares del mapa que más rápido se calientan: +2.1 °C desde 1981" (stripes + map) | The hook: a real, local number. Never "faster than the planet" (see `pitch-qa.md`). |
-| 2 | 0:25–0:55 | The problem: the data exists (NASA, 45 years) but does not reach young people in farming regions; phones are used to consume, not to create | Why it matters. |
+| 2 | 0:25–0:55 | The problem: the data exists (NASA, 45 years) but does not reach young people; phones are used to consume, not to create. Impact line: "Muchos de estos jóvenes van a heredar la tierra y el agua de Chihuahua: que decidan con datos, no solo con percepción." | Why it matters. The farming link is the stakes, not the audience (see `pitch-qa.md`). |
 | 3 | 0:55–1:40 | **Demo video** (30 s), narrated live | The tool working. |
 | 4 | 1:40–2:15 | How we know it's real: seasons removed, robust trend, significance test, "not a forecast" | Validity. |
 | 5 | 2:15–2:55 | From consuming to investigating: the student's case card, alias + school, shareable; weekly challenges for clubs | Impact mechanism. |

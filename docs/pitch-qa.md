@@ -30,6 +30,9 @@ Pasa de "dicen que hace más calor" a "en Delicias subió 2.4 °C desde 1981 y n
 **¿Cómo lo van a sostener después del hackathon?**
 Cuesta cero. Datos públicos de NASA POWER, frontend en Vercel y API en Render en planes gratuitos. Los lugares, los casos y los mapas son archivos precalculados que funcionan aunque la API esté apagada. Lo que hace falta es tiempo de taller, y eso ya lo hacemos.
 
+**¿Esto es para agricultores?**
+No directamente. Es para estudiantes de escuelas públicas de Chihuahua, que es donde ya damos talleres. Pero muchos de ellos van a heredar la tierra y el agua del estado, o vienen de familias del campo. Por eso las variables son las que importan en el campo: calor, lluvia, humedad del suelo y evaporación. Llevarlo a escuelas agrícolas y a productores, con el apoyo de agronomía de la UACH, sería un paso natural después del piloto.
+
 **¿Por qué Chihuahua?**
 Es nuestra región: agrícola, golpeada por la sequía y con datos contundentes. Las 8 zonas se calentaron entre +2.0 y +2.4 °C y perdieron entre 28 y 39 % de su lluvia, todo estadísticamente significativo. Y la herramienta sirve para cualquier lugar del mundo.
 

@@ -24,6 +24,8 @@ web (pensada primero para el teléfono)
 
 **Problema**: la información sobre cómo cambia el clima existe (décadas de datos de satélite y de modelos de NASA), pero no llega de forma comprensible a los jóvenes que vivirán de esta tierra. Sin ella, la conversación sobre agua y calor se basa solo en la percepción.
 
+**Lo que está en juego** (frase de impacto, no público objetivo): muchos de estos jóvenes van a heredar la tierra y el agua de Chihuahua; que decidan con datos, no solo con percepción. El público son estudiantes de escuelas públicas en general, no solo de escuelas agrícolas: el equipo no promete un canal agrícola que hoy no tiene.
+
 **Misión**: poner los datos de NASA en manos de estudiantes de Chihuahua para que midan por sí mismos qué cambia en su región, cuánto y si el cambio es real.
 
 **Visión**: que cada joven pueda leer el clima de su tierra con evidencia, empezando por Chihuahua y extensible a cualquier lugar.
