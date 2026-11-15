@@ -25,7 +25,7 @@ Documentación interactiva: `http://localhost:8000/docs`.
 |---|---|---|
 | GET | `/health` | Estado del servicio para Render. |
 | GET | `/variables` | Catálogo (`CatalogResponse`). |
-| POST | `/trend` | `TrendRequest` → `AnalysisResponse`. Errores como `ErrorResponse`: `unknown_variable` (404), `invalid_request`, `region_too_large` (> 40°), `period_out_of_range`, `no_data`, `insufficient_data` (422), `upstream_unavailable` (502/503). |
+| POST | `/trend` | `TrendRequest` → `AnalysisResponse`. Errores como `ErrorResponse`: `unknown_variable` (404), `invalid_request`, `region_too_large` (> 40°), `no_data`, `insufficient_data` (422), `upstream_unavailable` (502/503). |
 
 Respuestas de `/trend` en caché en memoria (`CACHE_TTL_SECONDS`) por petición.
 

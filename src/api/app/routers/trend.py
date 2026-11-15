@@ -73,13 +73,6 @@ def compute(
     variable = variables.get(request.variable)
     if variable is None:
         raise ApiError(404, "unknown_variable", f"Unknown variable '{request.variable}'.")
-    if request.start < variable.available_from or request.end > variable.available_to:
-        raise ApiError(
-            422,
-            "period_out_of_range",
-            f"{variable.name} is available from {variable.available_from} "
-            f"to {variable.available_to}.",
-        )
 
     key = request.model_dump_json()
     cached = cache.get(key)

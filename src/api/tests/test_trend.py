@@ -7,6 +7,7 @@ from collections.abc import Iterator
 import pytest
 from fastapi.testclient import TestClient
 
+import data
 from app.core.cache import TTLCache
 from app.main import app
 from app.routers.trend import get_analyzer, get_cache, get_source
@@ -127,7 +128,6 @@ def test_unknown_variable_is_404(source: StubSource) -> None:
     ("override", "code"),
     [
         ({"bbox": {**IBERIA, "max_lon": 45}}, "region_too_large"),
-        ({"start": "1970-01"}, "period_out_of_range"),
         ({"start": "1990-01", "end": "1980-01"}, "invalid_request"),
         ({"bbox": {**IBERIA, "min_lat": 50}}, "invalid_request"),
     ],
@@ -140,3 +140,22 @@ def test_bad_requests_use_error_contract(
     assert response.status_code == 422
     assert response.json()["error"]["code"] == code
     assert source.calls == 0
+
+
+@pytest.mark.parametrize(
+    ("error", "status", "code"),
+    [
+        (data.NoDataError("nothing here"), 422, "no_data"),
+        (data.UpstreamError("down", retryable=True), 503, "upstream_unavailable"),
+        (data.UpstreamError("rejected", retryable=False), 502, "upstream_unavailable"),
+    ],
+)
+def test_data_errors_map_to_error_contract(
+    source: StubSource, error: Exception, status: int, code: str
+) -> None:
+    source.error = error
+
+    response = client.post("/trend", json=REQUEST)
+
+    assert response.status_code == status
+    assert response.json()["error"]["code"] == code
