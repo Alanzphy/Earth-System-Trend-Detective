@@ -1,7 +1,13 @@
 import type { BBox } from "../types/contracts";
 
+/** Same rule as the API verdict: 2 significant figures, truncated, so p = 0.0499 never reads 0.05. */
 export function formatPValue(pValue: number): string {
-  return pValue < 0.001 ? "p < 0.001" : `p = ${pValue.toFixed(3)}`;
+  if (pValue < 0.001) {
+    return "p < 0.001";
+  }
+  const decimals = 1 - Math.floor(Math.log10(pValue));
+  const scale = 10 ** decimals;
+  return `p = ${(Math.floor(pValue * scale + 1e-9) / scale).toFixed(decimals)}`;
 }
 
 /** Number with enough decimals for small climate slopes, and an explicit sign. */
