@@ -1,11 +1,11 @@
 import { act, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { getHealth } from "../lib/api";
+import { ensureAwake } from "../lib/api";
 import { WAKING_AFTER_MS } from "../lib/useWaking";
 import { ApiStatus } from "./ApiStatus";
 
 vi.mock("../lib/api", () => ({
-  getHealth: vi.fn(),
+  ensureAwake: vi.fn(),
 }));
 
 describe("ApiStatus", () => {
@@ -14,25 +14,25 @@ describe("ApiStatus", () => {
   });
 
   it("shows the API as connected", async () => {
-    vi.mocked(getHealth).mockResolvedValue({ status: "ok" });
+    vi.mocked(ensureAwake).mockResolvedValue();
 
     render(<ApiStatus />);
 
     expect(await screen.findByText("Live analysis available")).toBeInTheDocument();
   });
 
-  it("shows the API as unavailable", async () => {
-    vi.mocked(getHealth).mockRejectedValue(new Error("down"));
+  it("reports the service as not responding only after waiting for it", async () => {
+    vi.mocked(ensureAwake).mockRejectedValue(new Error("down"));
 
     render(<ApiStatus />);
 
-    expect(await screen.findByText(/Live analysis is asleep/)).toBeInTheDocument();
+    expect(await screen.findByText(/Live analysis is not responding/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
   });
 
   it("warns that the server is waking up when /health is slow", () => {
     vi.useFakeTimers();
-    vi.mocked(getHealth).mockReturnValue(new Promise(() => {}));
+    vi.mocked(ensureAwake).mockReturnValue(new Promise(() => {}));
 
     render(<ApiStatus />);
     expect(screen.getByText("Checking the live service…")).toBeInTheDocument();

@@ -1,0 +1,19 @@
+name: Keep the API awake
+
+# Render's free plan stops the API after ~15 minutes without traffic and needs about a minute
+# to start again. A /health request every 10 minutes keeps it running (one always-on service
+# fits in the free 750 hours per month). GitHub may delay scheduled runs by a few minutes.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: GET /health (waits for a cold start)
+        run: curl --fail --silent --show-error --retry 6 --retry-delay 15 --retry-all-errors --max-time 90 https://estd-api-8l11.onrender.com/health

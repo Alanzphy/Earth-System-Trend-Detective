@@ -73,4 +73,60 @@ describe("API client", () => {
       message: expect.stringContaining("Could not reach the server"),
     });
   });
+
+  describe("waiting for a sleeping server", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.resetModules();
+    });
+
+    // A fresh module per test: the shared wake-up attempt is module state.
+    async function freshApi() {
+      vi.resetModules();
+      return import("./api");
+    }
+
+    it("retries /health while the server starts, then sends the analysis once", async () => {
+      vi.useFakeTimers();
+      const fetchMock = vi
+        .fn()
+        .mockRejectedValueOnce(new TypeError("Failed to fetch"))
+        .mockResolvedValueOnce(jsonResponse({}, 503))
+        .mockResolvedValueOnce(jsonResponse({ status: "ok" }))
+        .mockResolvedValueOnce(jsonResponse(makeAnalysis()));
+      vi.stubGlobal("fetch", fetchMock);
+      const api = await freshApi();
+
+      const result = api.postTrendWhenAwake(request);
+      await vi.advanceTimersByTimeAsync(6_000);
+
+      await expect(result).resolves.toEqual(makeAnalysis());
+      const urls = fetchMock.mock.calls.map(([url]) => String(url));
+      expect(urls.filter((url) => url.endsWith("/health"))).toHaveLength(3);
+      expect(urls.filter((url) => url.endsWith("/trend"))).toHaveLength(1);
+    });
+
+    it("gives up after the wake-up timeout instead of waiting forever", async () => {
+      vi.useFakeTimers();
+      vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("Failed to fetch")));
+      const api = await freshApi();
+
+      const result = api.ensureAwake().catch((error: unknown) => error);
+      await vi.advanceTimersByTimeAsync(api.WAKE_TIMEOUT_MS + 3_000);
+
+      expect(await result).toMatchObject({ code: "network_error" });
+    });
+
+    it("does not retry a real error from the API", async () => {
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(jsonResponse({ status: "ok" }))
+        .mockResolvedValue(jsonResponse({ error: { code: "invalid_bbox", message: "Bad box." } }, 422));
+      vi.stubGlobal("fetch", fetchMock);
+      const api = await freshApi();
+
+      await expect(api.postTrendWhenAwake(request)).rejects.toMatchObject({ code: "invalid_bbox" });
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+  });
 });

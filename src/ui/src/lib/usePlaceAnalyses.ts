@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AnalysisResponse, BBox } from "../types/contracts";
-import { ApiError, postTrend } from "./api";
+import { ApiError, postTrendWhenAwake } from "./api";
 import { DEFAULT_END, DEFAULT_START } from "./flow";
 import { loadPlace, type PlaceSummary } from "./places";
 import { useWaking } from "./useWaking";
@@ -70,7 +70,7 @@ export function usePlaceAnalyses(place: Place | null): { analyses: PlaceAnalyses
         });
     } else {
       for (const id of VARIABLE_ORDER) {
-        postTrend({ variable: id, bbox: place.bbox, start: DEFAULT_START, end: DEFAULT_END })
+        postTrendWhenAwake({ variable: id, bbox: place.bbox, start: DEFAULT_START, end: DEFAULT_END })
           .then((analysis) => {
             if (active) setAnalyses((current) => ({ ...current, [id]: { status: "done", analysis } }));
           })

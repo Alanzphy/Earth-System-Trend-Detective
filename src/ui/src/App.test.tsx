@@ -54,6 +54,9 @@ function mockNetwork(): FetchMock {
     if (file) {
       return jsonResponse(JSON.parse(FILES[file]));
     }
+    if (url.endsWith("/health")) {
+      return jsonResponse({ status: "ok" });
+    }
     if (url.endsWith("/trend")) {
       const request = JSON.parse(init?.body as string) as TrendRequest;
       return jsonResponse(makeAnalysis({ slope_per_decade: 0.2, total_change: 0.9, significant: request.variable !== "wind_speed_10m", p_value: request.variable === "wind_speed_10m" ? 0.4 : 0.001 }));
