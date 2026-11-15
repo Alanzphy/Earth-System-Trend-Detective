@@ -228,7 +228,7 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
       map.addLayer({
         id: "trend-map-coastlines", type: "line", source: water.source,
         "source-layer": water["source-layer"], filter: water.filter,
-        paint: { "line-color": "#c2d3cd", "line-width": 0.8 },
+        paint: { "line-color": "#8fa0cf", "line-width": 0.8 },
       });
     }
     // Restore geographic context above the data without covering cells with land fills.
@@ -236,8 +236,8 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
       if (!layer.id.startsWith("trend-map-") && (layer.type === "symbol" || layer.type === "line")) {
         map.moveLayer(layer.id);
         if (layer.type === "symbol") {
-          map.setPaintProperty(layer.id, "text-color", "#192e29");
-          map.setPaintProperty(layer.id, "text-halo-color", "#eaf0ec");
+          map.setPaintProperty(layer.id, "text-color", "#f4f6ff");
+          map.setPaintProperty(layer.id, "text-halo-color", "#0f1a3a");
           map.setPaintProperty(layer.id, "text-halo-width", 1);
         }
       }
