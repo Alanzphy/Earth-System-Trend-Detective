@@ -32,6 +32,8 @@ web (pensada primero para el teléfono)
 
 **Modelo**: los jóvenes investigan; el equipo pone la tecnología y la experiencia en talleres; los expertos (agronomía y zootecnia de la UACH, estadística) validan lo que se encuentra; NASA pone los datos. El equipo reconoce sus límites y busca ese apoyo experto. Un formato como el de Las Niñas Sí Pueden sirve de referencia para implementarlo.
 
+**Cadena de impacto**: *directo* sobre los estudiantes del taller, que producen su caso con evidencia; *indirecto* sobre sus familias, muchas del campo. El taller termina con una tarea para casa: enseñar la tarjeta a alguien de la familia que trabaje la tierra o el ganado y preguntarle si coincide con lo que ha vivido (`docs/workshop-guide.md`, paso 7). Así los datos de NASA llegan a quienes siembran a través de sus hijos, y se juntan con el saber de la familia. Es conversación con evidencia, **no consejo agrícola**. Métrica del piloto: cuántos estudiantes lo platicaron en casa y qué respondieron.
+
 **Impacto esperado** (meta, no resultado logrado):
 - Corto plazo: estudiantes que interpretan una tendencia y distinguen un cambio significativo del azar.
 - Mediano plazo: piloto en las escuelas públicas donde el equipo ya da talleres, retos semanales para clubes y un atlas de casos de estudiantes.

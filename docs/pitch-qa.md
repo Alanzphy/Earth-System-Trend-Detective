@@ -27,6 +27,9 @@ Todavía no, y no vamos a decir que sí. Es un hackathon de 48 horas. Lo que sí
 **¿Para qué sirven las preguntas antes de ver los datos?**
 Para despertar la curiosidad. Es una técnica de enseñanza de ciencias, "predecir, observar, explicar": cuando apuestas, quieres saber la respuesta, y cuando te equivocas, lo que descubres se te queda. Se califica la intuición del estudiante, nunca se modifican los datos. "Sin cambio claro" es la respuesta correcta cuando la tendencia no es significativa, así que también enseña a no ver tendencias donde no las hay.
 
+**¿Cómo impacta a los agricultores si la app es para estudiantes?**
+De forma indirecta, a través de sus hijos y nietos. El taller termina con una tarea: el estudiante enseña su tarjeta a alguien de su familia que trabaje la tierra o el ganado y le pregunta si coincide con lo que ha vivido. Así el dato de NASA llega a la casa y se junta con el saber de la familia. No es consejo agrícola: no le decimos a nadie qué sembrar. Es una conversación con evidencia. En el piloto lo podemos medir: cuántos estudiantes lo platicaron en casa y qué les respondieron.
+
 **¿Qué cambia para un estudiante después de usarlo?**
 Pasa de "dicen que hace más calor" a "en Delicias subió 2.4 °C desde 1981 y no es azar, p < 0.001". Y se lleva una tarjeta con su hallazgo y su alias. Esa tarjeta es el producto de su investigación, no un contenido que consumió.
 

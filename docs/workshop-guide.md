@@ -34,6 +34,7 @@ subtitle: "Guía de taller de 45 minutos con Earth System Trend Detective"
 | 22–30 min | 4. ¿Es real? | Estaciones, tendencia y azar |
 | 30–38 min | 5. Comparar | Otra zona, otro lugar del mundo |
 | 38–45 min | 6. El caso | Cada pareja guarda y presenta su hallazgo |
+| En casa | 7. Para llevar a casa | Enseñar la tarjeta a la familia y preguntar si coincide con lo que han vivido |
 
 ## 1. La pregunta (5 min)
 
@@ -82,7 +83,7 @@ Cierra con: **"Statistically significant"** quiere decir *muy poco probable que 
 Elige una de estas dos actividades:
 
 - **Entre zonas**: dos parejas con zonas distintas comparan sus tarjetas. ¿Cambió igual? En la sección *Cases from Chihuahua*, el caso *Not one town* muestra las 8 zonas: todas se calentaron entre +2.0 y +2.4 °C.
-- **Con el mundo**: abre el caso *Same rain, opposite directions*. En Chihuahua la lluvia bajó (−143 mm al año) y en el Sahel occidental (África) subió (+45 mm). *¿Por qué creen que importa mirar un lugar concreto y no "el planeta" en general?*
+- **Con el mundo**: abre el caso *Same rain, opposite directions*. De 1981 a 2025, en Chihuahua la lluvia bajó (−143 mm al año) y en el Sahel occidental (África) subió (+45 mm). Aclara que en Chihuahua esa caída pesa mucho por la sequía de los últimos años. *¿Por qué creen que importa mirar un lugar concreto y no "el planeta" en general?*
 
 ## 6. El caso (7 min)
 
@@ -91,6 +92,20 @@ Cada pareja completa la segunda parte de la hoja con **una frase de detective**:
 > "En **___**, desde 1981, **___** cambió **___** y **(sí / no)** es estadísticamente significativo."
 
 Después guardan su tarjeta en la app (*Save my case card*) con un **alias o nombre de pila** y el nombre de la escuela. Dos o tres parejas leen su frase en voz alta.
+
+## 7. Para llevar a casa (tarea)
+
+Cada estudiante enseña su tarjeta a **alguien de su familia o de su comunidad que trabaje la tierra o el ganado**, o que haya vivido muchos años en la zona, y le pregunta:
+
+1. ¿Coincide con lo que has vivido? ¿Notas más calor o menos agua que cuando eras joven?
+2. ¿Qué cambió en tu trabajo o en tu rancho por eso? (fechas de siembra, riego, pastos, animales)
+3. ¿Hay algo que los datos no muestran y que tú sí has visto?
+
+Anota las respuestas en la parte 4 de la hoja y compártelas en la siguiente clase.
+
+> Por qué importa: los datos de NASA describen la región; la familia conoce su tierra. Juntos dicen más que por separado. **Los datos no sustituyen lo que la familia sabe: lo confirman, lo matizan o abren una pregunta nueva.** Y quien explica la tarjeta es el estudiante.
+
+No es consejo agrícola: la conversación es para entender, no para decidir qué sembrar.
 
 # Palabras clave de la app (inglés → español)
 
@@ -159,3 +174,15 @@ Al final, cada pareja debería poder responder sin ayuda:
 ## Parte 3. Nuestra frase de detective
 
 En ____________________, desde 1981, ____________________ cambió ____________________ y ______ es estadísticamente significativo.
+
+## Parte 4. Para llevar a casa
+
+**¿A quién se la enseñé?** (parentesco, no nombre): ________________________
+
+**¿Coincide con lo que ha vivido?** ☐ Sí ☐ En parte ☐ No
+
+**¿Qué me contó que ha cambiado?** _____________________________________________
+
+_____________________________________________________________________________
+
+**¿Qué vio que los datos no muestran?** _____________________________________________

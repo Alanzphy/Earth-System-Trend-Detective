@@ -85,7 +85,7 @@ public/                 aquí van las capturas y el JSON (los pone el equipo)
 
 **Clip 4 · Por qué es confiable (35 s).** `C5.png` se funde en `C4.png`. Aparecen tres pasos numerados, uno por uno: **"1. Quitamos las estaciones"** · **"2. Medimos el cambio"** · **"3. ¿Pudo ser azar? p < 0.001"**. Al final: **"Confirmado con ERA5 (Europa) y estaciones del SMN"** y, más pequeño, *"Descriptivo, no es un pronóstico"*.
 
-**Clip 5 · De consumir a investigar (40 s).** `C13.png` primero. Luego `D1.png`, `D2.png` y `D3.png` entran como cartas en abanico, rotadas −6°, 0° y +6°. Texto: **"Primero la curiosidad, después la evidencia."** → **"Cada estudiante se lleva su caso."**
+**Clip 5 · De consumir a investigar (40 s).** `C13.png` primero. Luego `D1.png`, `D2.png` y `D3.png` entran como cartas en abanico, rotadas −6°, 0° y +6°. Al final, una de las tarjetas se desliza hacia una casa dibujada con líneas simples (SVG con trazo que se dibuja: techo de dos aguas y puerta; nada de ilustración detallada). Texto: **"Primero la curiosidad, después la evidencia."** → **"Cada estudiante se lleva su caso."** → **"Y llega a casa."**
 
 **Clip 6 · Quién lo hace posible (35 s).** Diagrama de 4 nodos (tarjetas redondeadas) unidos por líneas que se dibujan (SVG con `strokeDashoffset` interpolado): **Jóvenes** (investigan) → **Nosotros** (tecnología y talleres) → **Expertos** (agronomía y zootecnia UACH, estadística) → **Datos de NASA**. Solo texto: **sin logos** de NASA, UACH ni ninguna institución.
 

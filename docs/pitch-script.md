@@ -5,8 +5,8 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 
 # Cómo usar este guion
 
-- **Ritmo**: unas 140–150 palabras por minuto. El guion completo tiene unas 550 palabras (≈ 3:45 leído), lo que deja margen para pausas y la demo. Cada diapositiva indica su tiempo y su número de palabras.
-- **Ensayo**: léanlo en voz alta con cronómetro al menos dos veces. Si se pasan, quiten primero las frases marcadas **[recortable]**.
+- **Ritmo**: unas 140–150 palabras por minuto. Sin las frases **[recortable]**, el guion tiene unas 530 palabras (≈ 3:40 leído); con ellas, unas 560 (≈ 3:50).
+- **Ensayo**: ensáyenlo **sin** las frases recortables y con cronómetro, al menos dos veces. Agréguenlas solo si les sobran más de 15 segundos.
 - **Reparto sugerido** (3 personas): A, diapositivas 1–2; B, diapositivas 3–4; C, diapositivas 5–7. Cada cambio de voz cae en un cambio de tema.
 - **Lo que está en pantalla**: el video dinámico de `video-plan.md`, un clip por diapositiva.
 - **Cifras**: todas salen de la app (NASA POWER 1981–2025) y están contrastadas en `validation.md`. No redondeen distinto a como está escrito aquí.
@@ -23,17 +23,17 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 >
 > Y si nosotros pudimos encontrarla… ¿por qué no un estudiante de Chihuahua?
 
-# 2. El problema · 0:25–0:55 (≈ 65 palabras)
+# 2. El problema · 0:25–0:55 (≈ 75 palabras)
 
 **En pantalla:** frases una por una sobre las franjas atenuadas.
 
 > Esos datos existen y son públicos, pero no llegan a los jóvenes.
 >
-> Damos talleres en secundarias y prepas públicas de Chihuahua, y lo vemos: los estudiantes traen el teléfono en la mano todo el día, pero lo usan **para consumir, no para investigar**.
+> Damos talleres en secundarias y prepas públicas de Chihuahua, y lo vemos: traen el teléfono en la mano todo el día, pero lo usan **para consumir, no para investigar**.
 >
-> Y muchos de ellos **van a heredar la tierra y el agua de Chihuahua**. Queremos que decidan **con datos, no solo con percepción**.
+> Y muchos son **hijos y nietos de familias que siembran y crían ganado**: van a heredar la tierra y el agua de Chihuahua. Queremos que decidan **con datos, no solo con percepción**.
 
-# 3. La herramienta · 0:55–1:40 (≈ 100 palabras)
+# 3. La herramienta · 0:55–1:40 (≈ 90 palabras)
 
 **En pantalla:** la demo: elegir Delicias, contestar las 3 preguntas, revelar.
 
@@ -43,7 +43,7 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 >
 > Revela… y aquí está: **más 2.4 grados** desde 1981, menos lluvia y el suelo, **donde viven las raíces**, más seco.
 >
-> Son ocho variables de NASA a la vez, **las que importan en el campo**, en unidades que cualquiera entiende, y cada una dice **si el cambio es real o no**.
+> Son las ocho variables de NASA **que importan en el campo**, y cada una dice **si el cambio es real o no**.
 
 # 4. Por qué es confiable · 1:40–2:15 (≈ 90 palabras: la más justa; si van largos, quiten aquí la frase [recortable])
 
@@ -61,17 +61,17 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 >
 > **[recortable]** Y no es un pronóstico: describe lo que ya pasó.
 
-# 5. De consumir a investigar · 2:15–2:55 (≈ 80 palabras)
+# 5. De consumir a investigar · 2:15–2:55 (≈ 85 palabras)
 
-**En pantalla:** el resultado "2 of 3" y después las tarjetas de caso con alias, en abanico.
+**En pantalla:** el resultado "2 of 3", las tarjetas de caso con alias en abanico y, al final, "llega a casa".
 
 > Pero lo importante no es la gráfica: es **lo que hace el estudiante**.
 >
-> **Primero la curiosidad, después la evidencia**: apuesta, descubre y se lleva su caso. Esta tarjeta tiene su hallazgo, su alias y su escuela, y la puede compartir.
+> **Primero la curiosidad, después la evidencia**: apuesta, descubre y se lleva su caso. Ya no reenvía algo que vio: **comparte algo que investigó**.
 >
-> Ya no reenvía algo que vio: **comparte algo que investigó**.
+> Y esa tarjeta **no se queda en el salón: llega a casa**. Nuestro taller termina con una tarea: enséñasela a alguien de tu familia que trabaje la tierra y pregúntale si coincide con lo que ha vivido.
 >
-> Y preparamos una **guía de taller de 45 minutos** para que cualquier docente lo lleve a su salón: predecir, revelar, entender si es real y escribir su frase de detective.
+> Así, **los datos de NASA llegan a quienes siembran, a través de sus hijos**.
 
 # 6. Quién lo hace posible · 2:55–3:30 (≈ 80 palabras)
 
