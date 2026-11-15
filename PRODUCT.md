@@ -87,6 +87,7 @@ Calculado con el código del proyecto (NASA POWER, anomalías mensuales, Theil�
 | Sahel occidental (contraste) | — | +45 mm (+8 %) | — |
 
 - Mapa mundial: el estado está en el **4 %** de las celdas que más rápido se calientan. Se calienta unas **2.5 veces el promedio del mapa**, no "del planeta": el mapa incluye océano.
+- **Validación independiente** (`docs/validation.md`): el calentamiento lo confirman ERA5 (Delicias +3.1 °C, Cuauhtémoc +2.6 °C) y el INECC con estaciones (1985–2018); la cifra de NASA es la más prudente. La caída de lluvia depende del periodo: con estaciones hasta 2018 no hay cambio claro, así que **no es gancho** y siempre se dice con su periodo.
 - Sin los años de sequía (1981–2019), la caída de lluvia sigue siendo significativa en el estado (p = 0.028) y en Delicias (p = 0.044), pero **no** en Cuauhtémoc (p = 0.14).
 - En Delicias, el vapor de agua sale "No clear trend".
 

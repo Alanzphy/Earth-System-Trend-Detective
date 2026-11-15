@@ -5,22 +5,22 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 
 # Cómo usar este guion
 
-- **Ritmo**: unas 140–150 palabras por minuto. El guion completo tiene unas 515 palabras (≈ 3:35 leído), lo que deja margen para pausas y la demo. Cada diapositiva indica su tiempo y su número de palabras.
+- **Ritmo**: unas 140–150 palabras por minuto. El guion completo tiene unas 530 palabras (≈ 3:40 leído), lo que deja margen para pausas y la demo. Cada diapositiva indica su tiempo y su número de palabras.
 - **Ensayo**: léanlo en voz alta con cronómetro al menos dos veces. Si se pasan, quiten primero las frases marcadas **[recortable]**.
 - **Reparto sugerido** (3 personas): A, diapositivas 1–2; B, diapositivas 3–4; C, diapositivas 5–7. Cada cambio de voz cae en un cambio de tema.
 - **Lo que está en pantalla**: el video dinámico de `video-plan.md`, un clip por diapositiva.
 - **Cifras**: todas salen de la app (NASA POWER 1981–2025). No redondeen distinto a como está escrito aquí.
 - **Preguntas del jurado**: ver `pitch-qa.md`.
 
-# 1. El gancho · 0:00–0:25 (≈ 55 palabras)
+# 1. El gancho · 0:00–0:25 (≈ 65 palabras)
 
 **En pantalla:** las franjas del estado de Chihuahua aparecen año por año y después, el mapa mundial.
 
-> Chihuahua está en el **4 % de los lugares que más rápido se calientan** de todo nuestro mapa del mundo. Desde 1981, el estado subió **2.1 grados**; Delicias, **2.4**. Y llueve **un tercio menos**.
+> Chihuahua está en el **4 % de los lugares que más rápido se calientan** de todo nuestro mapa del mundo. Desde 1981, el estado subió **2.1 grados**; Delicias, **2.4**.
 >
-> No es una opinión: son **45 años de datos de NASA**.
+> Esa cifra, para Delicias y hasta 2025, **no la encontramos publicada**. La calculamos nosotros, con **45 años de datos de NASA**.
 >
-> La pregunta es: ¿quién en Chihuahua lo sabe?
+> Y si nosotros pudimos encontrarla… ¿por qué no un estudiante de Chihuahua?
 
 # 2. El problema · 0:25–0:55 (≈ 65 palabras)
 
@@ -56,7 +56,7 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 >
 > **Tres**: preguntamos si pudo ser azar. En Delicias, la probabilidad es **menor a una en mil**.
 >
-> Y cuando algo **no** es significativo, la app también lo dice. **[recortable]** El vapor de agua en Delicias, por ejemplo, no muestra una tendencia clara.
+> Y lo **comprobamos con otras fuentes**: el reanálisis europeo ERA5 y las estaciones del gobierno de México también ven el calentamiento, **incluso mayor**. Nuestra cifra es la prudente.
 >
 > Y no es un pronóstico: describe lo que ya pasó.
 
@@ -88,7 +88,7 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 
 **En pantalla:** la tabla de las 8 zonas fila por fila; después, la frase de cierre y la URL.
 
-> Y no es un solo pueblo: **las ocho zonas de Chihuahua** se calentaron entre 2 y 2.4 grados y perdieron entre **28 y 39 % de su lluvia**.
+> Y no es un solo pueblo: **las ocho zonas de Chihuahua** se calentaron entre **2 y 2.4 grados** desde 1981, y en todas llueve menos que a principios de los 80.
 >
 > Lo que sigue: un **piloto en las escuelas donde ya damos talleres** y una versión en español.
 >
@@ -99,6 +99,8 @@ subtitle: "Guion hablado · 4 minutos · 7 diapositivas · español"
 # Reglas para no equivocarse en vivo
 
 - Digan **"el 4 % de los lugares de nuestro mapa"**, nunca "más rápido que el planeta" (el mapa incluye océano).
+- La **lluvia nunca va como gancho** ni sin su periodo: con estaciones del gobierno hasta 2018 no hay tendencia clara; la caída se debe sobre todo a la sequía reciente (ver `validation.md`).
+- **No digan** "nadie lo sabía": el gobierno publica el calentamiento del estado. Lo nuestro es la cifra **por zona, hasta 2025 y en unidades simples**.
 - **No digan** que ya hay piloto, escuelas aliadas ni convenio con la UACH: son el siguiente paso ("buscamos", "lo que sigue").
 - **No digan** "va a pasar", "en 2050…": la herramienta describe el pasado.
 - Si algo falla en la demo en vivo, sigan con el video: las cifras del guion son las mismas.

@@ -22,7 +22,7 @@ Earth System Trend Detective
 
 ### Elevator pitch
 
-Chihuahua, Mexico, has warmed about 2.4 °C since 1981 and lost about a third of its rain. Earth System Trend Detective turns a student's phone into a scientific instrument: pick your town, read 45 years of NASA data, and find out what changed, how much, and whether it is real — then keep the evidence as your own case card.
+Chihuahua, Mexico, has warmed about 2.4 °C since 1981 in farming towns like Delicias — a local figure we could not find published, computed from NASA data and cross-checked against an independent European reanalysis (ERA5) and Mexico's own weather stations. Earth System Trend Detective turns a student's phone into a scientific instrument: pick your town, read 45 years of NASA data, and find out what changed, how much, and whether it is real — then keep the evidence as your own case card.
 
 ### Inspiration
 

@@ -42,12 +42,10 @@ Es nuestra región: agrícola, golpeada por la sequía y con datos contundentes.
 ### Sobre la ciencia
 
 **¿La caída de lluvia no es solo la sequía de los últimos años?**
-Lo comprobamos quitando los años de sequía. Con datos solo hasta 2019:
-- en el **estado** sigue siendo significativa: −25 mm/año por década, p = 0.028;
-- en **Delicias** también: −21, p = 0.044;
-- en **Cuauhtémoc deja de serlo**: p = 0.14. Ahí la sequía reciente sí pesa, y lo decimos.
+En buena parte, sí, y lo decimos. Con estaciones del gobierno (INECC, 1985–2018), la lluvia del estado **no muestra cambio claro**, y nuestros datos de NASA en ese mismo periodo tampoco (p = 0.26). La caída se vuelve significativa al incluir la sequía de 2020–2024. Por eso nuestro dato fuerte es la **temperatura**, no la lluvia. La lluvia la reportamos siempre con su periodo, 1981–2025. Y la app nunca atribuye causas: describe qué cambió, no por qué.
 
-Además, la app nunca atribuye causas: describe qué cambió, no por qué.
+**¿Ese dato está publicado? ¿Cómo saben que es correcto?**
+El calentamiento del estado sí lo publica el gobierno (INECC, con estaciones del SMN, 1985–2018). Lo que **no** encontramos publicado es la cifra **por zona** (Delicias, Cuauhtémoc…) hasta 2025, en unidades simples. Esa la calculamos nosotros, y la comprobamos con dos fuentes independientes de NASA: el reanálisis europeo ERA5 da +3.1 °C en Delicias y +2.6 °C en Cuauhtémoc, y las estaciones del gobierno dan un calentamiento aún más rápido. **Nuestra cifra es la prudente.** Detalle en `validation.md`.
 
 **¿Qué significa "estadísticamente significativo"?**
 Que es muy poco probable que una tendencia así salga por azar si en realidad no hubiera cambio. Usamos la prueba de Mann–Kendall con la corrección de Hamed–Rao, porque un mes se parece al anterior y sin esa corrección exageraríamos la certeza, con α = 0.05. La pendiente es Theil–Sen, que resiste valores extremos, y se reporta con intervalo de confianza del 95 %.
