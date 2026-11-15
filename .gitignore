@@ -9,3 +9,6 @@ data/raw/
 # Agent skills: installed locally from skills-lock.json, not committed
 .agents/skills/
 .claude/skills/
+
+# Impeccable design artifacts (local tool state)
+.impeccable/

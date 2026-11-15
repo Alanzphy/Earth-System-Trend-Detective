@@ -1,8 +1,60 @@
+/* Design system: see DESIGN.md. World: earth-observatory-plate (operate mode). */
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #102a43;
-  background: #f0f4f8;
-  line-height: 1.5;
+  /* surfaces */
+  --paper: #fbfaf8;
+  --surface: #ffffff;
+  --surface-2: #f3f1ec;
+  --line: #e4e0d9;
+  --line-strong: #c9c3b8;
+  /* text */
+  --ink: #17191b;
+  --ink-2: #3b4045;
+  --muted: #6b7076;
+  /* action */
+  --accent: #0b6e5b;
+  --accent-ink: #ffffff;
+  --accent-quiet: #e7f1ed;
+  /* the data artifact */
+  --deep: #0c1014;
+  --deep-2: #131a21;
+  --deep-line: #25303a;
+  --deep-ink: #e8eef4;
+  --deep-muted: #93a0ae;
+  /* type */
+  --font-ui: "Instrument Sans Variable", "Instrument Sans", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, monospace;
+  --fs-xs: 0.78rem;
+  --fs-sm: 0.84rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.875rem;
+  --fs-2xl: 2.75rem;
+  --fs-display: 4rem;
+  /* space, radius, elevation (declared once) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+  --shadow-pop: 0 12px 32px -12px rgb(12 16 20 / 28%);
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 220ms;
+
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -13,6 +65,62 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+}
+
+/* Measurements read as data, not as decoration. */
+.num,
+output,
+time {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Browser surfaces belong to the system. */
+::selection {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+html {
+  scrollbar-color: var(--line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: var(--r-pill);
+  border: 2px solid var(--paper);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .app {

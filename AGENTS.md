@@ -30,6 +30,7 @@ Reglas para agentes de IA en este repo. El proceso completo para personas está 
 | `docs/glossary.md` | Definiciones simples para la UI |
 | `docs/decisions/` | ADRs `YYYY-MM-DD-slug.md` (plantilla `0000-template.md`) |
 | `docs/collaboration.md` | Proceso de equipo |
+| `DESIGN.md` | Sistema visual de la UI (tokens, tipografía, reglas duras) |
 
 ## Al terminar
 
