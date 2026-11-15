@@ -62,7 +62,7 @@ describe("TrendMap", () => {
   it("shows the sample badge for the bundled sample manifest", async () => {
     vi.stubGlobal("fetch", mockStaticFiles());
 
-    render(<TrendMap />);
+    render(<TrendMap onAnalyzeRegion={vi.fn()} />);
 
     expect(await screen.findByText("Sample data")).toBeInTheDocument();
     expect(screen.getByText("Sample: precipitation trends")).toBeInTheDocument();
@@ -71,7 +71,7 @@ describe("TrendMap", () => {
   it("colors the map with the entry palette centered at 0", async () => {
     vi.stubGlobal("fetch", mockStaticFiles());
 
-    render(<TrendMap />);
+    render(<TrendMap onAnalyzeRegion={vi.fn()} />);
     await screen.findByText("Sample data");
 
     act(() => {
@@ -146,7 +146,7 @@ describe("TrendMap", () => {
       }),
     );
 
-    render(<TrendMap />);
+    render(<TrendMap onAnalyzeRegion={vi.fn()} />);
 
     expect(await screen.findByRole("alert")).toHaveTextContent("503");
   });

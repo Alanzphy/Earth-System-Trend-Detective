@@ -100,10 +100,6 @@ export function formatSlope(slope: number, slopeUnits: string): string {
   return `${sign}${slope.toFixed(3)} ${slopeUnits}`;
 }
 
-export function formatPValue(pValue: number): string {
-  return pValue < 0.001 ? "p < 0.001" : `p = ${pValue.toFixed(3)}`;
-}
-
 export function significanceLabel(significant: boolean): string {
   return significant ? "Statistically significant" : "Not significant";
 }

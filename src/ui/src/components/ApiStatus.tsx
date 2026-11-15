@@ -1,28 +1,21 @@
 import { useEffect, useState } from "react";
 import { getHealth } from "../lib/api";
+import { useWaking, WAKING_MESSAGE } from "../lib/useWaking";
 
-type Status = "loading" | "waking" | "ok" | "error";
-
-// Render's free tier sleeps after 15 min idle and takes ~1 min to wake up.
-export const WAKING_AFTER_MS = 5000;
+type Status = "loading" | "ok" | "error";
 
 const LABELS: Record<Status, string> = {
   loading: "Checking API…",
-  waking: "Waking up the server… this can take up to 1 minute",
   ok: "API connected",
   error: "API unavailable",
 };
 
 export function ApiStatus() {
   const [status, setStatus] = useState<Status>("loading");
+  const waking = useWaking(status === "loading");
 
   useEffect(() => {
     let active = true;
-    const wakingTimer = setTimeout(() => {
-      if (active) {
-        setStatus((current) => (current === "loading" ? "waking" : current));
-      }
-    }, WAKING_AFTER_MS);
 
     getHealth()
       .then(() => {
@@ -38,9 +31,12 @@ export function ApiStatus() {
 
     return () => {
       active = false;
-      clearTimeout(wakingTimer);
     };
   }, []);
 
-  return <p className={`status status-${status}`}>{LABELS[status]}</p>;
+  return (
+    <p className={`status status-${waking ? "waking" : status}`} role="status">
+      {waking ? WAKING_MESSAGE : LABELS[status]}
+    </p>
+  );
 }
