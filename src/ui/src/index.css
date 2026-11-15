@@ -165,24 +165,23 @@ a {
   color: var(--accent);
 }
 
+/* The page is a column of sections separated by rules and type, not a stack of
+   identical cards. Only interactive modules get their own surface. */
 .app {
   width: 100%;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: var(--space-8) var(--space-6) var(--space-16);
   display: grid;
-  gap: var(--space-8);
+  gap: 0;
 }
 
 /* ---- First screen: the artifact owns it ---- */
 
+/* The first screen is the page's one full-bleed moment: no card, no margin,
+   so the product's promise reads before any interface is noticed. */
 .hero {
   position: relative;
-  border-radius: var(--r-lg);
-  overflow: hidden;
+  width: 100%;
   background: var(--deep);
   color: var(--deep-ink);
-  box-shadow: var(--shadow-pop);
 }
 
 /* The hero carries the promise and the finding; the live map has its own section
@@ -231,17 +230,19 @@ a {
 .hero__inner {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
   gap: var(--space-12);
   align-items: center;
-  padding: var(--space-16) var(--space-12);
-  min-height: 480px;
+  padding: clamp(48px, 8vw, 96px) var(--space-6) clamp(40px, 6vw, 72px);
 }
 
 .hero h1 {
   margin: 0 0 var(--space-4);
-  font-size: clamp(2.5rem, 4.6vw, var(--fs-display));
+  font-size: clamp(2.75rem, 6vw, 5rem);
   line-height: 0.98;
   letter-spacing: -0.035em;
   font-weight: 700;
@@ -425,10 +426,30 @@ a {
 }
 
 .panel {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  padding: var(--space-6);
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6) var(--space-12);
+  border-top: 1px solid var(--line);
+  background: transparent;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+}
+
+.panel > p {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+  line-height: 1.55;
 }
 
 .panel h2 {
@@ -1303,4 +1324,57 @@ button {
   margin-top: 2px;
   font-size: var(--fs-xs);
   color: var(--muted);
+}
+
+/* The form follows the page: hairline rules and step numbers, no nested boxes. */
+.flow__step {
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: var(--space-6) 0 0;
+  background: transparent;
+}
+
+.flow__step + .flow__step {
+  margin-top: var(--space-6);
+}
+
+.flow__step legend,
+.flow__heading {
+  padding: 0;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.flow__number {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+.region-picker {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.region-picker legend {
+  padding: 0;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.variable {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
 }
