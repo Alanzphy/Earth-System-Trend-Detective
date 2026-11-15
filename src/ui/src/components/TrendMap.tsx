@@ -175,8 +175,9 @@ export function TrendMap({ onSelectRegion, onAnalyzeRegion }: Props) {
         source: SOURCE_ID,
         filter: ["==", ["get", "significant"], false] as FilterSpecification,
         paint: {
-          "fill-color": "#94a3b8",
-          "fill-opacity": 0.22,
+          // Opaque enough that the blue ocean does not read as a "decrease" color.
+          "fill-color": "#cfd6de",
+          "fill-opacity": 0.75,
         },
       });
     }
