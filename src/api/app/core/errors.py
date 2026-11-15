@@ -1,4 +1,5 @@
 from fastapi import Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 
@@ -24,3 +25,11 @@ async def api_error_handler(_request: Request, exc: Exception) -> JSONResponse:
 
 async def unhandled_error_handler(_request: Request, _exc: Exception) -> JSONResponse:
     return _error_response(500, "internal_error", "Unexpected error")
+
+
+async def validation_error_handler(_request: Request, exc: Exception) -> JSONResponse:
+    assert isinstance(exc, RequestValidationError)
+    first = exc.errors()[0] if exc.errors() else {}
+    where = ".".join(str(part) for part in first.get("loc", ()) if part != "body")
+    message = first.get("msg", "Invalid request")
+    return _error_response(422, "invalid_request", f"{where}: {message}" if where else message)
