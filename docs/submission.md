@@ -86,36 +86,19 @@ Copy this text into the Space Apps project page and keep it in the README:
 
 ## Demo
 
-Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The same silent screen recording is used twice: as the submission video (with English captions) and inside a slide of the 4-minute pitch, narrated live in Spanish. **The full, self-contained production plan (scenes, captions, screenshots, checks) is in [`video-plan.md`](video-plan.md).**
-
-### 30-second video (screen recording, English captions)
-
-Every number below is real and comes from the app (NASA POWER 1981–2025, precomputed places).
-
-| Time | On screen (what to do in the app) | Caption |
-|---|---|---|
-| 0–5 s | Open the app. The night band shows "Is your town changing?" and the Delicias case card loads. | NASA Earth data. Your town. 45 years. |
-| 5–11 s | Stay on the card: stripes turning red, **+2.4 °C** "warmer since 1981", verdict "Statistically significant · p < 0.001". | Delicias, Chihuahua: +2.4 °C since 1981. Not chance. |
-| 11–16 s | Tap **Rain** in "What changed here" (−118 mm per year), then **Soil moisture**. | Less rain. Drier soil. All 8 variables at once. |
-| 16–21 s | In "How we know it's real", tap **Raw monthly values**, then **Without seasons**. | We remove the seasons, then test the trend. |
-| 21–26 s | Scroll to the world map; Chihuahua in red. | Chihuahua warms 2.5× the map's average. |
-| 26–30 s | Back to the card: **Save my case card** → type an alias → the image appears. URL on screen. | Students become climate detectives. earth-system-trend-detective-xi.vercel.app |
-
-**How to record** (macOS): `Cmd + Shift + 5`, record a selected area of a 1440 × 900 browser window; hide bookmarks and extensions; browser zoom 100 %; open `/?place=delicias&var=temperature_2m` so the case is ready. Move the cursor slowly, pause about 1 s on each number. Record 40–50 s and trim to 30 s. Add captions in iMovie/CapCut (white text, dark band at the bottom). No music needed; if any, royalty-free. No AI-generated images or voices (they would require a visible watermark).
-
-**Video inside the pitch slide**: the same file without captions or with captions, muted, embedded in the presentation file (not streamed from the internet). Narrate it live.
+Space Apps accepts a video of **30 seconds or less** or **up to 7 slides**. The submission video (English captions), the dynamic video shown behind the 4-minute pitch, the screenshots and the checks are all specified in **[`video-plan.md`](video-plan.md)**, the single source for that material. Prepared answers for the jury's questions: **[`pitch-qa.md`](pitch-qa.md)**.
 
 ### 4-minute pitch (Spanish, 7 slides)
 
 | # | Time | Slide | Message |
 |---|---|---|---|
-| 1 | 0:00–0:25 | "Chihuahua se calienta 2.5 veces más rápido que el promedio del planeta" (map) | The hook: a real, local number. |
+| 1 | 0:00–0:25 | "Chihuahua está en el 4 % de los lugares del mapa que más rápido se calientan: +2.1 °C desde 1981" (stripes + map) | The hook: a real, local number. Never "faster than the planet" (see `pitch-qa.md`). |
 | 2 | 0:25–0:55 | The problem: the data exists (NASA, 45 years) but does not reach young people in farming regions; phones are used to consume, not to create | Why it matters. |
 | 3 | 0:55–1:40 | **Demo video** (30 s), narrated live | The tool working. |
 | 4 | 1:40–2:15 | How we know it's real: seasons removed, robust trend, significance test, "not a forecast" | Validity. |
 | 5 | 2:15–2:55 | From consuming to investigating: the student's case card, alias + school, shareable; weekly challenges for clubs | Impact mechanism. |
 | 6 | 2:55–3:30 | Who makes it happen: our workshop experience in public schools, experts (UACH, Zootecnia), a format like Las Niñas Sí Pueden as the way to implement it | Feasibility and honesty about limits. |
-| 7 | 3:30–4:00 | Next steps: pilot in our schools, Spanish version, collective atlas, field sensors + satellite. Closing line. | Vision. |
+| 7 | 3:30–4:00 | Next steps: pilot in our schools, Spanish version, collective atlas, field sensors + satellite. Closing line: "Los teléfonos se hicieron para consumir. Con 45 años de datos de NASA, cada estudiante de Chihuahua puede convertir el suyo en un instrumento científico." | Vision. |
 
 ## Links
 
@@ -132,7 +115,8 @@ Every number below is real and comes from the app (NASA POWER 1981–2025, preco
 - [x] Configurar `CORS_ORIGINS` en Render con la URL de Vercel.
 - [x] Verificar que `GET /health` responde en producción.
 - [ ] Publicar la página del proyecto en inglés con el texto de arriba.
-- [ ] Grabar el video de ≤ 30 s o exportar las 6 diapositivas.
+- [ ] Grabar el video de ≤ 30 s (plan en `video-plan.md`).
+- [ ] Si el video lo compuso o editó una IA: cambiar en la declaración "No AI-generated images, video or audio are included" por "The pitch and demo videos were composed with AI assistance and carry a visible watermark".
 - [ ] Añadir el link de la página del proyecto al README.
 - [ ] Confirmar la declaración de IA en la página.
 - [ ] Revisar que no haya logos, banderas ni identificadores de misión de NASA en el contenido generado.

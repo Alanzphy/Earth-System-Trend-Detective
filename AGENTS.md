@@ -28,7 +28,7 @@ Reglas para agentes de IA en este repo. El proceso completo para personas está 
 | `docs/architecture.md` | Componentes, contratos, stack |
 | `docs/data-sources.md` | Datasets, acceso, citas |
 | `docs/science.md` | Métodos de tendencia y significancia |
-| `docs/submission.md` · `docs/video-plan.md` | Textos de entrega; plan de producción del video y capturas del pitch |
+| `docs/submission.md` · `docs/video-plan.md` · `docs/pitch-qa.md` | Textos de entrega; plan del video y capturas; respuestas preparadas para el jurado |
 | `docs/glossary.md` | Definiciones simples para la UI |
 | `docs/decisions/` | ADRs `YYYY-MM-DD-slug.md` (plantilla `0000-template.md`) |
 | `docs/collaboration.md` | Proceso de equipo |
