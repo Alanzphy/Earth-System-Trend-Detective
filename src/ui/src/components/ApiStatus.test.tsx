@@ -1,7 +1,8 @@
 import { act, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getHealth } from "../lib/api";
-import { ApiStatus, WAKING_AFTER_MS } from "./ApiStatus";
+import { WAKING_AFTER_MS } from "../lib/useWaking";
+import { ApiStatus } from "./ApiStatus";
 
 vi.mock("../lib/api", () => ({
   getHealth: vi.fn(),

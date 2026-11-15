@@ -1,11 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import sampleGeojson from "../../public/trend-maps/sample-precipitation.geojson?raw";
 import sampleManifest from "../../public/trend-maps/manifest.json?raw";
+import { formatPValue } from "./format";
 import type { TrendMapEntry } from "../types/contracts";
 import {
   cellPropertiesFromRendered,
   formatBbox,
-  formatPValue,
   formatSlope,
   loadTrendMapManifest,
   parseTrendCellCollection,
