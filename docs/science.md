@@ -1,13 +1,37 @@
 # Métodos científicos
 
-## Pipeline propuesto
+## Pipeline implementado
 
-1. **Agregación espacial**: media ponderada por área (coseno de latitud) sobre la región.
-2. **Agregación temporal**: diaria → mensual si hace falta.
-3. **Desestacionalización**: anomalías respecto a la climatología mensual del periodo.
-4. **Tendencia**: pendiente de Theil–Sen (robusta a outliers) en unidades/década.
-5. **Significancia**: Mann–Kendall (no paramétrico), α = 0.05. Considerar corrección por autocorrelación (Hamed–Rao o pre-whitening).
-6. **Reporte**: dirección, magnitud, p-valor, IC, n, periodo, método.
+`analysis.compute_trend(series, alpha=0.05, variable_name=None) -> AnalysisResponse` (`src/analysis/analysis/trend.py`). Función pura: recibe un `TimeSeries` mensual y no hace red ni I/O.
+
+1. **Agregación espacial** (área `data`): media ponderada por área (coseno de latitud) de los puntos de la región.
+2. **Validación**: `time` debe ser estrictamente creciente (`ValueError` si no). Se requieren **≥ 24 meses con dato**; si no, `InsufficientDataError`. 24 meses distintos siempre abarcan al menos 2 años.
+3. **Desestacionalización**: climatología = media de cada mes calendario (enero, febrero, …) sobre el periodo seleccionado, ignorando faltantes. Anomalía = valor − climatología de su mes; queda `null` donde el valor es `null`.
+4. **Tendencia (Theil–Sen)**: `scipy.stats.theilslopes` sobre (meses desde el inicio del periodo, anomalías), descartando faltantes pero conservando la posición temporal real de cada mes. Pendiente e IC 95 % se multiplican por 120 para darlos **por década**.
+5. **Significancia (Mann–Kendall + Hamed–Rao)**: `pymannkendall.hamed_rao_modification_test` sobre las anomalías sin faltantes, con `lag=12` (solo los primeros 12 rezagos de autocorrelación que sean significativos entran en la corrección de la varianza). Prueba bilateral.
+   - Con todos los rezagos (valor por defecto de la librería) la corrección es demasiado ruidosa: en simulaciones con ruido blanco de 540 meses rechazaba ~11 % de las veces con α = 0.05; con 12 rezagos, ~6 %. Con ruido AR(1) φ = 0.9 (persistencia fuerte, sin tendencia), Mann–Kendall sin corrección marca tendencia en ~60 % de los casos y Hamed–Rao (12 rezagos) en ~11 %.
+   - Si la autocorrelación negativa hace que la varianza corregida sea ≤ 0, se usa el Mann–Kendall original, que en ese caso es conservador.
+6. **Decisión**: `significant = p_value < alpha`. `direction` = `increasing`/`decreasing` según el signo de la pendiente Theil–Sen **solo si es significativa**; si no, `no trend`.
+7. **Salida** (`AnalysisResponse`):
+   - `anomalies`: serie desestacionalizada.
+   - `trend_line`: `intercepto + pendiente × t` para todos los meses del periodo (escala de anomalías, sin huecos).
+   - `trend`: `method = "Theil–Sen slope + Mann–Kendall (Hamed–Rao)"`, `deseasonalized = true`, `slope_per_decade`, `slope_units = "<unidades>/decade"`, `ci_low`/`ci_high`, `p_value`, `alpha`, `significant`, `direction`, `total_change = slope_per_decade × (meses del periodo / 120)`, `n` = meses con dato, `period_start`/`period_end` = primer y último mes del periodo.
+   - `verdict`: texto para estudiantes (ver abajo).
+
+### Advertencia sobre el IC
+
+El IC 95 % de Theil–Sen **no tiene en cuenta la autocorrelación**: supone meses independientes, así que es una **cota inferior de la incertidumbre** real de la pendiente. El p-valor sí la tiene en cuenta (Hamed–Rao). Por eso la significancia se decide con el p-valor, no con si el IC cruza el cero.
+
+## Veredicto (`verdict`)
+
+En inglés, una o dos frases. Nombre de la variable = `variable_name` (o `series.variable`). Magnitud con 2 cifras significativas. Periodo `1981–2025` si empieza en enero y termina en diciembre; si no, `YYYY-MM to YYYY-MM`. p-valor como `p < 0.001` si es menor; si no, 2 cifras significativas **truncadas** (nunca redondea hacia arriba, así un p = 0.0499 no aparece como 0.05).
+
+- **Significativa** (p < α): "Air temperature at 2 m increased by about 0.26 °C per decade (1981–2025). This trend is statistically significant (p < 0.001): it is very unlikely to be just chance." ("very unlikely" si p < 0.01; "unlikely" si no).
+- **No significativa** (p ≥ α): "Precipitation rose slightly, by about 0.012 mm/day per decade (1981–2025), but we cannot rule out chance (p = 0.38). A longer period might reveal a trend." Nunca usa la palabra "significant".
+
+## Validación
+
+Tests con series sintéticas (`src/analysis/tests/test_trend.py`, semillas fijas): recupera una pendiente conocida con ciclo estacional; tasa de falsos positivos sin tendencia ≤ 10 % (40 semillas); contraste AR(1) φ = 0.9 entre Mann–Kendall original y Hamed–Rao; robustez a outliers frente a mínimos cuadrados; faltantes; datos insuficientes; redacción del veredicto; tendencia decreciente.
 
 ## Comunicación al usuario
 
