@@ -1,15 +1,17 @@
 # UI
 
-Frontend React + Vite + TypeScript del proyecto. Incluye mapa MapLibre con teselas vectoriales de [OpenFreeMap](https://openfreemap.org) y gráficos Plotly (bundle `plotly.js-basic-dist-min`, cargado de forma diferida).
+React + Vite + TypeScript frontend. It includes a MapLibre map with [OpenFreeMap](https://openfreemap.org) vector tiles and Plotly charts (the `plotly.js-basic-dist-min` bundle, loaded lazily).
 
-## Requisitos
+The interface is in English by default, following the Space Apps minimum requirement.
+
+## Requirements
 
 - Node.js 20+
 - pnpm
 
-## Desarrollo local
+## Local development
 
-Desde `src/ui/`:
+From `src/ui/`:
 
 ```sh
 corepack enable
@@ -18,29 +20,33 @@ cp .env.example .env
 pnpm dev
 ```
 
-La UI queda en `http://localhost:5173` y espera la API en `VITE_API_BASE_URL`.
+The UI runs at `http://localhost:5173` and expects the API at `VITE_API_BASE_URL`.
 
 ## Scripts
 
-| Script | Descripción |
+| Script | Description |
 |---|---|
-| `pnpm dev` | Servidor de desarrollo. |
-| `pnpm build` | Typecheck y build de producción. |
+| `pnpm dev` | Development server. |
+| `pnpm build` | Typecheck and production build. |
 | `pnpm lint` | ESLint. |
 | `pnpm test` | Vitest. |
-| `pnpm generate:api-types` | Genera tipos TS desde el OpenAPI de `src/contracts/`. |
+| `pnpm generate:api-types` | Generate TypeScript types from the `src/contracts/` OpenAPI schema. |
 
-## Tipos de API
+## API types
 
-`src/types/api.ts` contiene tipos provisionales para el scaffold. Cuando se cierre el issue #4, los tipos se generan con `pnpm generate:api-types` y se reemplazan por `src/types/api.d.ts`.
+`src/types/api.ts` contains provisional types for the scaffold. When issue #4 is closed, the types will be generated with `pnpm generate:api-types` and replaced by `src/types/api.d.ts`.
 
-## Alcance actual
+## Current scope
 
-Este issue (#8) solo crea el scaffold: layout, mapa, gráfico de ejemplo, cliente API y tooling. El flujo guiado, el veredicto y las demos se implementan en #9, #10 y #11.
+The scaffold (#8) provides the layout, map, sample chart, API client and tooling. The guided flow, verdict, demos and trend maps are implemented in #9, #10, #11 and #23.
 
-## Despliegue (Vercel)
+## Trend maps
 
-- *Root Directory*: `src/ui` (el repo es un monorepo).
-- `vercel.json` define build y salida; Vercel detecta Vite.
-- Variable de entorno `VITE_API_BASE_URL` con la URL pública de la API en Render.
-- Mientras Render despierta (~1 min en plan gratuito), `ApiStatus` muestra "Despertando el servidor…".
+Static trend-map files are served from `public/trend-maps/`. The provisional manifest format is documented in [`public/trend-maps/README.md`](public/trend-maps/README.md). The sample file is clearly marked as sample data until the pipeline in #22 generates the real maps.
+
+## Deployment (Vercel)
+
+- *Root Directory*: `src/ui` (the repository is a monorepo).
+- `vercel.json` defines the build and output; Vercel detects Vite.
+- Set `VITE_API_BASE_URL` to the public Render API URL.
+- While Render wakes up (~1 min on the free plan), `ApiStatus` shows "Waking up the server…".

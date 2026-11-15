@@ -5,3 +5,7 @@ __pycache__/
 .cache/
 data/raw/
 .DS_Store
+
+# Agent skills: installed locally from skills-lock.json, not committed
+.agents/skills/
+.claude/skills/
