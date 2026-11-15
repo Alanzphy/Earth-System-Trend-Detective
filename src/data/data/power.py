@@ -13,6 +13,7 @@ import math
 import os
 import time
 from collections import OrderedDict
+from collections.abc import Callable
 from dataclasses import dataclass
 from itertools import product
 from pathlib import Path
@@ -32,6 +33,8 @@ FILL_VALUE = -999.0
 DEFAULT_TIMEOUT_SECONDS = 60.0
 DEFAULT_CACHE_TTL_SECONDS = 24 * 3600.0
 DEFAULT_CACHE_SIZE = 64
+# Waits (exponential, or the server's Retry-After) before giving up on HTTP 429.
+RATE_LIMIT_RETRIES = 4
 
 TIMEOUT_ENV = "ESTD_POWER_TIMEOUT_SECONDS"
 CACHE_DIR_ENV = "ESTD_CACHE_DIR"
@@ -199,6 +202,7 @@ class PowerClient:
         base_url: str = BASE_URL,
         cache_size: int = DEFAULT_CACHE_SIZE,
         cache_ttl: float | None = None,
+        sleep: Callable[[float], None] = time.sleep,
     ) -> None:
         if timeout is None:
             timeout = float(os.environ.get(TIMEOUT_ENV, DEFAULT_TIMEOUT_SECONDS))
@@ -210,6 +214,7 @@ class PowerClient:
         self._base_url = base_url
         self._cache_dir = Path(cache_dir) if cache_dir else None
         self._memory = _TtlLru(cache_size, cache_ttl)
+        self._sleep = sleep
 
     def close(self) -> None:
         self._http.close()
@@ -248,7 +253,10 @@ class PowerClient:
             "format": "JSON",
         }
         error: UpstreamError | None = None
-        for _ in range(2):  # one retry on timeouts, network errors and 5xx
+        attempts = 0
+        rate_limited = 0
+        while attempts < 2:  # one retry on timeouts, network errors and 5xx
+            attempts += 1
             try:
                 response = self._http.get(self._base_url, params=params)
             except httpx.TimeoutException:
@@ -258,6 +266,16 @@ class PowerClient:
                 error = UpstreamError(f"Could not reach NASA POWER: {exc}", retryable=True)
                 continue
             status = response.status_code
+            if status == 429:
+                error = UpstreamError(
+                    "NASA POWER is rate limiting requests", retryable=True, status_code=status
+                )
+                if rate_limited < RATE_LIMIT_RETRIES:
+                    rate_limited += 1
+                    attempts -= 1  # rate-limit waits do not use the normal retry
+                    self._sleep(_retry_after(response, default=2.0 * 2**rate_limited))
+                    continue
+                break
             if status >= 500:
                 error = UpstreamError(
                     f"NASA POWER is unavailable (HTTP {status})", retryable=True, status_code=status
@@ -304,6 +322,13 @@ class PowerClient:
         tmp = path.with_suffix(".tmp")
         tmp.write_bytes(raw)
         tmp.replace(path)
+
+
+def _retry_after(response: httpx.Response, default: float) -> float:
+    try:
+        return min(float(response.headers["Retry-After"]), 60.0)
+    except (KeyError, ValueError):
+        return default
 
 
 def _messages(response: httpx.Response) -> str:

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import sampleGeojson from "../../public/trend-maps/sample-precipitation.geojson?raw";
-import sampleManifest from "../../public/trend-maps/manifest.json?raw";
+import realManifest from "../../public/trend-maps/manifest.json?raw";
+import precipitationGeojson from "../../public/trend-maps/precipitation-1981-2025.geojson?raw";
 import { formatPValue } from "./format";
 import type { TrendMapEntry } from "../types/contracts";
 import {
@@ -72,10 +72,20 @@ describe("trend map manifest", () => {
     expect(parseTrendMapManifest(manifest)).toEqual(manifest);
   });
 
-  it("parses the bundled sample files and keeps them marked as sample", () => {
-    const parsed = parseTrendMapManifest(JSON.parse(sampleManifest));
-    expect(parsed.maps.every((map) => map.is_sample)).toBe(true);
-    expect(parseTrendCellCollection(JSON.parse(sampleGeojson)).features.length).toBeGreaterThan(0);
+  it("parses the shipped manifest: two real maps with their palettes", () => {
+    const parsed = parseTrendMapManifest(JSON.parse(realManifest));
+    expect(parsed.maps.map((map) => [map.variable, map.palette, map.is_sample])).toEqual([
+      ["temperature_2m", "RdBu", false],
+      ["precipitation", "BrBG", false],
+    ]);
+    expect(parsed.maps.every((map) => map.fdr && map.cell_size_deg === 2.5)).toBe(true);
+  });
+
+  it("parses the shipped precipitation GeoJSON against the contract", () => {
+    const collection = parseTrendCellCollection(JSON.parse(precipitationGeojson));
+    expect(collection.features).toHaveLength(7488);
+    expect(collection.features.some((feature) => feature.properties.significant)).toBe(true);
+    expect(collection.features.some((feature) => !feature.properties.significant)).toBe(true);
   });
 
   it("defaults is_sample to false when omitted", () => {

@@ -206,6 +206,29 @@ def test_client_errors_are_not_retried() -> None:
     assert "fake error 422" in str(err.value)
     assert len(fake.requests) == 1
 
+def test_rate_limit_waits_and_recovers() -> None:
+    waits: list[float] = []
+    fake = FakePower(FIXTURE["features"], statuses=[429, 429, 200, 200])
+    series = get_series(
+        "temperature_2m", IBERIA_BOX, "2000-01", "2000-12",
+        client=fake.client(sleep=waits.append),
+    )
+    assert series.values[0] is not None
+    assert waits == [4.0, 8.0]
+
+
+def test_rate_limit_gives_up_as_retryable() -> None:
+    waits: list[float] = []
+    fake = FakePower(FIXTURE["features"], statuses=[429] * 10)
+    with pytest.raises(UpstreamError) as err:
+        get_series(
+            "temperature_2m", IBERIA_BOX, "2000-01", "2000-12",
+            client=fake.client(sleep=waits.append),
+        )
+    assert err.value.retryable and err.value.status_code == 429
+    assert len(waits) == 4
+
+
 
 def test_timeout_is_retryable() -> None:
     calls = []

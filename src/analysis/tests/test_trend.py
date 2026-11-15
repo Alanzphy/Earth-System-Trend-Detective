@@ -146,7 +146,7 @@ def test_verdict_never_claims_significance_when_not_significant(seed):
         assert trend.direction == "no trend"
         assert "significant" not in result.verdict.lower()
         assert "cannot rule out chance" in result.verdict
-        assert "A longer period might reveal a trend." in result.verdict
+        assert "might reveal a clear trend." in result.verdict
 
 
 def test_verdict_for_weak_trend_reports_p_value():
