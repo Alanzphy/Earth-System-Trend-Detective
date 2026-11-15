@@ -95,8 +95,10 @@ Cada área tiene su propio `AGENTS.md` con las reglas específicas del área.
 
 - Las skills se instalan localmente y **no se commitean** (`.agents/skills/` y `.claude/skills/` están en `.gitignore`).
 - `skills-lock.json` (versionado) registra fuente y hash de cada skill para que todos instalen la misma versión.
-- Instalada: `design-taste-frontend` (`Leonxlnx/taste-skill`). Instalar con `npx skills add Leonxlnx/taste-skill`.
-- Uso previsto: rediseño final de la UI. Su hook `Stop` corre un chequeo en navegador (hasta 10 min) al terminar cada turno del agente.
+- Restaurar todas: `npx skills experimental_install` (lee `skills-lock.json`).
+- **Impeccable** (`pbakaus/impeccable`): rediseño y revisión de la UI (`critique`, `audit`, `polish`…). Detector sin LLM: `.agents/skills/impeccable/scripts/impeccable detect src/ui/src`.
+- **Emil Kowalski** (`emilkowalski/skills`, solo las de animación web: `animate`, `choreograph`, `improve-animations`, `review-animations`…): transiciones y microinteracciones.
+- Se descartó `design-taste-frontend`: orientada a landing pages de marketing y choca con Impeccable.
 
 ## Pendiente de configurar
 
