@@ -8,13 +8,12 @@ Reglas para agentes de IA en este repo. El proceso completo para personas está 
 
 ## Antes de empezar
 
-1. Debes trabajar sobre un **issue asignado** a tu usuario. Si no existe, pídele al humano que lo cree o asigne (`gh issue view <n>`).
-2. Trabaja en la rama `<area>/<n-issue>-<slug>`, nunca en `main`.
-3. Lee este archivo, el `AGENTS.md` de tu área (`src/<area>/AGENTS.md`) y los docs de tu área.
+1. No hace falta issue previo ni rama por tarea: trabaja en `main` o en la rama que prefieras.
+2. Lee este archivo, el `AGENTS.md` de tu área (`src/<area>/AGENTS.md`) y los docs de tu área.
 
 ## Límites
 
-- Edita solo la carpeta y los docs del área del issue. Si necesitas cambiar otra área, detente y propón un issue nuevo.
+- Edita solo la carpeta y los docs del área que estés trabajando. Si necesitas cambiar otra área, coordínalo con su responsable.
 - **No modifiques `src/contracts/`** salvo que el issue sea explícitamente de contrato. Esos cambios requieren un ADR.
 - No crees ni edites archivos de estado de tareas; el estado vive en GitHub Issues.
 
@@ -36,7 +35,7 @@ Reglas para agentes de IA en este repo. El proceso completo para personas está 
 
 - Actualiza los docs afectados en el mismo PR.
 - Crea un ADR si elegiste librería, dataset, método o stack.
-- Abre el PR con `Closes #<n>` y completa el checklist de la plantilla.
+- Si abres un PR, enlaza el issue cuando exista y completa el checklist de la plantilla.
 
 ## Reglas científicas
 
