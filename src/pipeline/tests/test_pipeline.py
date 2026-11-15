@@ -50,3 +50,26 @@ def test_tiles_cover_domain_without_overlap() -> None:
 
 def test_legend_limit_is_symmetric_and_rounded() -> None:
     assert _legend_limit(np.array([-0.31, 0.12, 0.27, 0.05])) == 0.31
+
+
+def test_city_box_is_2deg_centred_and_snapped() -> None:
+    from pipeline.regions import city_box
+
+    box = city_box(28.41, -106.87)
+    assert (box.min_lon, box.min_lat, box.max_lon, box.max_lat) == (-107.75, 27.5, -105.75, 29.5)
+    assert box.max_lon - box.min_lon == 2 and box.max_lat - box.min_lat == 2
+
+
+def test_manifest_shape_lists_chihuahua_first() -> None:
+    from pipeline.regions import REGIONS, build_manifest
+
+    manifest = build_manifest()
+    assert manifest["version"] == 1 and manifest["generated_at"].endswith("+00:00")
+    regions = manifest["regions"]
+    assert len(regions) == len(REGIONS) == 13
+    assert regions[0]["id"] == "cuauhtemoc" and regions[8]["id"] == "chihuahua-state"
+    groups = [r["group"] for r in regions]
+    assert groups == sorted(groups)  # all chihuahua before world
+    for r in regions:
+        assert set(r) == {"id", "name", "group", "bbox", "file"}
+        assert r["file"] == f"{r['id']}.json" and len(r["bbox"]) == 4

@@ -1,0 +1,162 @@
+{
+ "version": 1,
+ "generated_at": "2026-11-15T07:54:26+00:00",
+ "regions": [
+  {
+   "id": "cuauhtemoc",
+   "name": "Cuauhtémoc area, Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -107.75,
+    27.5,
+    -105.75,
+    29.5
+   ],
+   "file": "cuauhtemoc.json"
+  },
+  {
+   "id": "delicias",
+   "name": "Delicias area, Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -106.5,
+    27.25,
+    -104.5,
+    29.25
+   ],
+   "file": "delicias.json"
+  },
+  {
+   "id": "chihuahua-city",
+   "name": "Chihuahua City area",
+   "group": "chihuahua",
+   "bbox": [
+    -107.0,
+    27.75,
+    -105.0,
+    29.75
+   ],
+   "file": "chihuahua-city.json"
+  },
+  {
+   "id": "ciudad-juarez",
+   "name": "Ciudad Juárez area, Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -107.5,
+    30.75,
+    -105.5,
+    32.75
+   ],
+   "file": "ciudad-juarez.json"
+  },
+  {
+   "id": "parral",
+   "name": "Hidalgo del Parral area, Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -106.75,
+    26.0,
+    -104.75,
+    28.0
+   ],
+   "file": "parral.json"
+  },
+  {
+   "id": "nuevo-casas-grandes",
+   "name": "Nuevo Casas Grandes area, Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -109.0,
+    29.5,
+    -107.0,
+    31.5
+   ],
+   "file": "nuevo-casas-grandes.json"
+  },
+  {
+   "id": "jimenez",
+   "name": "Jiménez area, Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -106.0,
+    26.25,
+    -104.0,
+    28.25
+   ],
+   "file": "jimenez.json"
+  },
+  {
+   "id": "ojinaga",
+   "name": "Ojinaga area, Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -105.5,
+    28.5,
+    -103.5,
+    30.5
+   ],
+   "file": "ojinaga.json"
+  },
+  {
+   "id": "chihuahua-state",
+   "name": "State of Chihuahua",
+   "group": "chihuahua",
+   "bbox": [
+    -109.0,
+    25.5,
+    -103.3,
+    31.8
+   ],
+   "file": "chihuahua-state.json"
+  },
+  {
+   "id": "iberia",
+   "name": "Iberian Peninsula",
+   "group": "world",
+   "bbox": [
+    -10.0,
+    36.0,
+    3.0,
+    44.0
+   ],
+   "file": "iberia.json"
+  },
+  {
+   "id": "western-sahel",
+   "name": "Western Sahel",
+   "group": "world",
+   "bbox": [
+    -17.0,
+    12.0,
+    -2.0,
+    18.0
+   ],
+   "file": "western-sahel.json"
+  },
+  {
+   "id": "central-chile",
+   "name": "Central Chile",
+   "group": "world",
+   "bbox": [
+    -73.0,
+    -38.0,
+    -70.0,
+    -30.0
+   ],
+   "file": "central-chile.json"
+  },
+  {
+   "id": "central-amazon",
+   "name": "Central Amazon",
+   "group": "world",
+   "bbox": [
+    -70.0,
+    -10.0,
+    -55.0,
+    0.0
+   ],
+   "file": "central-amazon.json"
+  }
+ ]
+}
