@@ -1,0 +1,35 @@
+import { lazy, Suspense } from "react";
+import type { AnalysisResponse } from "../types/contracts";
+import { GlossaryTerm } from "./GlossaryTerm";
+import { VerdictCard } from "./VerdictCard";
+
+// Plotly is the heaviest dependency; load it only when a chart is shown.
+const AnalysisChart = lazy(() =>
+  import("./AnalysisChart").then((module) => ({ default: module.AnalysisChart })),
+);
+
+type Props = {
+  label: string;
+  analysis: AnalysisResponse;
+};
+
+/** Chart + verdict for one region; shared by live analysis and demos. */
+export function AnalysisResult({ label, analysis }: Props) {
+  return (
+    <section className="analysis-result" aria-label={label}>
+      <h3>{label}</h3>
+      <figure className="analysis-result__chart">
+        <Suspense fallback={<p>Loading chart…</p>}>
+          <AnalysisChart analysis={analysis} />
+        </Suspense>
+        <figcaption>
+          Top: raw monthly values ({analysis.series.units}). Bottom: monthly{" "}
+          <GlossaryTerm term="anomaly">anomalies</GlossaryTerm> (the{" "}
+          <GlossaryTerm term="seasonalCycle">seasonal cycle</GlossaryTerm> removed) and the
+          fitted <GlossaryTerm term="trend">trend</GlossaryTerm> line.
+        </figcaption>
+      </figure>
+      <VerdictCard analysis={analysis} />
+    </section>
+  );
+}
